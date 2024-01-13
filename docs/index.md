@@ -1,13 +1,13 @@
 --- 
-title: "A Minimal Bookdown Book"
-author: "Sean Kross"
-date: "2016-12-09"
+title: "Cheng Comprehensive Exam Notes (Spring 2024)"
+author: "Matthew LH. Cheng"
+date: "2024-01-13"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib]
 biblio-style: apalike
 link-citations: yes
-github-repo: seankross/bookdown-start
+github-repo: chengmatt/Comprehensive-Exam-Notes
 url: 'http\://seankross.com/bookdown-start/'
 description: "Everything you need (and nothing more) to start a bookdown book."
 ---

@@ -210,7 +210,8 @@ Solving for $\int_0^\tau -FNdt$ we get:
 = -FN_0 \int_0^\tau e^{-Zt}dt \\ 
 = -FN_0 \int_0^\tau e^{-Zt}dt \\ 
 = -FN_0 [-\frac{1}{Z} (e^{-Zt}-e^0)] \\
-= FN_0 [\frac{1}{Z} - \frac{1}{Z}(e^{-Zt})] \\
+= -FN_0 [-\frac{1}{Z}e^{-Zt}+\frac{1}{Z}e^0)] \\
+= FN_0 [\frac{1}{Z} - \frac{1}{Z}e^{-Zt}] \\
 = \frac{F}{Z}N_0(1-e^{-Zt})
 \end{equation}
 

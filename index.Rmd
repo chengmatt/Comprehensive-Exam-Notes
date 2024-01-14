@@ -14,4 +14,7 @@ description: "Everything you need (and nothing more) to start a bookdown book."
 
 # Preface {-}
 
-This is the very first part of the book.
+This bookdown contains notes on readings assigned to me from my committee, in preparation for my comprehensive exams in Spring 2024. Currently, these readings are:
+
+- Quantitative Fish Dynamics (Quinn and Deriso, 1999)
+- Scaling Fisheries (Smith, 1994)

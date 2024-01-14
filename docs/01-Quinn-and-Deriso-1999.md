@@ -198,18 +198,19 @@ and natural deaths are composed of:
 To derive Baranov's catch equation, we can integrate the catch equation in differential form:
 
 \begin{equation}
-dC = FNdt \\
-\int_0^C dc = \int_0^\tau FNdt \\
-C = \int_0^\tau FNdt \\
+dC = -FNdt \\
+\int_0^C dc = \int_0^\tau -FNdt \\
+C = \int_0^\tau -FNdt \\
 \end{equation}
 
-Solving for $\int_0^\tau FNdt \\$ we get:
+Solving for $\int_0^\tau -FNdt$ we get:
 
 \begin{equation}
-\int_0^\tau FNdt = \int_0^\tau FN_0e^{-Zt}dt \\ 
-= FN_0 \int_0^\tau e^{-Zt}dt \\ 
-= FN_0 \int_0^\tau e^{-Zt}dt \\ 
-= FN_0 [-\frac{1}{Z} (e^{-Zt}-e^0)] \\
+\int_0^\tau FNdt = \int_0^\tau -FN_0e^{-Zt}dt \\ 
+= -FN_0 \int_0^\tau e^{-Zt}dt \\ 
+= -FN_0 \int_0^\tau e^{-Zt}dt \\ 
+= -FN_0 [-\frac{1}{Z} (e^{-Zt}-e^0)] \\
+= FN_0 [\frac{1}{Z} - \frac{1}{Z}(e^{-Zt})] \\
 = \frac{F}{Z}N_0(1-e^{-Zt})
 \end{equation}
 

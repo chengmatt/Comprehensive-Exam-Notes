@@ -346,16 +346,17 @@ N_t = N_0e^{-Z_t} = N_0e^{-(F+M)t}
 \end{equation}\]</span></p>
 <p>To derive Baranov’s catch equation, we can integrate the catch equation in differential form:</p>
 <p><span class="math display">\[\begin{equation}
-dC = FNdt \\
-\int_0^C dc = \int_0^\tau FNdt \\
-C = \int_0^\tau FNdt \\
+dC = -FNdt \\
+\int_0^C dc = \int_0^\tau -FNdt \\
+C = \int_0^\tau -FNdt \\
 \end{equation}\]</span></p>
-<p>Solving for <span class="math inline">\(\int_0^\tau FNdt \\\)</span> we get:</p>
+<p>Solving for <span class="math inline">\(\int_0^\tau -FNdt\)</span> we get:</p>
 <p><span class="math display">\[\begin{equation}
-\int_0^\tau FNdt = \int_0^\tau FN_0e^{-Zt}dt \\
-= FN_0 \int_0^\tau e^{-Zt}dt \\
-= FN_0 \int_0^\tau e^{-Zt}dt \\
-= FN_0 [-\frac{1}{Z} (e^{-Zt}-e^0)] \\
+\int_0^\tau FNdt = \int_0^\tau -FN_0e^{-Zt}dt \\
+= -FN_0 \int_0^\tau e^{-Zt}dt \\
+= -FN_0 \int_0^\tau e^{-Zt}dt \\
+= -FN_0 [-\frac{1}{Z} (e^{-Zt}-e^0)] \\
+= FN_0 [\frac{1}{Z} - \frac{1}{Z}(e^{-Zt})] \\
 = \frac{F}{Z}N_0(1-e^{-Zt})
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(\frac{F}{Z}\)</span> represents the fraction of deaths due to fishing relative to the total mortality and <span class="math inline">\((1-e^{-Zt})\)</span> denotes the annual death fraction. It is then easy to show that the fraction of deaths due to natural mortality is <span class="math inline">\(\frac{M}{Z}\)</span>. In general, the assumption is that catch is proportional to the instantaneous fishing mortality and its average abundance (<span class="math inline">\(N_0(1-e^{-Zt})/Zt\)</span>) across the interval of fishing <span class="math inline">\(C = FN\)</span>. Differential formulation of these equations are inappropriate when we have pulse fishing or removals occuring over a short interval. In these circumstances, we need to rewrite catch or abudance as:</p>

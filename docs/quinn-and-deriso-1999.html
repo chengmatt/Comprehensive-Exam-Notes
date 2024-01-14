@@ -147,6 +147,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.1.4" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#multi-species-extensions-page-9"><i class="fa fa-check"></i><b>1.1.4</b> Multi-species extensions (Page 9)</a></li>
 <li class="chapter" data-level="1.1.5" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#theory-of-mortality"><i class="fa fa-check"></i><b>1.1.5</b> Theory of Mortality</a></li>
 <li class="chapter" data-level="1.1.6" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#theory-of-fishing"><i class="fa fa-check"></i><b>1.1.6</b> Theory of Fishing</a></li>
+<li class="chapter" data-level="1.1.7" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#stochastic-theory-of-fishing"><i class="fa fa-check"></i><b>1.1.7</b> Stochastic Theory of Fishing</a></li>
+<li class="chapter" data-level="1.1.8" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#cpue-and-fishing-process"><i class="fa fa-check"></i><b>1.1.8</b> CPUE and Fishing Process</a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#chapter-2-stock-productivity-and-surplus-production"><i class="fa fa-check"></i><b>1.2</b> Chapter 2 (Stock Productivity and Surplus Production)</a></li>
 <li class="chapter" data-level="1.3" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#chapter-3-stock-and-recruitment"><i class="fa fa-check"></i><b>1.3</b> Chapter 3 (Stock and Recruitment)</a></li>
@@ -356,7 +358,33 @@ Solving for <span class="math inline">\(\int_0^\tau FNdt \\\)</span> we get:
 = FN_0 [-\frac{1}{Z} (e^{-Zt}-e^0)] \\
 = \frac{F}{Z}N_0(1-e^{-Zt})
 \end{equation}\]</span>
-where <span class="math inline">\(\frac{F}{Z}\)</span> represents the fraction of deaths due to fishing relative to the total mortality and <span class="math inline">\((1-e^{-Zt})\)</span> denotes the annual death fraction. It is then easy to show that the fraction of deaths due to natural mortality is <span class="math inline">\(\frac{M}{Z}\)</span>.</p>
+where <span class="math inline">\(\frac{F}{Z}\)</span> represents the fraction of deaths due to fishing relative to the total mortality and <span class="math inline">\((1-e^{-Zt})\)</span> denotes the annual death fraction. It is then easy to show that the fraction of deaths due to natural mortality is <span class="math inline">\(\frac{M}{Z}\)</span>. In general, the assumption is that catch is proportional to the instantaneous fishing mortality and its average abundance (<span class="math inline">\(N_0(1-e^{-Zt})/Zt\)</span>) across the interval of fishing <span class="math inline">\(C = FN\)</span>. Differential formulation of these equations are inappropriate when we have pulse fishing or removals occuring over a short interval. In these circumstances, we need to rewrite catch or abudance as:
+<span class="math display">\[\begin{equation}
+N_t = N_0e^{-Zt}
+\end{equation}\]</span>
+where t is up to the middle of the year (e.g., 0.4999) or some other approximation,
+<span class="math display">\[\begin{equation}
+N_t = N_0e^{-Zt} - C\\
+\end{equation}\]</span>
+where C is catch and t = 0.5, which denotes the middle of the year, and
+<span class="math display">\[\begin{equation}
+N_t = [N_0e^{-\frac{1}{2}Zt} - C]e^{-M(t-\frac{1}{2})}\\
+\end{equation}\]</span>
+where t is now equal to 1 and we are simply incorporating only natural mortality in the latter half of the year.</p>
+</div>
+<div id="stochastic-theory-of-fishing" class="section level3 hasAnchor" number="1.1.7">
+<h3><span class="header-section-number">1.1.7</span> Stochastic Theory of Fishing<a href="quinn-and-deriso-1999.html#stochastic-theory-of-fishing" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Rarely is it the case that we have deterministic fishing - i.e., F does not vary nor does M. We can use statistical methods to incorporate stochasticity into the fishing process, although there are some key assumptions: 1) no immigration, recruitment, or emigration from the population.</li>
+</ul>
+<p>The probability of capturing an individual of a given age then follows a multinomial distribution where the probability of capturing an individual is:
+<span class="math display">\[\begin{equation}
+p_j = \int_{t_j}^{t_j+1}F_tr_tdt \\
+\end{equation}\]</span>
+where <span class="math inline">\(p_j\)</span> is the probability an individual is captured, <span class="math inline">\(F_t\)</span> is the fishing mortality at time t, and <span class="math inline">\(r_t\)</span> is the probability and individual survives, and is a function of fishing and natural mortality (integrate over an interval to get it). Given this, the probability of not capturing an individual is therefore q = 1 - <span class="math inline">\(p_j\)</span>. So for a given cohort, the catch distribution can be assumed to follow a multinomial, where the expectation and variances are simply derived from the binomial (multinomial individual components are binomially distributed) (e.g., <span class="math inline">\(E(C_j) = N_0p_j, V(C_j) = N_0p_j(1-p_j)\)</span>). Following a similar fashion, the probability of selecting N individuals (the random variable) from a cohort then follows a binomial distribution with probability equal to <span class="math inline">\(r_t\)</span> (individuals survive) and the total number of samples taken equalling to <span class="math inline">\(N_0\)</span> (initial abundance). Thus, these equations allow for stochasticity in both catch and abundance and are random variables that are governed by some statistical distribution with a set sample space (e.g., binomial, multinomial). Allowing for stochastic theory here therefore allows us to figure out what the variances and uncertainty of our population estimates are.</p>
+</div>
+<div id="cpue-and-fishing-process" class="section level3 hasAnchor" number="1.1.8">
+<h3><span class="header-section-number">1.1.8</span> CPUE and Fishing Process<a href="quinn-and-deriso-1999.html#cpue-and-fishing-process" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 </div>
 </div>
 <div id="chapter-2-stock-productivity-and-surplus-production" class="section level2 hasAnchor" number="1.2">

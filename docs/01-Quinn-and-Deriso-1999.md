@@ -191,9 +191,30 @@ Solving for $\int_0^\tau FNdt \\$ we get:
 = FN_0 [-\frac{1}{Z} (e^{-Zt}-e^0)] \\
 = \frac{F}{Z}N_0(1-e^{-Zt})
 \end{equation}
-where $\frac{F}{Z}$ represents the fraction of deaths due to fishing relative to the total mortality and $(1-e^{-Zt})$ denotes the annual death fraction. It is then easy to show that the fraction of deaths due to natural mortality is $\frac{M}{Z}$.
+where $\frac{F}{Z}$ represents the fraction of deaths due to fishing relative to the total mortality and $(1-e^{-Zt})$ denotes the annual death fraction. It is then easy to show that the fraction of deaths due to natural mortality is $\frac{M}{Z}$. In general, the assumption is that catch is proportional to the instantaneous fishing mortality and its average abundance ($N_0(1-e^{-Zt})/Zt$) across the interval of fishing $C = FN$. Differential formulation of these equations are inappropriate when we have pulse fishing or removals occuring over a short interval. In these circumstances, we need to rewrite catch or abudance as:
+\begin{equation}
+N_t = N_0e^{-Zt}
+\end{equation}
+where t is up to the middle of the year (e.g., 0.4999) or some other approximation, 
+\begin{equation}
+N_t = N_0e^{-Zt} - C\\
+\end{equation}
+where C is catch and t = 0.5, which denotes the middle of the year, and
+\begin{equation}
+N_t = [N_0e^{-\frac{1}{2}Zt} - C]e^{-M(t-\frac{1}{2})}\\
+\end{equation}
+where t is now equal to 1 and we are simply incorporating only natural mortality in the latter half of the year.
 
+### Stochastic Theory of Fishing
+- Rarely is it the case that we have deterministic fishing - i.e., F does not vary nor does M. We can use statistical methods to incorporate stochasticity into the fishing process, although there are some key assumptions: 1) no immigration, recruitment, or emigration from the population.
 
+The probability of capturing an individual of a given age then follows a multinomial distribution where the probability of capturing an individual is:
+\begin{equation}
+p_j = \int_{t_j}^{t_j+1}F_tr_tdt \\
+\end{equation}
+where $p_j$ is the probability an individual is captured, $F_t$ is the fishing mortality at time t, and $r_t$ is the probability and individual survives, and is a function of fishing and natural mortality (integrate over an interval to get it). Given this, the probability of not capturing an individual is therefore q = 1 - $p_j$. So for a given cohort, the catch distribution can be assumed to follow a multinomial, where the expectation and variances are simply derived from the binomial (multinomial individual components are binomially distributed) (e.g., $E(C_j) = N_0p_j, V(C_j) = N_0p_j(1-p_j)$). Following a similar fashion, the probability of selecting N individuals (the random variable) from a cohort then follows a binomial distribution with probability equal to $r_t$ (individuals survive) and the total number of samples taken equalling to $N_0$ (initial abundance). Thus, these equations allow for stochasticity in both catch and abundance and are random variables that are governed by some statistical distribution with a set sample space (e.g., binomial, multinomial). Allowing for stochastic theory here therefore allows us to figure out what the variances and uncertainty of our population estimates are. 
+
+### CPUE and Fishing Process
 
 
 

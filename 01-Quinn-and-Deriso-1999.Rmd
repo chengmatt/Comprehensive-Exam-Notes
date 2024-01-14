@@ -12,6 +12,7 @@ N_{t+1} = N_tR \\
 N_{t+1}/N_t = R \\
 N_{t} = N_0R^t
 \end{equation}
+
 where R represents a common multiple or ratio of change, and is also commonly reffered to as the Malthusian parameter. When R < 0, the population declines geometrically to 0, and when R > 1, the population increases geometrically without bound. The difference between geometric and exponential (differential) changes lies in the fact that geometric changes are discrete (multiplied by a constant factor), whereas exponential changes are continuous and instantaneous (multiplied by a constant percentage). 
 
 ```{r}
@@ -26,22 +27,27 @@ plot(N*R_1.5^t, xlab = "Age", ylab = "N", main = "R = 1.5", type = "l")
 ```
 
 For a geometric population growth model, the change in the population is given by:
+
 \begin{equation}
 \Delta N_t = N_{t+1} - N_{t}\\
 \Delta N_t = N_{t}R - N_{t} = (R-1)N_{t}
 \end{equation}
+
 and so the per-capita rate of change is:
+
 \begin{equation}
 \Delta N_t / N_{t} = R-1
 \end{equation}
 
 In the differential equation setting, where changes are instantaneous instead of discrete, we can rewrite the equations above as:
+
 \begin{equation}
 \Delta N_{t+h} = N_0R^{t+h} = N_tR^h \\
 \frac{\Delta N_t}{\Delta t} = \frac{ N_{t+h} - N_{t}}{(t+h) - t} = N_t\frac{R^h-1}{h}
 \end{equation}
 
 which yields the following after using lHoptial's Rule:
+
 \begin{equation}
 \frac{dN(t)}{dt} = rN(t) \\ 
 \int_{N_0}^{N} \frac{1}{N(t)} dN(t) = \int rdt \\
@@ -59,6 +65,7 @@ par(mfrow = c(1,2))
 plot(N*exp(R_0.5*t), xlab = "Age", ylab = "N", main = "r = -0.5", type = "l")
 plot(N*exp(R_1.5*t), xlab = "Age", ylab = "N", main = "r = 1.5", type = "l")
 ```
+
 for both the difference and differential equation representation, the change in abundance is directly proportional to its previous abundance. Similarly, r the parameter that describes instantaneous growth demonstrates a population that declines exponentially if r < 0, and increases exponentially when r > 0.
 
 #### Cell Division Example 1.4
@@ -72,6 +79,7 @@ abline(v = 4)
 abline(v = 4.5)
 abline(v = 5)
 ```
+
 The example above showcases the danger of using a continuous model to calculate changes in populations when the model is actually a discrete time index. i.e., the abundance is different for time 4.5, compared to time 4 or time 5. An additional deficiency to some of these models is that it assumes growth in the population occurs without any bound (i.e., no carrying capacity).
 
 ### Logistic Model
@@ -130,22 +138,27 @@ plot(t, N01 * exp(r * t) / (1 - (N01/K) + (N01/K * exp(r*t))), type = "l", ylab 
 
 ### Theory of Mortality
 - Key principle: The abundance of an age-class decreases as it ages because of mortality.
-
 The following equation is commonly used in modern day stock assessments: 
+
 \begin{equation}
 \frac{dN}{dt} = -ZN \\
 \int_{N_0}^{N_t} \frac{1}{N} dN = \int -Zdt \\
 logN_t - logN_0 = -Zt \\
 N_t = N_0e^{-Zt}
 \end{equation}
+
 where abundance decreases exponentially as a function of time, which is modified by -Z (our natural + fishing mortality term). Hence, $e^{-Z}$ denotes our survival fraction of the population (e.g., fraction of $N_0$ that survives). Since this is a fraction (i.e., maxes out at 1), then the number of individuals that die are $1 - e^{-Z}$, which represents our annual death fraction. To observe the entire cohort:
+
 \begin{equation}
 N_t = N_{t-1}S{t-1} = N_0\prod_{x = 0}^{t - 1}S_t = N_0e^{-\sum_{x = 0}^{t - 1}Z}
 \end{equation}
+
 where to get instantaneous survival up to certain point, its multiplicative, while to get instantaneous mortality, its additive. Additionally, these equations can be applied to find abundance during fractions of years, which can be useful for pulse fisheries (e.g., salmon fisheries), surveys, or tagging experiments: 
+
 \begin{equation}
 N_{t+\tau} = N_te^{-Z_t\tau}
 \end{equation}
+
 where $\tau$ represents the fraction of the year and partitions out Z to be a fraction.
 
 ### Theory of Fishing
@@ -155,21 +168,29 @@ where $\tau$ represents the fraction of the year and partitions out Z to be a fr
 \frac{dN}{dt} = -FN - MN = -(F + M)N \\
 N_t = N_0e^{-Z_t} = N_0e^{-(F+M)t} 
 \end{equation}
+
 Thus, catch (C) is then composed of:
+
 \begin{equation}
 \frac{dC}{dt} = -FN  \\
 \end{equation}
+
 and natural deaths are composed of:
+
 \begin{equation}
 \frac{dD}{dt} = -MN  \\
 \end{equation}
+
 To derive Baranov's catch equation, we can integrate the catch equation in differential form:
+
 \begin{equation}
 dC = FNdt \\
 \int_0^C dc = \int_0^\tau FNdt \\
 C = \int_0^\tau FNdt \\
 \end{equation}
+
 Solving for $\int_0^\tau FNdt \\$ we get:
+
 \begin{equation}
 \int_0^\tau FNdt = \int_0^\tau FN_0e^{-Zt}dt \\ 
 = FN_0 \int_0^\tau e^{-Zt}dt \\ 
@@ -177,7 +198,9 @@ Solving for $\int_0^\tau FNdt \\$ we get:
 = FN_0 [-\frac{1}{Z} (e^{-Zt}-e^0)] \\
 = \frac{F}{Z}N_0(1-e^{-Zt})
 \end{equation}
+
 where $\frac{F}{Z}$ represents the fraction of deaths due to fishing relative to the total mortality and $(1-e^{-Zt})$ denotes the annual death fraction. It is then easy to show that the fraction of deaths due to natural mortality is $\frac{M}{Z}$. In general, the assumption is that catch is proportional to the instantaneous fishing mortality and its average abundance ($N_0(1-e^{-Zt})/Zt$) across the interval of fishing $C = FN$. Differential formulation of these equations are inappropriate when we have pulse fishing or removals occuring over a short interval. In these circumstances, we need to rewrite catch or abudance as:
+
 \begin{equation}
 N_t = N_0e^{-Zt}
 \end{equation}
@@ -189,6 +212,7 @@ where C is catch and t = 0.5, which denotes the middle of the year, and
 \begin{equation}
 N_t = [N_0e^{-\frac{1}{2}Zt} - C]e^{-M(t-\frac{1}{2})}\\
 \end{equation}
+
 where t is now equal to 1 and we are simply incorporating only natural mortality in the latter half of the year.
 
 ### Stochastic Theory of Fishing
@@ -198,7 +222,8 @@ The probability of capturing an individual of a given age then follows a multino
 \begin{equation}
 p_j = \int_{t_j}^{t_j+1}F_tr_tdt \\
 \end{equation}
-where $p_j$ is the probability an individual is captured, $F_t$ is the fishing mortality at time t, and $r_t$ is the probability and individual survives, and is a function of fishing and natural mortality (integrate over an interval to get it). Given this, the probability of not capturing an individual is therefore q = 1 - $p_j$. So for a given cohort, the catch distribution can be assumed to follow a multinomial, where the expectation and variances are simply derived from the binomial (multinomial individual components are binomially distributed) (e.g., $E(C_j) = N_0p_j, V(C_j) = N_0p_j(1-p_j)$). Following a similar fashion, the probability of selecting N individuals (the random variable) from a cohort then follows a binomial distribution with probability equal to $r_t$ (individuals survive) and the total number of samples taken equalling to $N_0$ (initial abundance). Thus, these equations allow for stochasticity in both catch and abundance and are random variables that are governed by some statistical distribution with a set sample space (e.g., binomial, multinomial). Allowing for stochastic theory here therefore allows us to figure out what the variances and uncertainty of our population estimates are. 
+
+where $p_j$ is the probability an individual is captured, $F_t$ is the fishing mortality at time t, and $r_t$ is the probability and individual survives, and is a function of fishing and natural mortality (integrate over an interval to get it). Given this, the probability of not capturing an individual is therefore $q = 1 - p_j$. So for a given cohort, the catch distribution can be assumed to follow a multinomial distribution, where the expectation and variances are simply derived from the binomial (multinomial individual components are binomially distributed) (e.g., $E(C_j) = N_0p_j, V(C_j) = N_0p_j(1-p_j)$). Following a similar fashion, the probability of selecting N individuals (the random variable) from a cohort then follows a binomial distribution with probability equal to $r_t$ (individuals survive) and the total number of samples taken equalling to $N_0$ (initial abundance). Thus, these equations allow for stochasticity in both catch and abundance and are random variables that are governed by some statistical distribution with a set sample space (e.g., binomial, multinomial). Allowing for stochastic theory here therefore allows us to figure out what the variances and uncertainty of our population estimates are. 
 
 ### CPUE and Fishing Process
 

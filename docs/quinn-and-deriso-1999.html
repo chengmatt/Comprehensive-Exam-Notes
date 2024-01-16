@@ -149,6 +149,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.1.6" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#theory-of-fishing"><i class="fa fa-check"></i><b>1.1.6</b> Theory of Fishing</a></li>
 <li class="chapter" data-level="1.1.7" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#stochastic-theory-of-fishing"><i class="fa fa-check"></i><b>1.1.7</b> Stochastic Theory of Fishing</a></li>
 <li class="chapter" data-level="1.1.8" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#cpue-and-fishing-process"><i class="fa fa-check"></i><b>1.1.8</b> CPUE and Fishing Process</a></li>
+<li class="chapter" data-level="1.1.9" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#schooling-population-example-vagaries-of-cpue"><i class="fa fa-check"></i><b>1.1.9</b> Schooling Population Example (Vagaries of CPUE)</a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#chapter-2-stock-productivity-and-surplus-production"><i class="fa fa-check"></i><b>1.2</b> Chapter 2 (Stock Productivity and Surplus Production)</a></li>
 <li class="chapter" data-level="1.3" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#chapter-3-stock-and-recruitment"><i class="fa fa-check"></i><b>1.3</b> Chapter 3 (Stock and Recruitment)</a></li>
@@ -594,6 +595,10 @@ T{t+1} = T_t - C_t
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(T\)</span> is the total number of individuals. Fragmented schools can also be incoroporated via <span class="math inline">\(N_{t+1} = N_t + (x - 1)n_t\)</span>, where each school encountered breaks off into a constant number of schools.</p>
 <p>In an example where we have data for number of schools encountered, length of search, and catch from each encounter, then three CPUE measures can be used: 1) schools / length of search, 2) catch / length of search, and 3) catch / school encountered. The expected values of the CPUE measures can easily be derived using the aforementioned equations and rearrange them (see page 39). In general, these relationships (CPUE) show that CPUE is not directly proportional to the abundance of the schools or the average school size, and is often hard to interpret. In reality, you need information on encounter rates, fragmentation rates, school size, etc. to really understand what’s going on with schooling population dynamics. Welp… we went through all these equations, just to find out that none of the CPUE measures above do a great job of describing the population…</p>
+</div>
+</div>
+<div id="schooling-population-example-vagaries-of-cpue" class="section level3 hasAnchor" number="1.1.9">
+<h3><span class="header-section-number">1.1.9</span> Schooling Population Example (Vagaries of CPUE)<a href="quinn-and-deriso-1999.html#schooling-population-example-vagaries-of-cpue" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="quinn-and-deriso-1999.html#cb9-1" aria-hidden="true" tabindex="-1"></a>N_1 <span class="ot">=</span> <span class="dv">100</span> <span class="co"># number of schools in pop</span></span>
 <span id="cb9-2"><a href="quinn-and-deriso-1999.html#cb9-2" aria-hidden="true" tabindex="-1"></a>S_t <span class="ot">=</span> <span class="dv">10</span> <span class="co"># number of individuals per school</span></span>
 <span id="cb9-3"><a href="quinn-and-deriso-1999.html#cb9-3" aria-hidden="true" tabindex="-1"></a>T_1 <span class="ot">=</span> N_1 <span class="sc">*</span> S_t <span class="co"># number of total individuals</span></span>
@@ -646,9 +651,8 @@ T{t+1} = T_t - C_t
 <span id="cb10-8"><a href="quinn-and-deriso-1999.html#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(N_vec, Cn, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">xlab =</span> <span class="st">&quot;Total Schools&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Catch / Schools Encountered&quot;</span> )</span></code></pre></div>
 <p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
 <p>As you can see, an increase in the number of schools does not necessarily reflect an increase in the numbers (because of fragmentation). Catch / number of schools encountered, results in a constant CPUE, while an increase in encounters and catch / length searched reflects a lower population size, and an increase in the aforementioned CPUE measures leads to an increased number of schools detected (but the population size is reduced). So this is all to say its hard to figure out a good index for schooling populations, especially if fragmentation occurs.</p>
-</div>
-<div id="effects-of-catchability-differing-between-individuals" class="section level4 hasAnchor" number="1.1.8.5">
-<h4><span class="header-section-number">1.1.8.5</span> Effects of Catchability differing between individuals<a href="quinn-and-deriso-1999.html#effects-of-catchability-differing-between-individuals" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="effects-of-catchability-differing-between-individuals" class="section level4 hasAnchor" number="1.1.9.1">
+<h4><span class="header-section-number">1.1.9.1</span> Effects of Catchability differing between individuals<a href="quinn-and-deriso-1999.html#effects-of-catchability-differing-between-individuals" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 </div>
 </div>
 </div>

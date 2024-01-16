@@ -479,6 +479,7 @@ where $T$ is the total number of individuals. Fragmented schools can also be inc
 
 In an example where we have data for number of schools encountered, length of search, and catch from each encounter, then three CPUE measures can be used: 1) schools / length of search, 2) catch / length of search, and 3) catch / school encountered. The expected values of the CPUE measures can easily be derived using the aforementioned equations and rearrange them (see page 39). In general, these relationships (CPUE) show that CPUE is not directly proportional to the abundance of the schools or the average school size, and is often hard to interpret. In reality, you need information on encounter rates, fragmentation rates, school size, etc. to really understand what's going on with schooling population dynamics. Welp... we went through all these equations, just to find out that none of the CPUE measures above do a great job of describing the population... 
 
+### Schooling Population Example (Vagaries of CPUE)
 
 ```r
 N_1 = 100 # number of schools in pop

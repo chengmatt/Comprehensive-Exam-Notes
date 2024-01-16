@@ -17,6 +17,8 @@ sampling-cpue-data
 more-complex-models-for-cpue
 statistical-models-for-cpue
 other-considerations-w-cpue-data-schooling-searching
+line-transect-model-schooling-populations
+effects-of-catchability-differing-between-individuals
 chapter-2-stock-productivity-and-surplus-production
 chapter-3-stock-and-recruitment
 chapter-4-growth-and-fecundity

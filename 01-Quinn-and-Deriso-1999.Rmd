@@ -426,14 +426,94 @@ for(i in 1:length(tau_h)) {
 ```
 
 
-Some other extensions of this model provided by the book uses line transect theory: 
+#### Line Transect Model (Schooling Populations)
+Some other extensions of this model provided by the book uses line transect theory, where the total number of schools encountered is the ratio of effective area search and the total area occupied by the population, multiplied by the number of schools:
+
+\begin{equation}
+E(n_t) = \frac{2L_tc(S_t)}{A}N_t \\
+c(S_t) = a + bln(S_t)
+\end{equation}
+
+where $n_t$ is the number of schools encountered, $L_t$ is the length of the search along a transect, $c(S_t)$ is the effective width of search along the transect, $S_t$ is the size of the school, and $N_t$ are the number of schools in the population. Presumably, the 2 refers to both sides of the transect? Regardless, this shows that the number of schools encountered is equal to the ratio of searched area and total area multiplied by the total schools. The effective width searched is then some function of the average size of the school. In this model, mortality is additionally included:
+
+\begin{equation}
+C_t = \overline{C}n_t
+\end{equation}
+
+where $\overline{C}$ can be assumed to be a fixed number of fish killed per school (i.e., for each school encountered, a fixed number is removed). Additionally, some other extensions could include a fixed proportion of the school:
+
+\begin{equation}
+C_t = p_cS_tn_t
+\end{equation}
+
+where $p_cS_t = \overline{C}$ and is a proportion of the average size of the school. Then, the number of individuals at each time is:
+
+\begin{equation}
+T{t+1} = T_t - C_t
+\end{equation}
+
+where $T$ is the total number of individuals. Fragmented schools can also be incoroporated via $N_{t+1} = N_t + (x - 1)n_t$, where each school encountered breaks off into a constant number of schools. 
+
+In an example where we have data for number of schools encountered, length of search, and catch from each encounter, then three CPUE measures can be used: 1) schools / length of search, 2) catch / length of search, and 3) catch / school encountered. The expected values of the CPUE measures can easily be derived using the aforementioned equations and rearrange them (see page 39). In general, these relationships (CPUE) show that CPUE is not directly proportional to the abundance of the schools or the average school size, and is often hard to interpret. In reality, you need information on encounter rates, fragmentation rates, school size, etc. to really understand what's going on with schooling population dynamics. Welp... we went through all these equations, just to find out that none of the CPUE measures above do a great job of describing the population... 
+
+```{r}
+N_1 = 100 # number of schools in pop
+S_t = 10 # number of individuals per school
+T_1 = N_1 * S_t # number of total individuals
+A = 100 # total pop area
+L_t = 10 # length searched
+Cbar = 3 # number of individuals killed per school encountered
+x = 2 # school fragment when encountered
+a = b = 0.5 # c(St) relationship encounter parameters
+cS_t = a + (b * log(S_t) )# effective area searched
+t = seq(1, 5, 1) # time
+
+# set up empty vectors
+N_vec = vector() # total number of schools
+T_vec = vector() # total individuals
+n_vec = vector() # schools encountered
+C_vec = vector() # catch 
+nL = vector() # schools encountered / length searched
+CL = vector() # catch / length searched
+Cn = vector() # catch per number of schools encountered
+
+for(i in 1:length(t)) {
+  if(i == 1) {
+    N_vec[i] = N_1 # total schools
+    T_vec[i] = T_1 # total individuals
+  } # time i = 1
+  
+  # population dynamics
+  n_vec[i] = ((2 * L_t * cS_t) / A) * N_vec[i] # total number of schools encountered
+  C_vec[i] = Cbar * n_vec[i] # total catch
+  if(i < length(t))T_vec[i+1] = T_vec[i] - C_vec[i] # total abundance in the next year
+  if(i < length(t))N_vec[i+1] = N_vec[i] + (x - 1) * n_vec[i] # update to the number of schools after fragmenting
+  
+  # cpue measures
+  nL[i] = n_vec[i] / L_t
+  CL[i] = C_vec[i] / L_t
+  Cn[i] = C_vec[i] / n_vec[i]
+}
+
+# Relationships between Total Schools and Number of individuals
+par(mfrow = c(1,1))
+plot(N_vec, T_vec, type = "l", lwd = 5, xlab = "Total Schools", ylab = "Total Numbers" )
+
+# Relationships between CPUE and population vectors
+par(mfrow = c(2,3))
+plot(T_vec, nL, type = "l", lwd = 5, xlab = "Total Numbers", ylab = "Schools Encountered / Length searched" )
+plot(T_vec, CL, type = "l", lwd = 5, xlab = "Total Numbers", ylab = "Catch / Length searched" )
+plot(T_vec, Cn, type = "l", lwd = 5, xlab = "Total Numbers", ylab = "Catch / Schools Encountered" )
+plot(N_vec, nL, type = "l", lwd = 5, xlab = "Total Schools", ylab = "Schools Encountered / Length searched" )
+plot(N_vec, CL, type = "l", lwd = 5, xlab = "Total Schools", ylab = "Catch / Length searched" )
+plot(N_vec, Cn, type = "l", lwd = 5, xlab = "Total Schools", ylab = "Catch / Schools Encountered" )
+
+```
+
+As you can see, an increase in the number of schools does not necessarily reflect an increase in the numbers (because of fragmentation). Catch / number of schools encountered, results in a constant CPUE, while an increase in encounters and catch / length searched reflects a lower population size, and an increase in the aforementioned CPUE measures leads to an increased number of schools detected (but the population size is reduced). So this is all to say its hard to figure out a good index for schooling populations, especially if fragmentation occurs. 
 
 
-
-
-
-
-
+#### Effects of Catchability differing between individuals
 
 
 

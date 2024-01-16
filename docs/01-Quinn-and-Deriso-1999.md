@@ -358,7 +358,7 @@ As noted above, catchability might not be constant due to a variety of factors, 
 \begin{equation}
 C = qE^{\alpha + 1} N^{\beta + 1} \\
 C = qE^\alpha E N^\beta N \\
-\frac{C}{E} = (qE^\alpha N\beta) N
+\frac{C}{E} = (qE^\alpha N^\beta) N
 \end{equation}
 
 where $\alpha$ and $\beta$ are power functions such that $q$ is linearly related to power functions of effort and abundance. The following relationships can be derived by changing $\beta$ and is what we come to know as hyperstability and hyperdepletion. Holding $\alpha$ constant and varying $\beta$, we see that when $\beta = 0$, abundance is just raised to the power of 1 (i.e., proportional relationship between CPUE and N), when $\beta > 0$, then abundance is raised to the power of something greater than 1, resulting in an exponential relationship (hyperdepletion, where CPUE increases less quickly than abundance). Conversely, when $-1 < \beta < 0$ such that N is raised to the power of something less than 1, the relationship between CPUE resembles more of an asymptotic curve (hyperstability, where CPUE increases quicker than abundance). 

@@ -25,6 +25,9 @@ purse-seine-model
 angling-gear-model
 longline-model
 chapter-2-stock-productivity-and-surplus-production
+graham-schaefer-model
+pella-tomlinson-model
+fox-model
 chapter-3-stock-and-recruitment
 chapter-4-growth-and-fecundity
 chapter-5-delay-difference-models

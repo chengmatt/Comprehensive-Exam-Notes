@@ -644,6 +644,280 @@ For a longline survey, the abundance can be nonlinearly related to CPUE, due to 
 More generally, I think a lot of these factors can be incorporated without the use of such an invovled model. In particular, we can incorporated factors from other species in a linear model and standardize CPUE that way. 
 
 ## Chapter 2 (Stock Productivity and Surplus Production)
+The main goal of determining stock productivity is to understand the surplus that can be harvested after accounting for recruitment, mortality, and growth. Here, the subsequent models described are simplistic and make a lot of assumptions - i.e., the stock is an aggregate of a population, and no direct accounting is made of growth, natural mortality, age, structure, recruitment, and species interactions (biomass dynamics models). The book establishes some notation below, which I'm not the biggest fan of, so I'll make my own simplifications:
+
+\begin{equation}
+B = NW \\
+Y = CW 
+\end{equation}
+
+where $B$ is biomass, $N$ is numbers, $Y$ and $C$ are yield and catch, and $W$ is weight (average). The book defines latent productivity as the instantaneous biomass production when fishing is absent. Latent productivity is a function of biomass alone. Equations are provided below for latent productivity:
+
+\begin{equation}
+P^. = \frac{dP}{dt} = B^. = \frac{dB}{dt}
+\end{equation}
+
+where $P^.$ and $B^.$ are instantaneous rates of change for biomass and productivity. As described above, productvitiy is the same as changes in biomass production when fishing is absent. To further partition this out:
+
+\begin{equation}
+P^. = B^. = \frac{dB}{dt} = \frac{dP}{dt} = N\frac{dW}{dt} + \frac{dN}{dt}W
+\end{equation}
+
+where the change in biomass or latent productivity when no fishing is present is composed of $N\frac{dW}{dt}$ which represents the growth of the population, and $\frac{dN}{dt}W$ which represents the change in the population (i.e., due to recruitment or mortality). When fishing is present, the instataneous change in biomass is now called "net productivity" rather than latent productivity and is equal to the latent productivity subtracted by the yield:
+
+\begin{equation}
+\frac{dB}{dt} = \frac{dP}{dt} - \frac{dY}{dt}
+\end{equation}
+
+which shows that the change in biomass (net productivity in this case) increases when the latent productivity is larger than the yield. However, when yield is larger than the latent productivity, the net productivity of the population decreases. When biomass does not change, the population is in equilibrium (denoted with *). When a stock is in equilibrium a general relationship can be formulated by setting $\frac{dB}{dt} = B^. = 0$ (i.e., change in net productivity is at equilibrium), resulting in change in yield and latent productivity equalling each other, where: 
+
+\begin{equation}
+\int_0^{Y^*}dY  = \int_0^\tau P^.(B^*)dt \\
+Y^* = P^.(B^*) \tau \\
+\frac{Y^*}{\tau} =  P^.(B^*)
+\end{equation}
+
+where the last part of the equation tells us if our model is an annual time step, we can harvest the population at a rate of $\frac{Y^*}{\tau}$ to keep the population in equilibrium without driving the stock above or below its current level. Yield generally has the relationship of:
+
+\begin{equation}
+\frac{dY}{dt} = F_tB_t 
+\end{equation}
+
+where $F_t$ is the fishing mortality rate. The equilibrium yield can then be solved for by replacing $F_t$ with $F^*$ if biomass is at an equilibrium:
+
+\begin{equation}
+Y^*/\tau = F^*B^* \\
+F^* = Y^*/\tau/B^* = P(B^*)/B^* \\
+\end{equation}
+
+if fishing mortality is $F = qE$, then we can also similarly solve for equilibrium effort. Thus, solving for these equilibrium quantities allows us to solve for effort or fishing mortality rates that would result in equilibrium yield - i.e., how much can we remove from the population without depleting it. These models also often have a carrying capacity parameter ($B_\infty$), where when no fishing occurs, it converges toward this value. 
+
+### Graham-Schaefer Model
+This model is our typical parabolic curve, where the midpoint is where our productivity is maximized. In general, we will use the Fletcher formulation of this:
+
+\begin{equation}
+P(B^.) = \frac{4m}{B_\infty} (1 -\frac{B}{B_\infty}) B 
+\end{equation}
+
+To solve for equilibrium conditions and solve for where maximum productivity occurs, we need to set this equation to 0:
+\begin{equation}
+P(B^.) = \frac{4m}{B_\infty} (1 -\frac{B}{B_\infty}) B = 0
+\end{equation}
+
+although the equation has two solutions, 1) when $B = 0$ and 2) when $B = B_\infty$ because of $(1 -\frac{B}{B_\infty})$. To understand the regions in which equilibrium occurs, i.e., where productivity does not change ($\frac{dP^.}{B} = 0$), solve for:
+
+\begin{equation}
+\frac{dP^.}{B} = \frac{4m}{B_\infty} - \frac{8mB}{B^2_\infty} \\
+B_m = \frac{B_\infty}{2} 
+\end{equation}
+
+where $B_m$ is the biomass at which productivity is maximized and the population is at equilibrium. Maximum productivity of this stock can then be solved for by replacing $B_m$ into the Fletcher equation and yields $m$. 
+
+When fishing occurs in the population, the change is biomass is then defined as:
+
+\begin{equation}
+\frac{dB}{dt} = \frac{4m}{B_\infty} (1 -\frac{B}{B_\infty}) B - F_tB
+\end{equation}
+
+and under equilibrium conditions, substituting $F^*$ into the above equation and setting the equation to 0, we find the relationship that equilibrium biomass is therefore $B^* = B_\infty - \frac{B^2_\infty }{4m}F^*$ where the equilibrium carrying capacity is simply adjusted by equilibrium fishing mortality (linear relationship) - i.e., it doesn't reach as large of a population size under conditions without fishing. 
+
+The figure below shows the relationship between equilibrium F and biomass - i.e., adjusting the carrying capacity term down when fishing is present.
+
+
+```r
+m = 25 # maximum productivity
+B_inf = 100 # K of biomass
+eq_F = seq(0.01, 1, 0.1) # fishing mortality
+B_star = B_inf - (B_inf^2/(4*m))*eq_F
+plot(eq_F,B_star, xlab = "F", ylab = "B", lwd = 5, type = "l",
+     main = "Relationship between equilibrium Biomass and F")
+```
+
+<img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+
+Equilibrium yield can simply be calculated by replacing $B$ with $B^*$:
+\begin{equation}
+Y^* = \frac{4m}{B_\infty} (1 -\frac{B^*}{B_\infty}) B^* \\
+Y^* = F^*B^* = qE^*B^* \\
+\end{equation}
+
+To collate everything together, the points at which yield/productivity is maximized are:
+\begin{equation}
+B_m = B_\infty / 2 \\
+F_m = 2m / B_\infty \\ 
+E_m = 2m / qB_\infty 
+\end{equation}
+
+because of the relationship between yield, biomass, and F $Y = FB = qEB$ and the relationship between yield and latent productivity $Y_m = P(B_m) = m$.
+
+The figures below illustrates the behavior of equilibrium F, effort, yield, and biomass. All these relationships are parabolic and the maximum productivity occurs in the middle of the curve. Note that these are not rates of change.
+
+
+```r
+m = 25 # maximum productivity
+B_inf = 100 # K of biomass
+B = seq(0, 100) # sequence of B
+q = 0.03 # catchability (for effort paramterization)
+eq_F = seq(0.01, 4*m/B_inf, length.out = length(B)) # fishing mortality
+eq_E = eq_F / q # equilibrium effort
+Yield = (((4 * m )/ B_inf )* (1 - (B / B_inf)) * B) # yield 
+Yield_wF = B_inf * eq_F - ((B_inf^2) / (4*m)) * eq_F^2 # yield with F
+Yield_wE = B_inf * q*eq_E - ((B_inf^2) / (4*m)) * (q*eq_E)^2 # yield with effort
+
+par(mfrow = c(1,3))
+plot(B, Yield, type = "l", lwd = 5, xlab = "Biomass", main = "Equilibrium Biomass and Yield")
+abline(v = B_inf/2, col = "blue", lwd = 5, lty = 2)
+
+plot(eq_F, Yield_wF, xlab = "F", main = "Equilibrium F and Yield", type = "l", lwd = 5)
+abline(v = 2*m/B_inf, col = "blue", lwd = 5, lty = 2)
+
+plot(eq_E, Yield_wE, xlab = "Effort", main = "Equilibrium Effort and Yield", type = "l", lwd = 5)
+abline(v = (2*m)/(q*B_inf), col = "blue", lwd = 5, lty = 2)
+```
+
+<img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+
+To get the time-dependent version of the biomass dynamics model, we would simply integrate over $\frac{4m}{B_\infty} (1 -\frac{B}{B_\infty}) B$ with a constant F (as in solutions to logistic law). This basically yields an equation for a sigmoidal curve:
+
+\begin{equation}
+B_t = \frac{B^*}{1 + \frac{B^*-B_0}{B_0}exp(-(4m/B_\infty-F^*)t)}
+\end{equation}
+
+and $B^*$ gets adjusted by equilibrium F, such that the maximum scale of the population changes. Additionally, when the biomass is below $B_\infty$, the population will increase rapidly, if B = $B_\infty$, the population is stable, and when $B > B_\infty$, the population decreases exponentially. Below is a figure showing the response of biomass when equilibrium F changes. 
+
+
+```r
+m = 25 # maximum productivity
+B_inf = 100 # K of biomass
+B0 = 30 # virgin biomass
+eq_F = seq(0.01, 1.5, 0.1) # fishing mortality
+B_star = B_inf - (B_inf^2/(4*m))*eq_F # change in biomass according to equilibrium F
+t = seq(0, 30, 1) # time
+col = viridis::viridis(n = length(eq_F))
+
+for(i in 1:length(eq_F)) {
+  if(i == 1) plot(t, B_star[i] / (1 + ((B_star[i] - B0) / B0) * exp(-(((4*m)/B_inf) - eq_F[i])*t)), 
+                  type = "l", ylim = c(0, 100), xlab = "Time", ylab = "Biomass", col = col[i], lwd = 5)
+  else lines(t, B_star[i] / (1 + ((B_star[i] - B0) / B0) * exp(-(((4*m)/B_inf) - eq_F[i])*t)), 
+                  type = "l", ylim = c(0, 100), xlab = "Time", ylab = "Biomass", col = col[i], lwd = 5)
+}
+```
+
+<img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+
+The biomass decreases exponentially when $B_0 > B^*$, increases sigmoidally when $B_0 < B^*$, and remains constant when both are equal. If F exceeds $4m/B_\infty$, then the stock is driven to extinction because the rate of decrease surpasses the rate of increase. 
+
+Yield is calculated similarly by integrating over its relationship $dY/dt = FB$ (see equation 2.10 in book), where equilibrium yield increases with increased equilibrium F in a similar fashion (i.e., following logistic growth patterns). In general, all of these equilibrium calculations can lead to new equilibrium being defined, and your reference points can change - especially in the situation where you have time-varying productivity parameters.
+
+### Pella-Tomlinson Model
+The Graham-Schaefer model is not flexible and is critcized because maximum sustainable yiled always occurs at the middle of the parabolic curve, and is a symmetric relationship. However, these yield curves might not be symmetric and may shift left or right. The Pella-Tomlinson model introduces a new parameter $n$ that can shift this curve left or right. Fletcher reformulated this to make it more interpretable as:
+
+\begin{equation}
+\frac{dP}{dt} = \gamma m (\frac{B}{B_\infty}) - \gamma m (\frac{B}{B_\infty})^n \\
+\gamma = \frac{n^{\frac{n}{n-1}}}{n-1}
+\end{equation}
+
+where $\gamma$ is positive when $n > 1$ and is negative when $0 < n < 1$. When $n < 1$, the curve is more right skewed, whereas when $n > 1$, the curve is more left skewed. 
+
+
+```r
+n = c(0.1, 0.2, 0.5, 0.9, 1.5 , 3, 4) # n parameter to shift curve
+B_inf = 100 # b inf
+m = 25 # max prod
+gamma = (n^(n/(n-1))) / (n-1) # gamma parameter
+B = seq(1, 100) # biomass
+col = viridis::viridis(n = length(gamma))
+for(i in 1:length(col)) {
+  if(i == 1) plot(B , gamma[i] * m *(B/B_inf) - (gamma[i] * m *(B/B_inf)^n[i]), type = "l", col = col[i], lwd = 5,
+                  ylab = "dP/dt", main = "Change in latent productivity")
+  else lines(B , gamma[i] * m *(B/B_inf) - (gamma[i] * m *(B/B_inf)^n[i]), type = "l", col = col[i], lwd = 5,)
+}
+```
+
+<img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+
+When fishing is present, it no longer is expressed as latent productivity, but is instead expressed as net productivity (i.e., $B = P(B) - Y$) where:
+
+\begin{equation}
+\frac{dB}{dt} = [\frac{\gamma m}{B_\infty} - F_t]B - (\frac{\gamma m }{B^n_\infty})B^n \\
+\end{equation}
+
+and equilibrium biomass is calculated as:
+
+\begin{equation}
+B^* = B_\infty (1 - \frac{B_\infty}{\gamma m}F^*)^{1/(n-1)}\\
+\end{equation}
+
+Given that $F^*$ is incorporated in something that is raised to the power, the relationship between equilibrium biomass and fishing mortality is no longer linear, unlike the Graham-Schaefer model.
+
+
+```r
+m = 25 # maximum productivity
+B_inf = 100 # K of biomass
+eq_F = seq(0.01, 0.75, 0.05) # fishing mortality
+n = c(0.1, 0.2, 0.5, 0.9, 1.5 , 3, 4) # n parameter to shift curve
+gamma = (n^(n/(n-1))) / (n-1) # gamma parameter
+
+col = viridis::viridis(n = length(gamma))
+for(i in 1:length(col)) {
+  if(i == 1) plot(eq_F , B_inf * (1 - (B_inf/(gamma[i]*m))*eq_F)^(1/(n[i]-1)), type = "l", col = col[i], lwd = 5,
+                  xlab = "F", ylab = "B", main = "Change in equilibrium biomass")
+  else lines(eq_F , B_inf * (1 - (B_inf/(gamma[i]*m))*eq_F)^(1/(n[i]-1)), type = "l", col = col[i], lwd = 5,)
+}
+```
+
+<img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+
+Equilibrium yield is obtained similarly, and is very analgous to calculations from the Graham Schaefer curves:
+\begin{equation}
+Y^* = F^*B_\infty (1 - \frac{B_\infty}{\gamma m}F^*)^{1/(n-1)}\\
+\end{equation}
+
+
+```r
+m = 25 # maximum productivity
+B_inf = 100 # K of biomass
+eq_F = seq(0.01, 5, 0.05) # fishing mortality
+n = c(0.1, 0.2, 0.5, 0.7 , 1.75) # n parameter to shift curve
+gamma = (n^(n/(n-1))) / (n-1) # gamma parameter
+
+col = viridis::viridis(n = length(gamma))
+par(mfrow = c(1,2))
+for(i in 1:length(col)) {
+  if(i == 1) plot(eq_F , eq_F * B_inf * (1 - (B_inf/(gamma[i]*m))*eq_F)^(1/(n[i]-1)), type = "l", col = col[i], lwd = 5,
+                  xlab = "F", ylab = "Yield", main = "Change in equilibrium yield")
+  else lines(eq_F , eq_F * B_inf * (1 - (B_inf/(gamma[i]*m))*eq_F)^(1/(n[i]-1)), type = "l", col = col[i], lwd = 5,)
+  abline(v = ((n[i]-1)/n[i] )* ((gamma[i] * m) / B_inf), col = col[i], lty = 2, lwd = 3) # fmsy
+}
+
+n = seq(0.1, 5, 0.2) # n parameter to shift curve
+gamma = (n^(n/(n-1))) / (n-1) # gamma parameter
+plot(n, ((n-1)/n )* ((gamma * m) / B_inf), type = "l", xlab = "n", ylab = "Fmsy",
+     main = "Fmsy ~ n", lwd = 5)
+```
+
+<img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+
+As you can see in the figure above, the stocks with low $n$ (purple lines) can sustain high F across a broad range, and are super productive over a broad range (i.e., high steepness) even when biomass is low, whereas the stocks with high $n$ (yellow lines) can only sustain a narrow range of exploitation, and generally are less resilient (lower steepness). MSY for F is higher for stocks with low $n$ and low for stocks with high $n$, which declines exponentially. Time-dependent formulations can be found by integrating equations for $B^. or \frac{dB}{dt}$ (also see equations 2.18 and 2.19).
+
+To collate everything together, the points at which yield/productivity is maximized are:
+\begin{equation}
+B_m = n^{1/(1-n)}B_\infty \\
+F_m = (n-1/n) (\gamma m / B_\infty )\\ 
+E_m = (n-1/n) (\gamma m / qB_\infty) \\ 
+\end{equation}
+
+for $B_m$, that is found by setting the productivity equation for the Pella-Tomlinson to 0 and solving the derivative, and the subsequent equations for F and E are found by substituting $B_m$ into $F_m = m / B_m$ and $E_m = F_m /q$ using the general equations $dY/dt = F_tB_t$ and $F_t = qE_t$. 
+
+Note that for all of the aforementioned equations, MSY in yield occurs at maximum productivity (under fishing conditions in this case):
+
+\begin{equation}
+Y_m = P(B_m) = m
+\end{equation}
+
+so that maximizing yield is equivalent to maximizing productivity (eq. 2.5, page 53).
+
+### Fox Model
 
 ## Chapter 3 (Stock and Recruitment)
 

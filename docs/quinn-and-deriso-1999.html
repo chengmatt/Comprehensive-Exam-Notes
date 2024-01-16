@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew LH. Cheng" />
 
 
-<meta name="date" content="2024-01-13" />
+<meta name="date" content="2024-01-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -163,7 +163,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2" data-path="broad-stock-assessment-questions.html"><a href="broad-stock-assessment-questions.html"><i class="fa fa-check"></i><b>2</b> Broad Stock Assessment Questions</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="broad-stock-assessment-questions.html"><a href="broad-stock-assessment-questions.html#selectivity"><i class="fa fa-check"></i><b>2.1</b> Selectivity</a></li>
+<li class="chapter" data-level="2.1" data-path="broad-stock-assessment-questions.html"><a href="broad-stock-assessment-questions.html#selectivity-1"><i class="fa fa-check"></i><b>2.1</b> Selectivity</a></li>
 <li class="chapter" data-level="2.2" data-path="broad-stock-assessment-questions.html"><a href="broad-stock-assessment-questions.html#data-weighting"><i class="fa fa-check"></i><b>2.2</b> Data Weighting</a>
 <ul>
 <li class="chapter" data-level="2.2.1" data-path="broad-stock-assessment-questions.html"><a href="broad-stock-assessment-questions.html#compositional-likelihoods"><i class="fa fa-check"></i><b>2.2.1</b> Compositional Likelihoods</a></li>
@@ -240,7 +240,8 @@ N_{t} = N_0R^t
 <p><span class="math display">\[\begin{equation}
 \frac{dN(t)}{dt} = rN(t) \\
 \int_{N_0}^{N} \frac{1}{N(t)} dN(t) = \int rdt \\
-logN - logN_0 = rt = logN = logN_0 + rt\\
+logN - logN_0 = rt \\
+logN = logN_0 + rt\\
 N_t = N_0e^{rt}
 \end{equation}\]</span></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="quinn-and-deriso-1999.html#cb2-1" aria-hidden="true" tabindex="-1"></a>R_0<span class="fl">.5</span> <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.5</span> <span class="co"># instantaneous rate of growth </span></span>
@@ -252,7 +253,7 @@ N_t = N_0e^{rt}
 <span id="cb2-7"><a href="quinn-and-deriso-1999.html#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(N<span class="sc">*</span><span class="fu">exp</span>(R_0<span class="fl">.5</span><span class="sc">*</span>t), <span class="at">xlab =</span> <span class="st">&quot;Age&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;N&quot;</span>, <span class="at">main =</span> <span class="st">&quot;r = -0.5&quot;</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span>
 <span id="cb2-8"><a href="quinn-and-deriso-1999.html#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(N<span class="sc">*</span><span class="fu">exp</span>(R_1<span class="fl">.5</span><span class="sc">*</span>t), <span class="at">xlab =</span> <span class="st">&quot;Age&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;N&quot;</span>, <span class="at">main =</span> <span class="st">&quot;r = 1.5&quot;</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span></code></pre></div>
 <p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>for both the difference and differential equation representation, the change in abundance is directly proportional to its previous abundance. Similarly, r the parameter that describes instantaneous growth demonstrates a population that declines exponentially if r &lt; 0, and increases exponentially when r &gt; 0.</p>
+<p>For both the difference and differential equation representation, the change in abundance is directly proportional to its previous abundance. Similarly, r the parameter that describes instantaneous growth demonstrates a population that declines exponentially if r &lt; 0, and increases exponentially when r &gt; 0.</p>
 <div id="cell-division-example-1.4" class="section level4 hasAnchor" number="1.1.1.1">
 <h4><span class="header-section-number">1.1.1.1</span> Cell Division Example 1.4<a href="quinn-and-deriso-1999.html#cell-division-example-1.4" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="quinn-and-deriso-1999.html#cb3-1" aria-hidden="true" tabindex="-1"></a>N0 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># start numbers</span></span>
@@ -277,7 +278,7 @@ N_t = N_0e^{rt}
 \frac{dN}{dt} = rN(1-\frac{N}{k}) \\
 N_t = \frac{N_0e^{rt}}{1 - \frac{N_0}{K} + \frac{N_0}{K}e^{rt}}
 \end{equation}\]</span></p>
-<p>where the deominator of the second equation is a dampening factor to make sure the numerator doesn’t increase without bound. As you can see in the plot below, as N0 approaches K, the denomiator gets larger, which reduces the change in the numerator such that is dampens it and is unable to increase without bound. When N &gt; K, it decreases exponentially, and when N = K, growth is constant. When N &lt; K, it increases sigmoidally.</p>
+<p>where the denominator of the second equation is a dampening factor to make sure the numerator doesn’t increase without bound. As you can see in the plot below, as N0 approaches K, the denominator gets larger, which reduces the change in the numerator such that is dampens it and is unable to increase without bound. When N &gt; K, it decreases exponentially, and when N = K, growth is constant. When N &lt; K, it increases sigmoidally. The differential equation is pretty easy to solve, but involves some annoying algebra to rearrange and calculate partial fractions for the N and r terms.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="quinn-and-deriso-1999.html#cb4-1" aria-hidden="true" tabindex="-1"></a>N01 <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="co"># start N</span></span>
 <span id="cb4-2"><a href="quinn-and-deriso-1999.html#cb4-2" aria-hidden="true" tabindex="-1"></a>N02 <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="co"># start N</span></span>
 <span id="cb4-3"><a href="quinn-and-deriso-1999.html#cb4-3" aria-hidden="true" tabindex="-1"></a>N03 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># start N</span></span>
@@ -403,6 +404,176 @@ p_j = \int_{t_j}^{t_j+1}F_tr_tdt \\
 </div>
 <div id="cpue-and-fishing-process" class="section level3 hasAnchor" number="1.1.8">
 <h3><span class="header-section-number">1.1.8</span> CPUE and Fishing Process<a href="quinn-and-deriso-1999.html#cpue-and-fishing-process" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Catch is the product of both fishing mortality and the abundance of the population <span class="math inline">\(C = FN\)</span>, therefore, changes in catch equals changes in either fishing mortality or abundance and are confounded if you want to interpret changes in abundance. Effort data is needed to better parse out whether catch is changing (fluctuations in catch) due to F or N.</li>
+</ul>
+<p>To derive CPUE, fishing effort is assumed to be independent and additive. Then, the change in catch is proportion to fishing effort per unit time and abundance:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{dC}{dt} = q\frac{dE}{dt}N \\
+\frac{dC}{dt} = FN \\
+FN = q\frac{dE}{dt}N \\
+F = q\frac{dE}{dt}\\
+Fdt = qdE \\
+\int Fdt = q\int dE \\
+Ft = qE
+\end{equation}\]</span></p>
+<p>where q is the catchability coefficient - denoting the fraction of N individuals captured per unit effort. If q remains constant, then a higher effort equates to a higher fishing mortality rate. If q changes (which can reflect improvements in fishing gear, targeting practices, expansion into other areas, etc.) the fishing mortality can also get modified. So if catch is proportional to FN, then rewriting <span class="math inline">\(C = FN\)</span> yields:</p>
+<p><span class="math display">\[\begin{equation}
+C = FN \\
+C = qEN \\
+\frac{C}{E} = qN
+\end{equation}\]</span></p>
+<p>where catch-per-unit effort can be assumed to be proportional to changes in abundance, if q is constant over time (rarely the case). Even if q is not known, you can still use CPUE to figure out relative changes in abundance. If q is known, you can simply divide CPUE by q to get N. If information about area swept or effective fishing area is known, you can extrapolate out to the total area sampled to get total abundance as well:</p>
+<p><span class="math display">\[\begin{equation}
+N = \frac{A}{a}C
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(A\)</span> is the total area, and <span class="math inline">\(a\)</span> is the sample area (i.e., if your total area is the sampled area, then catch = abundance). In relation to CPUE data, if the density of fish is <span class="math inline">\(D = N/A\)</span> and assuming that area swept is proportional to fishing effort (<span class="math inline">\(a = qE\)</span>), then <span class="math inline">\(N = \frac{A}{a}C\)</span> becomes the following after some rearranging:</p>
+<p><span class="math display">\[\begin{equation}
+N = \frac{A}{a}C \\
+N = \frac{A}{qE}C \\
+\frac{N}{qE} = AC\\
+NqE = AC \\
+\frac{N}{A}q = \frac{C}{E} \\
+qD = \frac{C}{E}
+\end{equation}\]</span></p>
+<p>and the changes in population density are therefore proportional to changes in CPUE, assuming that area swept is proportional to fishing effort (i.e., if area swept increases, then fishing effort increases as well).</p>
+<div id="regional-considerations-of-cpue-data" class="section level4 hasAnchor" number="1.1.8.1">
+<h4><span class="header-section-number">1.1.8.1</span> Regional considerations of CPUE data<a href="quinn-and-deriso-1999.html#regional-considerations-of-cpue-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>In some cases, we might want to compare CPUE data among regions. If certain areas fished (i.e., management areas) have different CPUEs, the interpreation of relative abundance can depend on the space of that area. For example, if you fish in a small area and you have the same CPUE as a large area, that implies that the small area has a larger density of fish than the large area.</li>
+</ul>
+<p>Area-specific CPUE is a simple extension of previosu equations:
+<span class="math display">\[\begin{equation}
+\frac{C_r}{E_r} = q\frac{N_r}{A_r} = qD_r \\
+\end{equation}\]</span></p>
+<p>where the subscript <span class="math inline">\(r\)</span> denotes region. To get the total abundance <span class="math inline">\(N\)</span>, its simply a sum of the densities extrapolated to the total area where one just has to cancel out the denominator of area in the density calculations:</p>
+<p><span class="math display">\[\begin{equation}
+N = \sum_rN_r = \sum_r A_rD_r \\
+N = \sum_r A_r\frac{N_r}{A_r} \\
+\end{equation}\]</span></p>
+<p>These equations suggest that when using CPUE data to interpret overall population trends, we need to weight the CPUE data by the area. Taking a simple sum without weighting by area can lead to spurious conclusions about population trends (i.e., because the densities by area are different).</p>
+<ul>
+<li><p>Generally speaking, CPUE data are usually higher densities than the entire population because harvesters typically fish in areas with high densities of fish. But if we are comparing apples to apples (e.g., same areas over time), then we can still track the change in abundance in these specific areas fairly accurately. But this techincally assumes that the population is immobile if we were to interpret changes in CPUE this way. For example, if the population contracts to the fishing grounds fished, a change in CPUE in that area does not necessarily reflect a change in the ovearll abundance. This is important for surveys and CPUE standardization because we need to be surveying both areas of high abundance and low abundance, to ensure that contraction or expansion of the population isn’t a big issue. Increases in CPUE by expanding into other fishing grounds can also occur, and care is needed when interpreting naive CPUE metrics without standardization methods.</p></li>
+<li><p>The naive use of CPUE data should be cautioned against e.g.,: <span class="math inline">\(\frac{C}{E} = \frac{\sum_rC_r}{\sum_rE_r}\)</span> because you are not weighting the effort appropriately. Essentially, what happens here is that CPUE is now weighted by effort - this is only valid when fishing is uniformly distributed in relation to fish habitat (i.e., random sampling).</p></li>
+</ul>
+</div>
+<div id="cpue-standardization-and-selectivity" class="section level4 hasAnchor" number="1.1.8.2">
+<h4><span class="header-section-number">1.1.8.2</span> CPUE standardization and selectivity<a href="quinn-and-deriso-1999.html#cpue-standardization-and-selectivity" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>The use of CPUE is centered on the fact that q is constant across space and time, etc. However, q can change from vessel to vessel, areas, and time, because of differences in soak time, use of different gear, new advances, etc. Thus, to correctly interpret CPUE data, q needs to be corrected for such that it remains constant. For example, if q increases, while the abundance decreases, you CPUE can still be increasing - which leads to hyperstability.</li>
+</ul>
+<div id="standardization" class="section level5 hasAnchor" number="1.1.8.2.1">
+<h5><span class="header-section-number">1.1.8.2.1</span> Standardization<a href="quinn-and-deriso-1999.html#standardization" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li>Two general approaches: 1) standardized by fishing power coefficients (less done now that we have computational tools, and also more expensive), and 2) using statistical models (e.g., GLM, GAMs, VAST).</li>
+</ul>
+<p>For the first approach, its bascially a gear calibration study where you compare gears side by side fishing at the same time, area, etc and you get the CPUE from each gear type. If you have gear <span class="math inline">\(i\)</span> and gear <span class="math inline">\(j\)</span>, this would just be:</p>
+<p><span class="math display">\[\begin{equation}
+FishingPower_i = \frac{U_i}{U_j}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(U\)</span> is CPUE and FishingPower reflects the ratio of CPUEs. If gear <span class="math inline">\(i\)</span> is better at catching fish per unit of effort, then <span class="math inline">\(FishingPower_i &gt; 1\)</span>, vice versa. Effective effort can then be calculated as <span class="math inline">\(EffE_i = FishingPower_iE_i\)</span>, which is then used as to calculate CPUE <span class="math inline">\(\frac{C_i}{EffE_i}\)</span> to make them comparable among gears or areas, etc.</p>
+<p>The second approach is to use some form of a linear model to estimate fishing power coefficients - which are the parameters of the model. Effective effort can then be estimated by multiplying the fishing power coefficients by the observed effort. The total effective effort would then be summed across the reference effort level and the effective effort and the standardized CPUE would be calculated by summing catch across the levels (without any modification) and dividing by the effective effort, giving us our CPUE trend. Note that model-based methods will change in terms of the CPUE trend obtained as you continue to add new data.</p>
+</div>
+<div id="selectivity" class="section level5 hasAnchor" number="1.1.8.2.2">
+<h5><span class="header-section-number">1.1.8.2.2</span> Selectivity<a href="quinn-and-deriso-1999.html#selectivity" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li>Selectivity refers to catching fish of particular size or age ranges. Gear selectivity is a function of fishing mortality and catchability. Thus, changes in catchability is a special case of changes in selectivity (potentially confounded in assessment applications).</li>
+</ul>
+<p>The fishing mortality for a given category <span class="math inline">\(x\)</span> is then:</p>
+<p><span class="math display">\[\begin{equation}
+F_x = s_xF \\
+F_x = s_xqE \\
+q_x = s_xq
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(s_x\)</span> is the selectivity for a given category, and catchability can be calculated for a given category (e.g., proportion of the stock of category x caught with one unit of effort). Furthermore, CPUE is then not a reflection of the overall stock, but rather the component of the stock that is selected by the fishery (e.g., the exploitable population):</p>
+<p><span class="math display">\[\begin{equation}
+\frac{C_x}{E_x} = qs_xN_x
+\end{equation}\]</span></p>
+<p>Using the same ideas as fishing power coefficients, if the average abundance doesn’t change substantially (e.g., survey) such as to impact CPUE (because you can cancel out the N), then you can compare the CPUE specific to category x to understand the relative catchability between two different gears:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{U_{x1}}{U_{x2}} = \frac{q_1s_{x1}N_x}{q_2s_{x2}N_x} =  \frac{q_1s_{x1}}{q_2s_{x2}}\\
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span> refer to the different gears. As you can see above, selectivity and catchability are confounded and you can only compare the relative selectivities between the two different gear types (because q cannot easily be distinguished). In the context of an assessment, it really shows the importance of getting q correct/constant and standardizing the CPUE such that information from selectivity can be attributed to the selectivity process rather than the catchability process. In general, the comparison between gear selectivities are a special case of CPUE standardization - i.e., comparing the fishing power coefficients and making them relative to some reference gear.</p>
+<p>CPUE standardization and investigation of gear selectivities can be investigated jointly. One approach would be to construct age or length specific CPUE, the other approach would be to add in these bins as a factor in a linear model, and look at how CPUE changes as a function of bins.</p>
+</div>
+<div id="sampling-cpue-data" class="section level5 hasAnchor" number="1.1.8.2.3">
+<h5><span class="header-section-number">1.1.8.2.3</span> Sampling CPUE data<a href="quinn-and-deriso-1999.html#sampling-cpue-data" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Assuming that CPUE is collected with random sampling, the variance of catch sampled is proportional to fishing effort (i.e., more samples and more effort = lower variance; see Eq. 1.46 and 1.47). Subsequent calculations for the variance of effort and CPUE can be found in pages 26 - 27, and simply follows the linear properties of variances using their expected values.</p>
+</div>
+<div id="more-complex-models-for-cpue" class="section level5 hasAnchor" number="1.1.8.2.4">
+<h5><span class="header-section-number">1.1.8.2.4</span> More Complex Models for CPUE<a href="quinn-and-deriso-1999.html#more-complex-models-for-cpue" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>As noted above, catchability might not be constant due to a variety of factors, and might not be linearly related to abundance. Several models can be constructed and one such model raises effort and abundance to estimated parameters to get non-linear relationships:</p>
+<p><span class="math display">\[\begin{equation}
+C = qE^{\alpha + 1} N^{\beta + 1} \\
+C = qE^\alpha E N^\beta N \\
+\frac{C}{E} = (qE^\alpha N\beta) N
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are power functions such that <span class="math inline">\(q\)</span> is linearly related to power functions of effort and abundance. The following relationships can be derived by changing <span class="math inline">\(\beta\)</span> and is what we come to know as hyperstability and hyperdepletion. Holding <span class="math inline">\(\alpha\)</span> constant and varying <span class="math inline">\(\beta\)</span>, we see that when <span class="math inline">\(\beta = 0\)</span>, abundance is just raised to the power of 1 (i.e., proportional relationship between CPUE and N), when <span class="math inline">\(\beta &gt; 0\)</span>, then abundance is raised to the power of something greater than 1, resulting in an exponential relationship (hyperdepletion, where CPUE increases less quickly than abundance). Conversely, when <span class="math inline">\(-1 &lt; \beta &lt; 0\)</span> such that N is raised to the power of something less than 1, the relationship between CPUE resembles more of an asymptotic curve (hyperstability, where CPUE increases quicker than abundance).</p>
+<p>Under hyperstability, a population is fished down more rapidly than indicated by CPUE because you have the illusion of plenty - i.e., CPUE is increasing, but stock is actually smaller. Under hyperdepleted scenarios, a population is not declining as quickly as the trend suggests (i.e., illusion of little). Hyperstability can be caused by contraction of a stock (i.e., cod), increasing fishing power, targetting fish preferred habitats, subsetting data to only look at certain vessels, areas, etc. Hyperdepletion can be caused by depleting a stock in a localized area, but not expanding to other areas where abundance is high (e.g., only considering areas that were fished) (see Walters 2003 as well).</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="quinn-and-deriso-1999.html#cb6-1" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># catchability</span></span>
+<span id="cb6-2"><a href="quinn-and-deriso-1999.html#cb6-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">1</span>) <span class="co"># abundance</span></span>
+<span id="cb6-3"><a href="quinn-and-deriso-1999.html#cb6-3" aria-hidden="true" tabindex="-1"></a>E <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># effort</span></span>
+<span id="cb6-4"><a href="quinn-and-deriso-1999.html#cb6-4" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># alpha for effort</span></span>
+<span id="cb6-5"><a href="quinn-and-deriso-1999.html#cb6-5" aria-hidden="true" tabindex="-1"></a>beta_1 <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># beta for abundance (proportional)</span></span>
+<span id="cb6-6"><a href="quinn-and-deriso-1999.html#cb6-6" aria-hidden="true" tabindex="-1"></a>beta_2 <span class="ot">&lt;-</span> <span class="fl">0.8</span> <span class="co"># beta for abundance (hyperdepletion)</span></span>
+<span id="cb6-7"><a href="quinn-and-deriso-1999.html#cb6-7" aria-hidden="true" tabindex="-1"></a>beta_3 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.3</span> <span class="co"># beta for abundance (hyperstable)</span></span>
+<span id="cb6-8"><a href="quinn-and-deriso-1999.html#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="quinn-and-deriso-1999.html#cb6-9" aria-hidden="true" tabindex="-1"></a>CPUE_prop <span class="ot">&lt;-</span> (q <span class="sc">*</span> E<span class="sc">^</span>(alpha) <span class="sc">*</span> N<span class="sc">^</span>(beta_1)) <span class="sc">*</span> N</span>
+<span id="cb6-10"><a href="quinn-and-deriso-1999.html#cb6-10" aria-hidden="true" tabindex="-1"></a>CPUE_prop <span class="ot">&lt;-</span> CPUE_prop <span class="sc">/</span> <span class="fu">mean</span>(CPUE_prop)</span>
+<span id="cb6-11"><a href="quinn-and-deriso-1999.html#cb6-11" aria-hidden="true" tabindex="-1"></a>CPUE_hd <span class="ot">&lt;-</span> (q <span class="sc">*</span> E<span class="sc">^</span>(alpha) <span class="sc">*</span> N<span class="sc">^</span>(beta_2)) <span class="sc">*</span> N</span>
+<span id="cb6-12"><a href="quinn-and-deriso-1999.html#cb6-12" aria-hidden="true" tabindex="-1"></a>CPUE_hd <span class="ot">&lt;-</span> CPUE_hd <span class="sc">/</span> <span class="fu">mean</span>(CPUE_hd)</span>
+<span id="cb6-13"><a href="quinn-and-deriso-1999.html#cb6-13" aria-hidden="true" tabindex="-1"></a>CPUE_hs <span class="ot">&lt;-</span> (q <span class="sc">*</span> E<span class="sc">^</span>(alpha) <span class="sc">*</span> N<span class="sc">^</span>(beta_3)) <span class="sc">*</span> N</span>
+<span id="cb6-14"><a href="quinn-and-deriso-1999.html#cb6-14" aria-hidden="true" tabindex="-1"></a>CPUE_hs <span class="ot">&lt;-</span> CPUE_hs <span class="sc">/</span> <span class="fu">mean</span>(CPUE_hs)</span>
+<span id="cb6-15"><a href="quinn-and-deriso-1999.html#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="quinn-and-deriso-1999.html#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(N, CPUE_prop, <span class="at">ylab =</span> <span class="st">&quot;CPUE&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;N&quot;</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>)</span>
+<span id="cb6-17"><a href="quinn-and-deriso-1999.html#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(N,CPUE_hd, <span class="at">ylab =</span> <span class="st">&quot;CPUE&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;N&quot;</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>) </span>
+<span id="cb6-18"><a href="quinn-and-deriso-1999.html#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(N, CPUE_hs, <span class="at">ylab =</span> <span class="st">&quot;CPUE&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;N&quot;</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>)</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>In the case where <span class="math inline">\(\alpha\)</span> changes, it changes the relationship between fishing mortality and effort. Recall that <span class="math inline">\(F = qE\)</span>. Thus, F no longer changes linearly with effort. Similar to the relationship between hyperstability and hyperdepletion, when <span class="math inline">\(\alpha = 0\)</span>, the relationship between F and effort is linear, when <span class="math inline">\(-1 &lt; \alpha &lt; 0\)</span> more effort leads to what we term as gear saturation (more effort = less incremental catch), and when <span class="math inline">\(\alpha &gt; 0\)</span>, it leads to what we term as gear synergy (more effort = more incremental catch). Other extensions of these models (accounting for non-linear relationships between F and effort and abundance and CPUE) are similar and more flexible options are available (see page 29).</p>
+</div>
+<div id="statistical-models-for-cpue" class="section level5 hasAnchor" number="1.1.8.2.5">
+<h5><span class="header-section-number">1.1.8.2.5</span> Statistical models for CPUE<a href="quinn-and-deriso-1999.html#statistical-models-for-cpue" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>To fit statistical models for CPUE (using the more “complex” models described above), one needs to figure out what distribution to use to adequately characterize the uncertainty in CPUE predictions. Back in the day, we would do a bunch of different transformations (e.g., log, Box-Cox) and use Poisson approximations to fit models to CPUE data, likely given computational demands. However, in the modern day, we are now able to use more complex statistical distributions (e.g., Tweedie, negative-binomial) to fit to CPUE data. The book gives a full detailed explanation taking you step-by-step how the MLE process is done, as well as getting the mean and variances using mgf and integration methods, and the delta method (pages 31 - 33).</p>
+<p>There are couple ways to obtain confidence intervals for the median of CPUE, which include: 1) the delta method as mentioned above <span class="math inline">\(\sqrt n (g(X_n) - g(\mu)) \xrightarrow{D} N(0,\sigma_\mu^2 g^`(\mu)^2)\)</span>, 2) likelihood profiles, 3) reparameterize the model so that you are estimating the median instead of the mean, 3) brute-force methods (e.g., bootstrapping, MCMC).</p>
+</div>
+</div>
+<div id="other-considerations-w-cpue-data-schooling-searching" class="section level4 hasAnchor" number="1.1.8.3">
+<h4><span class="header-section-number">1.1.8.3</span> Other considerations w/ CPUE data (Schooling, Searching)<a href="quinn-and-deriso-1999.html#other-considerations-w-cpue-data-schooling-searching" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>There are several considerations that need to be accounted for when using CPUE data. Under a scenario where we are using passive fishing gear (e.g., hook and line w/ bait) where fish are attracted to bait, there is a potential for increased variance in your catch because of aggregations (i.e., sampling is not representative of the entire population or similar to clustering issues). No bias is expected to occur unless when there is severe competition for bait (e.g., hook competition) or the fishery is in areas of high abundance.</p>
+<p>In terms of active searching gear, there are some other implications that need to be considered, particularly when fishing for schooling species. The book gives an example where if a sampling process is random and a small fraction of the school is taken, the number of schools stays the same, but the population goes down. In this case, using encounter non-encounter data (i.e., binomial likelihood) would give us an index on the number of schools in the population, but not the overall population (i.e., more encounters = more schools). The other issue the book points out is that if catch per unit effort is used, and the catch of the school remains constant per unit effort, your average CPUE will remain the same, but abundance declines, which might not be reflected in your data (I don’t really get this point…). Nonetheless, the general consensus is that using CPUE for schooling fish can be tricky.</p>
+<p>Some models have been developed to estimate the encounter rates as a function of predator search and handling time (Michaelis-Menten equation):</p>
+<p><span class="math display">\[\begin{equation}
+n = a\tau_sD = a(\tau_t - n\tau_h)D \\
+n = \frac{a\tau_sD}{1 + a\tau_hD}
+\end{equation}\]</span></p>
+<p>where a is a search rate (area searched per unit time), <span class="math inline">\(\tau_s\)</span> is time spent searching by a predator, <span class="math inline">\(\tau_t = \tau_s + n\tau_h\)</span> is the total time available for searching <span class="math inline">\(\tau_h\)</span> is handling time, D is density and n = encounter rate. Encounter rates (n) increases with increased densities, but levels off (asymptotes) because of partitioning between search and handling time (i.e.., <span class="math inline">\(\tau_t\)</span> is partitioned between search (<span class="math inline">\(\tau_s\)</span>) and total handling time (<span class="math inline">\(n\tau_h\)</span>) when there are a lot of encounters). In a schooling species, we can use this equation and relate CPUE as density (encounter/search time). Generally, the relationship begins to asymptote because the amount of time</p>
+<p>Given the equation above, reducing <span class="math inline">\(\tau_s\)</span> reduces the maximum number of schools encountered (because its in the numerator), changing <span class="math inline">\(\tau_s\)</span> therefore changes the scale of the relationship.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="quinn-and-deriso-1999.html#cb7-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="fl">0.3</span> <span class="co"># search rate</span></span>
+<span id="cb7-2"><a href="quinn-and-deriso-1999.html#cb7-2" aria-hidden="true" tabindex="-1"></a>tau_s <span class="ot">=</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="dv">1</span>, <span class="fl">0.1</span>) <span class="co"># search per unit time</span></span>
+<span id="cb7-3"><a href="quinn-and-deriso-1999.html#cb7-3" aria-hidden="true" tabindex="-1"></a>tau_h <span class="ot">=</span> <span class="dv">1</span> <span class="co"># handling per unit time</span></span>
+<span id="cb7-4"><a href="quinn-and-deriso-1999.html#cb7-4" aria-hidden="true" tabindex="-1"></a>D <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="fl">1e3</span>, <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">30</span> <span class="co"># density</span></span>
+<span id="cb7-5"><a href="quinn-and-deriso-1999.html#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="quinn-and-deriso-1999.html#cb7-6" aria-hidden="true" tabindex="-1"></a>col <span class="ot">=</span> viridis<span class="sc">::</span><span class="fu">viridis</span>(<span class="at">n =</span> <span class="fu">length</span>(tau_s))</span>
+<span id="cb7-7"><a href="quinn-and-deriso-1999.html#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(tau_s)) {</span>
+<span id="cb7-8"><a href="quinn-and-deriso-1999.html#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">==</span> <span class="dv">1</span>) <span class="fu">plot</span>(D, (a <span class="sc">*</span> tau_s[i] <span class="sc">*</span> D) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> (a <span class="sc">*</span> tau_h <span class="sc">*</span> D)), <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">col =</span> col[i], <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb7-9"><a href="quinn-and-deriso-1999.html#cb7-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">xlab =</span> <span class="st">&quot;Density&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Schools encountered&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Changing search time&quot;</span>)</span>
+<span id="cb7-10"><a href="quinn-and-deriso-1999.html#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="fu">lines</span>(D, (a <span class="sc">*</span> tau_s[i] <span class="sc">*</span> D) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> (a <span class="sc">*</span> tau_h <span class="sc">*</span> D)), <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">col =</span> col[i])</span>
+<span id="cb7-11"><a href="quinn-and-deriso-1999.html#cb7-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>while changing <span class="math inline">\(\tau_h\)</span> similarly has an effect on the overall scale of the curve - where increasing <span class="math inline">\(\tau_h\)</span> reduces the number of schools encountered, because the predator partitions out time to handle prey.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="quinn-and-deriso-1999.html#cb8-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="fl">0.3</span> <span class="co"># search rate</span></span>
+<span id="cb8-2"><a href="quinn-and-deriso-1999.html#cb8-2" aria-hidden="true" tabindex="-1"></a>tau_h <span class="ot">=</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="dv">1</span>, <span class="fl">0.1</span>) <span class="co"># handling per unit time</span></span>
+<span id="cb8-3"><a href="quinn-and-deriso-1999.html#cb8-3" aria-hidden="true" tabindex="-1"></a>tau_s <span class="ot">=</span> <span class="dv">1</span> <span class="co"># search per unit time</span></span>
+<span id="cb8-4"><a href="quinn-and-deriso-1999.html#cb8-4" aria-hidden="true" tabindex="-1"></a>D <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="fl">1e3</span>, <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">30</span> <span class="co"># density</span></span>
+<span id="cb8-5"><a href="quinn-and-deriso-1999.html#cb8-5" aria-hidden="true" tabindex="-1"></a>col <span class="ot">=</span> viridis<span class="sc">::</span><span class="fu">viridis</span>(<span class="at">n =</span> <span class="fu">length</span>(tau_h))</span>
+<span id="cb8-6"><a href="quinn-and-deriso-1999.html#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(tau_h)) {</span>
+<span id="cb8-7"><a href="quinn-and-deriso-1999.html#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">==</span> <span class="dv">1</span>) <span class="fu">plot</span>(D, (a <span class="sc">*</span> tau_s <span class="sc">*</span> D) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> (a <span class="sc">*</span> tau_h[i] <span class="sc">*</span> D)), <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">col =</span> col[i], <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
+<span id="cb8-8"><a href="quinn-and-deriso-1999.html#cb8-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">xlab =</span> <span class="st">&quot;Density&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Schools encountered&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Changing handling time&quot;</span>)</span>
+<span id="cb8-9"><a href="quinn-and-deriso-1999.html#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="fu">lines</span>(D, (a <span class="sc">*</span> tau_s <span class="sc">*</span> D) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> (a <span class="sc">*</span> tau_h[i] <span class="sc">*</span> D)), <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">col =</span> col[i])</span>
+<span id="cb8-10"><a href="quinn-and-deriso-1999.html#cb8-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Some other extensions of this model provided by the book uses line transect theory:</p>
+</div>
 </div>
 </div>
 <div id="chapter-2-stock-productivity-and-surplus-production" class="section level2 hasAnchor" number="1.2">

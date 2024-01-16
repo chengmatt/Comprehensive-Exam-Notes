@@ -54,7 +54,8 @@ which yields the following after using lHoptial's Rule:
 \begin{equation}
 \frac{dN(t)}{dt} = rN(t) \\ 
 \int_{N_0}^{N} \frac{1}{N(t)} dN(t) = \int rdt \\
-logN - logN_0 = rt = logN = logN_0 + rt\\
+logN - logN_0 = rt \\ 
+logN = logN_0 + rt\\
 N_t = N_0e^{rt}
 \end{equation}
 
@@ -72,7 +73,7 @@ plot(N*exp(R_1.5*t), xlab = "Age", ylab = "N", main = "r = 1.5", type = "l")
 
 <img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-2-1.png" width="672" />
 
-for both the difference and differential equation representation, the change in abundance is directly proportional to its previous abundance. Similarly, r the parameter that describes instantaneous growth demonstrates a population that declines exponentially if r < 0, and increases exponentially when r > 0.
+For both the difference and differential equation representation, the change in abundance is directly proportional to its previous abundance. Similarly, r the parameter that describes instantaneous growth demonstrates a population that declines exponentially if r < 0, and increases exponentially when r > 0.
 
 #### Cell Division Example 1.4
 
@@ -101,7 +102,7 @@ The logistic model is given below by including a linear modifying factor (1 - N/
 N_t = \frac{N_0e^{rt}}{1 - \frac{N_0}{K} + \frac{N_0}{K}e^{rt}}
 \end{equation}
 
-where the deominator of the second equation is a dampening factor to make sure the numerator doesn't increase without bound. As you can see in the plot below, as N0 approaches K, the denomiator gets larger, which reduces the change in the numerator such that is dampens it and is unable to increase without bound. When N > K, it decreases exponentially, and when N = K, growth is constant. When N < K, it increases sigmoidally. 
+where the denominator of the second equation is a dampening factor to make sure the numerator doesn't increase without bound. As you can see in the plot below, as N0 approaches K, the denominator gets larger, which reduces the change in the numerator such that is dampens it and is unable to increase without bound. When N > K, it decreases exponentially, and when N = K, growth is constant. When N < K, it increases sigmoidally. The differential equation is pretty easy to solve, but involves some annoying algebra to rearrange and calculate partial fractions for the N and r terms. 
 
 
 ```r
@@ -242,37 +243,213 @@ p_j = \int_{t_j}^{t_j+1}F_tr_tdt \\
 where $p_j$ is the probability an individual is captured, $F_t$ is the fishing mortality at time t, and $r_t$ is the probability and individual survives, and is a function of fishing and natural mortality (integrate over an interval to get it). Given this, the probability of not capturing an individual is therefore $q = 1 - p_j$. So for a given cohort, the catch distribution can be assumed to follow a multinomial distribution, where the expectation and variances are simply derived from the binomial (multinomial individual components are binomially distributed) (e.g., $E(C_j) = N_0p_j, V(C_j) = N_0p_j(1-p_j)$). Following a similar fashion, the probability of selecting N individuals (the random variable) from a cohort then follows a binomial distribution with probability equal to $r_t$ (individuals survive) and the total number of samples taken equalling to $N_0$ (initial abundance). Thus, these equations allow for stochasticity in both catch and abundance and are random variables that are governed by some statistical distribution with a set sample space (e.g., binomial, multinomial). Allowing for stochastic theory here therefore allows us to figure out what the variances and uncertainty of our population estimates are. 
 
 ### CPUE and Fishing Process
+- Catch is the product of both fishing mortality and the abundance of the population $C = FN$, therefore, changes in catch equals changes in either fishing mortality or abundance and are confounded if you want to interpret changes in abundance. Effort data is needed to better parse out whether catch is changing (fluctuations in catch) due to F or N. 
+
+To derive CPUE, fishing effort is assumed to be independent and additive. Then, the change in catch is proportion to fishing effort per unit time and abundance:
+
+\begin{equation}
+\frac{dC}{dt} = q\frac{dE}{dt}N \\
+\frac{dC}{dt} = FN \\
+FN = q\frac{dE}{dt}N \\
+F = q\frac{dE}{dt}\\
+Fdt = qdE \\
+\int Fdt = q\int dE \\
+Ft = qE
+\end{equation}
+
+where q is the catchability coefficient - denoting the fraction of N individuals captured per unit effort. If q remains constant, then a higher effort equates to a higher fishing mortality rate. If q changes (which can reflect improvements in fishing gear, targeting practices, expansion into other areas, etc.) the fishing mortality can also get modified. So if catch is proportional to FN, then rewriting $C = FN$ yields:
+
+\begin{equation}
+C = FN \\
+C = qEN \\ 
+\frac{C}{E} = qN
+\end{equation}
+
+where catch-per-unit effort can be assumed to be proportional to changes in abundance, if q is constant over time (rarely the case). Even if q is not known, you can still use CPUE to figure out relative changes in abundance. If q is known, you can simply divide CPUE by q to get N. If information about area swept or effective fishing area is known, you can extrapolate out to the total area sampled to get total abundance as well: 
+
+\begin{equation}
+N = \frac{A}{a}C
+\end{equation}
+
+where $A$ is the total area, and $a$ is the sample area (i.e., if your total area is the sampled area, then catch = abundance). In relation to CPUE data, if the density of fish is $D = N/A$ and assuming that area swept is proportional to fishing effort ($a = qE$), then $N = \frac{A}{a}C$ becomes the following after some rearranging:
+
+\begin{equation}
+N = \frac{A}{a}C \\
+N = \frac{A}{qE}C \\
+\frac{N}{qE} = AC\\
+NqE = AC \\
+\frac{N}{A}q = \frac{C}{E} \\
+qD = \frac{C}{E} 
+\end{equation}
+
+and the changes in population density are therefore proportional to changes in CPUE, assuming that area swept is proportional to fishing effort (i.e., if area swept increases, then fishing effort increases as well). 
+
+#### Regional considerations of CPUE data
+- In some cases, we might want to compare CPUE data among regions. If certain areas fished (i.e., management areas) have different CPUEs, the interpreation of relative abundance can depend on the space of that area. For example, if you fish in a small area and you have the same CPUE as a large area, that implies that the small area has a larger density of fish than the large area.
+
+Area-specific CPUE is a simple extension of previosu equations: 
+\begin{equation}
+\frac{C_r}{E_r} = q\frac{N_r}{A_r} = qD_r \\
+\end{equation}
+
+where the subscript $r$ denotes region. To get the total abundance $N$, its simply a sum of the densities extrapolated to the total area where one just has to cancel out the denominator of area in the density calculations:
+
+\begin{equation}
+N = \sum_rN_r = \sum_r A_rD_r \\
+N = \sum_r A_r\frac{N_r}{A_r} \\ 
+\end{equation}
+
+These equations suggest that when using CPUE data to interpret overall population trends, we need to weight the CPUE data by the area. Taking a simple sum without weighting by area can lead to spurious conclusions about population trends (i.e., because the densities by area are different). 
+
+- Generally speaking, CPUE data are usually higher densities than the entire population because harvesters typically fish in areas with high densities of fish. But if we are comparing apples to apples (e.g., same areas over time), then we can still track the change in abundance in these specific areas fairly accurately. But this techincally assumes that the population is immobile if we were to interpret changes in CPUE this way. For example, if the population contracts to the fishing grounds fished, a change in CPUE in that area does not necessarily reflect a change in the ovearll abundance. This is important for surveys and CPUE standardization because we need to be surveying both areas of high abundance and low abundance, to ensure that contraction or expansion of the population isn't a big issue. Increases in CPUE by expanding into other fishing grounds can also occur, and care is needed when interpreting naive CPUE metrics without standardization methods. 
+
+- The naive use of CPUE data should be cautioned against e.g.,: $\frac{C}{E} = \frac{\sum_rC_r}{\sum_rE_r}$ because you are not weighting the effort appropriately. Essentially, what happens here is that CPUE is now weighted by effort - this is only valid when fishing is uniformly distributed in relation to fish habitat (i.e., random sampling). 
 
 
+#### CPUE standardization and selectivity
+- The use of CPUE is centered on the fact that q is constant across space and time, etc. However, q can change from vessel to vessel, areas, and time, because of differences in soak time, use of different gear, new advances, etc. Thus, to correctly interpret CPUE data, q needs to be corrected for such that it remains constant. For example, if q increases, while the abundance decreases, you CPUE can still be increasing - which leads to hyperstability. 
+
+##### Standardization
+- Two general approaches: 1) standardized by fishing power coefficients (less done now that we have computational tools, and also more expensive), and 2) using statistical models (e.g., GLM, GAMs, VAST). 
+
+For the first approach, its bascially a gear calibration study where you compare gears side by side fishing at the same time, area, etc and you get the CPUE from each gear type. If you have gear $i$ and gear $j$, this would just be:
+
+\begin{equation}
+FishingPower_i = \frac{U_i}{U_j}
+\end{equation}
+
+where $U$ is CPUE and FishingPower reflects the ratio of CPUEs. If gear $i$ is better at catching fish per unit of effort, then $FishingPower_i > 1$, vice versa. Effective effort can then be calculated as $EffE_i = FishingPower_iE_i$, which is then used as to calculate CPUE $\frac{C_i}{EffE_i}$ to make them comparable among gears or areas, etc.
+
+The second approach is to use some form of a linear model to estimate fishing power coefficients - which are the parameters of the model. Effective effort can then be estimated by multiplying the fishing power coefficients by the observed effort. The total effective effort would then be summed across the reference effort level and the effective effort and the standardized CPUE would be calculated by summing catch across the levels (without any modification) and dividing by the effective effort, giving us our CPUE trend. Note that model-based methods will change in terms of the CPUE trend obtained as you continue to add new data. 
+
+##### Selectivity 
+- Selectivity refers to catching fish of particular size or age ranges. Gear selectivity is a function of fishing mortality and catchability. Thus, changes in catchability is a special case of changes in selectivity (potentially confounded in assessment applications).  
+
+The fishing mortality for a given category $x$ is then:
+
+\begin{equation}
+F_x = s_xF \\
+F_x = s_xqE \\
+q_x = s_xq
+\end{equation}
+
+where $s_x$ is the selectivity for a given category, and catchability can be calculated for a given category (e.g., proportion of the stock of category x caught with one unit of effort). Furthermore, CPUE is then not a reflection of the overall stock, but rather the component of the stock that is selected by the fishery (e.g., the exploitable population):
+
+\begin{equation}
+\frac{C_x}{E_x} = qs_xN_x 
+\end{equation}
+
+Using the same ideas as fishing power coefficients, if the average abundance doesn't change substantially (e.g., survey) such as to impact CPUE (because you can cancel out the N), then you can compare the CPUE specific to category x to understand the relative catchability between two different gears: 
+
+\begin{equation}
+\frac{U_{x1}}{U_{x2}} = \frac{q_1s_{x1}N_x}{q_2s_{x2}N_x} =  \frac{q_1s_{x1}}{q_2s_{x2}}\\
+\end{equation}
+
+where $1$ and $2$ refer to the different gears. As you can see above, selectivity and catchability are confounded and you can only compare the relative selectivities between the two different gear types (because q cannot easily be distinguished). In the context of an assessment, it really shows the importance of getting q correct/constant and standardizing the CPUE such that information from selectivity can be attributed to the selectivity process rather than the catchability process. In general, the comparison between gear selectivities are a special case of CPUE standardization - i.e., comparing the fishing power coefficients and making them relative to some reference gear. 
+
+CPUE standardization and investigation of gear selectivities can be investigated jointly. One approach would be to construct age or length specific CPUE, the other approach would be to add in these bins as a factor in a linear model, and look at how CPUE changes as a function of bins.
+
+##### Sampling CPUE data
+Assuming that CPUE is collected with random sampling, the variance of catch sampled is proportional to fishing effort (i.e., more samples and more effort = lower variance; see Eq. 1.46 and 1.47). Subsequent calculations for the variance of effort and CPUE can be found in pages 26 - 27, and simply follows the linear properties of variances using their expected values. 
+
+##### More Complex Models for CPUE 
+As noted above, catchability might not be constant due to a variety of factors, and might not be linearly related to abundance. Several models can be constructed and one such model raises effort and abundance to estimated parameters to get non-linear relationships: 
+
+\begin{equation}
+C = qE^{\alpha + 1} N^{\beta + 1} \\
+C = qE^\alpha E N^\beta N \\
+\frac{C}{E} = (qE^\alpha N\beta) N
+\end{equation}
+
+where $\alpha$ and $\beta$ are power functions such that $q$ is linearly related to power functions of effort and abundance. The following relationships can be derived by changing $\beta$ and is what we come to know as hyperstability and hyperdepletion. Holding $\alpha$ constant and varying $\beta$, we see that when $\beta = 0$, abundance is just raised to the power of 1 (i.e., proportional relationship between CPUE and N), when $\beta > 0$, then abundance is raised to the power of something greater than 1, resulting in an exponential relationship (hyperdepletion, where CPUE increases less quickly than abundance). Conversely, when $-1 < \beta < 0$ such that N is raised to the power of something less than 1, the relationship between CPUE resembles more of an asymptotic curve (hyperstability, where CPUE increases quicker than abundance). 
+
+Under hyperstability, a population is fished down more rapidly than indicated by CPUE because you have the illusion of plenty - i.e., CPUE is increasing, but stock is actually smaller. Under hyperdepleted scenarios, a population is not declining as quickly as the trend suggests (i.e., illusion of little). Hyperstability can be caused by contraction of a stock (i.e., cod), increasing fishing power, targetting fish preferred habitats, subsetting data to only look at certain vessels, areas, etc. Hyperdepletion can be caused by depleting a stock in a localized area, but not expanding to other areas where abundance is high (e.g., only considering areas that were fished) (see Walters 2003 as well).
 
 
+```r
+q <- 1 # catchability
+N <- seq(1, 10, 1) # abundance
+E <- 3 # effort
+alpha <- 0 # alpha for effort
+beta_1 <- 0 # beta for abundance (proportional)
+beta_2 <- 0.8 # beta for abundance (hyperdepletion)
+beta_3 <- -0.3 # beta for abundance (hyperstable)
+
+CPUE_prop <- (q * E^(alpha) * N^(beta_1)) * N
+CPUE_prop <- CPUE_prop / mean(CPUE_prop)
+CPUE_hd <- (q * E^(alpha) * N^(beta_2)) * N
+CPUE_hd <- CPUE_hd / mean(CPUE_hd)
+CPUE_hs <- (q * E^(alpha) * N^(beta_3)) * N
+CPUE_hs <- CPUE_hs / mean(CPUE_hs)
+
+plot(N, CPUE_prop, ylab = "CPUE", xlab = "N", type = "l", lwd = 5)
+lines(N,CPUE_hd, ylab = "CPUE", xlab = "N", type = "l", col = "red", lwd = 5) 
+lines(N, CPUE_hs, ylab = "CPUE", xlab = "N", type = "l", col = "blue", lwd = 5)
+```
+
+<img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+
+ 
+In the case where $\alpha$ changes, it changes the relationship between fishing mortality and effort. Recall that $F = qE$. Thus, F no longer changes linearly with effort. Similar to the relationship between hyperstability and hyperdepletion, when $\alpha = 0$, the relationship between F and effort is linear, when $-1 < \alpha < 0$ more effort leads to what we term as gear saturation (more effort = less incremental catch), and when $\alpha > 0$, it leads to what we term as gear synergy (more effort = more incremental catch). Other extensions of these models (accounting for non-linear relationships between F and effort and abundance and CPUE) are similar and more flexible options are available (see page 29). 
+
+##### Statistical models for CPUE
+To fit statistical models for CPUE (using the more "complex" models described above), one needs to figure out what distribution to use to adequately characterize the uncertainty in CPUE predictions. Back in the day, we would do a bunch of different transformations (e.g., log, Box-Cox) and use Poisson approximations to fit models to CPUE data, likely given computational demands. However, in the modern day, we are now able to use more complex statistical distributions (e.g., Tweedie, negative-binomial) to fit to CPUE data. The book gives a full detailed explanation taking you step-by-step how the MLE process is done, as well as getting the mean and variances using mgf and integration methods, and the delta method (pages 31 - 33).
+
+There are couple ways to obtain confidence intervals for the median of CPUE, which include: 1) the delta method as mentioned above $\sqrt n (g(X_n) - g(\mu)) \xrightarrow{D} N(0,\sigma_\mu^2 g^`(\mu)^2)$, 2) likelihood profiles, 3) reparameterize the model so that you are estimating the median instead of the mean, 3) brute-force methods (e.g., bootstrapping, MCMC). 
+
+#### Other considerations w/ CPUE data (Schooling, Searching)
+There are several considerations that need to be accounted for when using CPUE data. Under a scenario where we are using passive fishing gear (e.g., hook and line w/ bait) where fish are attracted to bait, there is a potential for increased variance in your catch because of aggregations (i.e., sampling is not representative of the entire population or similar to clustering issues). No bias is expected to occur unless when there is severe competition for bait  (e.g., hook competition) or the fishery is in areas of high abundance.
+
+In terms of active searching gear, there are some other implications that need to be considered, particularly when fishing for schooling species. The book gives an example where if a sampling process is random and a small fraction of the school is taken, the number of schools stays the same, but the population goes down. In this case, using encounter non-encounter data (i.e., binomial likelihood) would give us an index on the number of schools in the population, but not the overall population (i.e., more encounters = more schools). The other issue the book points out is that if catch per unit effort is used, and the catch of the school remains constant per unit effort, your average CPUE will remain the same, but abundance declines, which might not be reflected in your data (I don't really get this point...). Nonetheless, the general consensus is that using CPUE for schooling fish can be tricky. 
+
+Some models have been developed to estimate the encounter rates as a function of predator search and handling time (Michaelis-Menten equation):
+
+\begin{equation}
+n = a\tau_sD = a(\tau_t - n\tau_h)D \\
+n = \frac{a\tau_sD}{1 + a\tau_hD}
+\end{equation}
+
+where a is a search rate (area searched per unit time), $\tau_s$ is time spent searching by a predator, $\tau_t = \tau_s + n\tau_h$ is the total time available for searching $\tau_h$ is handling time, D is density and n = encounter rate. Encounter rates (n) increases with increased densities, but levels off (asymptotes) because of partitioning between search and handling time (i.e.., $\tau_t$ is partitioned between search ($\tau_s$) and total handling time ($n\tau_h$) when there are a lot of encounters). In a schooling species, we can use this equation and relate CPUE as density (encounter/search time). Generally, the relationship begins to asymptote because the amount of time
+
+Given the equation above, reducing $\tau_s$ reduces the maximum number of schools encountered (because its in the numerator), changing $\tau_s$ therefore changes the scale of the relationship. 
 
 
+```r
+a = 0.3 # search rate
+tau_s = seq(0.1, 1, 0.1) # search per unit time
+tau_h = 1 # handling per unit time
+D = seq(1, 1e3, 1) / 30 # density
+
+col = viridis::viridis(n = length(tau_s))
+for(i in 1:length(tau_s)) {
+  if(i == 1) plot(D, (a * tau_s[i] * D) / (1 + (a * tau_h * D)), lwd = 5, col = col[i], ylim = c(0,1),
+                  xlab = "Density", ylab = "Schools encountered", main = "Changing search time")
+  else lines(D, (a * tau_s[i] * D) / (1 + (a * tau_h * D)), lwd = 5, col = col[i])
+}
+```
+
+<img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+
+while changing $\tau_h$ similarly has an effect on the overall scale of the curve - where increasing $\tau_h$ reduces the number of schools encountered, because the predator partitions out time to handle prey. 
 
 
+```r
+a = 0.3 # search rate
+tau_h = seq(0.1, 1, 0.1) # handling per unit time
+tau_s = 1 # search per unit time
+D = seq(1, 1e3, 1) / 30 # density
+col = viridis::viridis(n = length(tau_h))
+for(i in 1:length(tau_h)) {
+  if(i == 1) plot(D, (a * tau_s * D) / (1 + (a * tau_h[i] * D)), lwd = 5, col = col[i], ylim = c(0,5),
+                  xlab = "Density", ylab = "Schools encountered", main = "Changing handling time")
+  else lines(D, (a * tau_s * D) / (1 + (a * tau_h[i] * D)), lwd = 5, col = col[i])
+}
+```
+
+<img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Some other extensions of this model provided by the book uses line transect theory: 
 
 
 

@@ -9,6 +9,14 @@ theory-of-mortality
 theory-of-fishing
 stochastic-theory-of-fishing
 cpue-and-fishing-process
+regional-considerations-of-cpue-data
+cpue-standardization-and-selectivity
+standardization
+selectivity
+sampling-cpue-data
+more-complex-models-for-cpue
+statistical-models-for-cpue
+other-considerations-w-cpue-data-schooling-searching
 chapter-2-stock-productivity-and-surplus-production
 chapter-3-stock-and-recruitment
 chapter-4-growth-and-fecundity
@@ -20,7 +28,7 @@ chapter-9-size-structured-models-and-assessment-methods
 chapter-10-migration-movement-and-other-spatiotemporal-considerations
 chapter-11-optimal-harvesting
 broad-stock-assessment-questions
-selectivity
+selectivity-1
 data-weighting
 compositional-likelihoods
 complexity-and-parsimony-tradeoffs

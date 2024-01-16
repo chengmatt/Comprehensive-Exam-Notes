@@ -38,12 +38,13 @@ chapter-9-size-structured-models-and-assessment-methods
 chapter-10-migration-movement-and-other-spatiotemporal-considerations
 chapter-11-optimal-harvesting
 broad-stock-assessment-questions
+catch-per-unit-effort-data
 selectivity-1
 data-weighting
-compositional-likelihoods
 complexity-and-parsimony-tradeoffs
 time-varying-processes
 harvest-strategies-reference-points
 reference-points-w-time-varying-processes
-spatial-assessments
 assessment-diagnostics
+oceanography
+groundfish-life-history-and-ecology

@@ -381,7 +381,7 @@ To fit statistical models for CPUE (using the more "complex" models described ab
 There are couple ways to obtain confidence intervals for the median of CPUE, which include: 1) the delta method as mentioned above $\sqrt n (g(X_n) - g(\mu)) \xrightarrow{D} N(0,\sigma_\mu^2 g^`(\mu)^2)$, 2) likelihood profiles, 3) reparameterize the model so that you are estimating the median instead of the mean, 3) brute-force methods (e.g., bootstrapping, MCMC). 
 
 #### Other considerations w/ CPUE data (Schooling, Searching)
-There are several considerations that need to be accounted for when using CPUE data. Under a scenario where we are using passive fishing gear (e.g., hook and line w/ bait) where fish are attracted to bait, there is a potential for increased variance in your catch because of aggregations (i.e., sampling is not representative of the entire population or similar to clustering issues). No bias is expected to occur unless when there is severe competition for bait  (e.g., hook competition) or the fishery is in areas of high abundance.
+There are several considerations that need to be accounted for when using CPUE data. Under a scenario where we are using passive fishing gear (e.g., hook and line w/ bait) where fish are attracted to bait, there is a potential for increased variance in your catch because of aggregations (i.e., sampling is not representative of the entire population or similar to clustering issues - need to account for covariances in variance calculations). No bias is expected to occur unless when there is severe competition for bait  (e.g., hook competition) or the fishery is in areas of high abundance.
 
 In terms of active searching gear, there are some other implications that need to be considered, particularly when fishing for schooling species. The book gives an example where if a sampling process is random and a small fraction of the school is taken, the number of schools stays the same, but the population goes down. In this case, using encounter non-encounter data (i.e., binomial likelihood) would give us an index on the number of schools in the population, but not the overall population (i.e., more encounters = more schools). The other issue the book points out is that if catch per unit effort is used, and the catch of the school remains constant per unit effort, your average CPUE will remain the same, but abundance declines, which might not be reflected in your data (I don't really get this point...). Nonetheless, the general consensus is that using CPUE for schooling fish can be tricky. 
 
@@ -452,7 +452,7 @@ where $p_cS_t = \overline{C}$ and is a proportion of the average size of the sch
 T{t+1} = T_t - C_t
 \end{equation}
 
-where $T$ is the total number of individuals. Fragmented schools can also be incoroporated via $N_{t+1} = N_t + (x - 1)n_t$, where each school encountered breaks off into a constant number of schools. 
+where $T$ is the total number of individuals. Fragmented schools can also be incorporated via $N_{t+1} = N_t + (x - 1)n_t$, where each school encountered breaks off into a constant number of schools. 
 
 In an example where we have data for number of schools encountered, length of search, and catch from each encounter, then three CPUE measures can be used: 1) schools / length of search, 2) catch / length of search, and 3) catch / school encountered. The expected values of the CPUE measures can easily be derived using the aforementioned equations and rearrange them (see page 39). In general, these relationships (CPUE) show that CPUE is not directly proportional to the abundance of the schools or the average school size, and is often hard to interpret. In reality, you need information on encounter rates, fragmentation rates, school size, etc. to really understand what's going on with schooling population dynamics. Welp... we went through all these equations, just to find out that none of the CPUE measures above do a great job of describing the population... 
 
@@ -515,18 +515,101 @@ As you can see, an increase in the number of schools does not necessarily reflec
 
 
 #### Effects of Catchability differing between individuals
+Catchability can differ between individuals because of learned behaviors (avoidance), propensity to bite hooks, habitat preference of a cohort (e.g., the catchability of a large cohort might increase b/c they're everywhere, similar to AK sablefish). Nonetheless, during the initial period, the catchability of the cohort will be high, but after removing individuals with high catchability, the ones remaining in the population actually have low catchability. 
 
+A possible model for describing the catchability processes above is described below and is conditional on catchability decreasing because of increased effort on the stock (i.e., quickly removing vulnerable individuals first). This can easily be implemented within an assessment model using penalized or state-space approaches: 
 
+\begin{equation}
+u(t,q) = 1 - exp(-qE_t) \\ 
+\end{equation}
 
+where $E_t$ is the effort expended and $u(t,q)$ is the probability of capture (basically the number of fish that died due to fishing because its just $qE_t = F$). Hence, the above equation is just our annual death fraction. Thus, the probability an individual survives is $P(survive|q) = exp(-qE_t)$, which is what we formerly termed as our annual survival fraction. 
 
+To get the probability density of $q$ given that a fish survives, we need to multiply the probability that a fish survives $exp(-qE_t)$ by the density function of $q$ given that there is prior fishing, and integrate it to normalize:
 
+\begin{equation}
+f_t(q|fish survives) = \frac{e^{-qE_t}f_t(q|prior fishing)}{\int e^{-xE_t}f_t(x|prior fishing)dx}
+\end{equation}
 
+where the above is just Bayes theorem, and flipping the problem on its head, where we are now focusing on finding $f_t(q|fish survives)$. As an example, assume that $f_t(q|prior fishing) \sim N(Q_1, \sigma^2)$, which results in  $f_t(q|fish survives)$ also being normal because of the normal-normal conjugacy. However, using a normal will result in the cohort having a negative catchability. Nonetheless, changes in $Q_t$ are then modeled as:
 
+\begin{equation}
+Q_t = Q_1 - \sigma^2E_{t-1}^*
+\end{equation}
 
+where $E_{t-1}^*$ is cumulative effort. Given the above, the mean catchability will update and change and continually decrease at a rate proportional to the fishing effort is expended. 
 
+```{r}
+q_1 = 1 # catchability
+E = seq(1, 7, 1) # effort expended
+cumsum_E = cumsum(E) # cumulative sum of effort to update q
+t = seq(1,length(E),1) # time index
+sigma_2 = 0.05 # variance of normal
+q_t = vector()
 
+# Change in q over time for a cohort after increased expended total effort
+par(mfrow = c(1,2))
+for(i in t) q_t[i] = q_1 - sigma_2 * cumsum_E[i]
+plot(t, q_t, xlab = "t", ylab = "q", main = "Change in q over time after expended effort", lwd = 5, type = "l")
+  
+# Change in the pdf of q after expended effort
+col = viridis::viridis(n = length(q_t))
+curve(dnorm(x, q_t[1], sigma_2), from=-1, to=1, col = col[i], lwd = 5, xlab = "q", ylab = "pdf", main = "Change in pdf of q")
+for(i in 2:length(t)) curve(dnorm(x, q_t[i], sigma_2), from=-1, to=1, col = col[i], lwd = 5, xlab = "q", ylab = "pdf", add = TRUE)
+```
+
+An extension to this would be to use a gamma pdf instead, to ensure that catchability is always larger than 0, and is never negative:
+
+\begin{equation}
+Q_t = R/\lambda_t \\
+V_t(q) = r/\lambda^2_t \\
+\lambda_t = \lambda_{t-1} + E_{t-1}
+\end{equation}
+
+where q decreases as lambda increases (denominator gets bigger, but r remains constant). If we have asymptotic selectivity but q decreases over time by age, it can manifest in dome-shaped mortality patterns.
+```{r}
+lambda_1 = 1 # lambda to adjust q
+q_1 = 1/lambda_1 # catchability
+E = seq(1, 7, 1) # effort expended
+t = seq(1,length(E),1) # time index
+q_t = vector() # q vector
+lambda_t = vector() # lambda vector
+
+# initialize 
+q_t[1] = q_1
+lambda_t[1] = lambda_1
+# loop through to calculate quantities
+for(i in 2:length(t)) {
+  lambda_t[i] = lambda_t[i - 1] + E[i-1]
+  q_t[i] = 1/lambda_t[i] 
+}
+
+# gear selectivity
+sel = 1 / (1 + exp(- 5 * (t - 1)))
+par(mfrow = c(1,3))
+plot(t, q_t, xlab = "t", ylab = "q", main = "Change in q over time after expended effort", lwd = 5, type = "l")
+plot(t, sel, xlab = "t", ylab = "Selectivity", main = "Gear Selectivity", lwd = 5, type = "l")
+plot(t, q_t * sel, xlab = "t", ylab = "q * Sel", main = "q * Gear Selectivity", lwd = 5, type = "l")
+```
+
+#### Stochastic Fishing Models
+Catch rates for a given operation can be highly variable. In fisheries where a lot of vessels operate, the mean aggregate catch rate can be close to the true mean, by the central limit theorem. However, some exceptions exist, especially if vessels do not operate independently (sharing information, non-random sampling, preferential sampling, etc)
+
+##### Purse-Seine Model
+The purse seine model described in the book predicts catch by using a Markov process (transitions between searching and setting states), and time spent on as give state is a random variable where its distribution is conditional on the state. Setting on a school is governed by a binomial process and the waiting time in between setting is governed by a negative exponential (Laplace) (see page 43 for more details). Catch can then be predicted, conditional on search and set times.
+
+#### Angling Gear Model
+This is a similar extension to the purse-seine model but explicitly incorporates components about handling time, attack rates, and in the context of multi-species, incorporates competition/inhibition factors. These models can predict an index of abundance, although the interpretation can be difficult particularly in a multi-species context due to gear/hook competition. 
+
+For example, the book gives an example where in a multi-species case (e.g., the AK longline survey), an increase in CPUE of one species over time might not be due to competition necessarily, but can be due to differences in handling time of the angler - i.e., more catch potentially if handling time is low (depth fished for a given species). Similarly, other species can impact the CPUE, where declines in CPUE of other species and increase the CPUE of a species. 
+
+#### Longline Model
+For a longline survey, the abundance can be nonlinearly related to CPUE, due to gear saturation and competition (inter and intra). Here, the model is similar to the angling gear model where multi-species generalizations can be incorporated. Additionally, components are incorporated to account for removed bait but non-captures. Three probabilities are incorporated: 1) probability a bait is taken, 2) probability species $i$ attacked a hook, and 3) probability that an attack leads to a fish getting hooked. This whole model is represented using multinomial probabilities of species-specific catch (pages 47 - 49). 
+
+More generally, I think a lot of these factors can be incorporated without the use of such an invovled model. In particular, we can incorporated factors from other species in a linear model and standardize CPUE that way. 
 
 ## Chapter 2 (Stock Productivity and Surplus Production)
+
 
 ## Chapter 3 (Stock and Recruitment)
 

@@ -925,11 +925,11 @@ Across all of the surplus production models, several key principles and patterns
 
 1. You can take annual surplus production as yield ($\frac{dP}{dt}$), to keep the population at an equilibrium, 
 
-1. To find equilibrium conditions, we simply need to set the differential equations to 0 e.g., ($\frac{dB}{dt} = 0$),
+1. To find equilibrium conditions, we simply need to set the differential equations to 0 (e.g., $\frac{dB}{dt} = 0$),
 
-1. To find equilibrium yield, biomass, or fishing mortality, we can use the equation $Y^* = F^*B^*$, solve for those quantities, and rearrange this equation around. I think we generally need to solve for $B^*$ by setting $\frac{dB}{dt} = 0$ first to easily derive the other quantities.,
+1. To find equilibrium yield, biomass, or fishing mortality, we can use the equation $Y^* = F^*B^*$, solve for those quantities, and rearrange this equation around. I think we generally need to solve for $B^*$ by setting $\frac{dB}{dt} = 0$ first to easily derive the other quantities,
 
-1. To solve for the biomass at which productivity is maximized, we generally need to set $\frac{dP^.}{dt} = 0$ with respect to B to solve for $B_m$,
+1. To solve for the biomass at which productivity is maximized, we generally need to set $\frac{dP^.}{dB} = 0$ with respect to $B$ to solve for $B_m$,
 
 1. Maximum yield and productivity both occur at $m$ - solved for by replacing $B$ as $B_m$ in $\frac{dP}{dt}$ equations. 
 

@@ -918,6 +918,208 @@ Y_m = P(B_m) = m
 so that maximizing yield is equivalent to maximizing productivity (eq. 2.5, page 53).
 
 ### Gompertz-Fox Model
+The Gompertz-Fox model is a special case of the Pella-Tomlinson in that it approximates the PT model when n converges to 1. The Gompertz model is also controlled by 2 parameters but with a different shape than the GS model:
+
+\begin{equation}
+\frac{dP}{dt} = -em \frac{B}{B_\infty} ln(\frac{B}{B_\infty})
+\end{equation}
+
+Similarly, maximum productivity occurs at $m$, which can be found by setting $\frac{dP}{dt}$ wrt $B$ to 0. Here, maximum productivity occurs at around $0.368B_\infty = B_\infty/e$. Unfortunately, given that its a fixed value and is unable to change (i.e., fixed proportion of carrying capacity), this model is just as inflexible as the GS model. Intuitively, the change in productivity when fishing is present is simply: 
+
+\begin{equation}
+\frac{dP}{dt} = -em \frac{B}{B_\infty} ln(\frac{B}{B_\infty}) - F_tB
+\end{equation}
+
+and equilibrium biomass under fishing occurs at:
+
+\begin{equation}
+B^* = B_\infty exp(\frac{-B_m}{m}F^*)
+\end{equation}
+
+where equilibrium biomass and equilibrium F is a decreasing exponential function (i.e., similar to the conditions in the PT model where n -> 1). 
+
+
+```r
+b_inf = 100 # k
+m = 30 # max productivity
+b_m = b_inf * 0.368 # msy
+eq_F = seq(0.01, 1, 0.05) # equilibrium f
+eq_B = b_inf * exp(-(b_m/m )* eq_F)
+
+plot(eq_F, eq_B, lwd = 5, type = "l", xlab = "F", ylab = "B", 
+     main = "Equilibrium Biomass ~ Equilibrium F (Fox model, PT model; n => 1)")
+```
+
+<img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+
+Equilibrium yield is obtained via $Y^* = F^*B^*$ and substituting the above equation into the yield equation:
+
+\begin{equation}
+Y^* = F^*B_\infty exp(\frac{-B_m}{m}F^*)
+\end{equation}
+
+
+```r
+b_inf = 100 # k
+m = 10 # max productivity
+b_m = b_inf * 0.368 # msy
+eq_F = seq(0.01, 1, 0.05) # equilibrium f
+eq_B = b_inf * exp(-(b_m/m )* eq_F) # equilibrium biomass
+eq_Y = eq_F * eq_B # equilibrium yield 
+par(mfrow = c(1,2))
+plot(eq_B, eq_Y, lwd = 5, type = "l", xlab = "B", ylab = "Y", main = "Equilbrium Yield ~ Equilibrium Biomass")
+plot(eq_F, eq_Y, lwd = 5, type = "l", xlab = "F", ylab = "Y", main = "Equilbrium F ~ Equilibrium Biomass")
+```
+
+<img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-19-1.png" width="672" />
+
+I'm not going to write down the time-dependent equations, but those can be found in page 62 (although working with the difference equations are much easier).
+
+### Fletcher Quadratic Model
+The Fletcher Quadratic model expands the GS model by adding rotation terms. This avoids complications because the exponent in the PT model can be indeterminate. The rotation terms that are added allow the parabolic productivity curves to be rotated to new axes, and can resemble the PT model (eq. 2.28). 
+
+
+### Threshold Models
+In many fish stocks, productivity at low levels are even more reduced compared to the equilibrium methods, and many of these stocks cannot recover even when F is reduced. This suggests that there is a threshold of biomass below which the stock cannot recover. This threshold occurs in these surplus production models, when latent productivity is 0 or negative. For our surplus production models, this can easily be incorporated by adding an additional parameter in the latent productivity equations. For the GS model, this would be:
+
+\begin{equation}
+\frac{dP}{dt} = \frac{4m}{(B_\infty - T)} (B-T) - \frac{4m}{(B_\infty - T)^2} (B-T)^2
+\end{equation}
+
+where $T$ is the additional parameter where the lower biomass level occurs, resulting in 0 latent productivity. This basically shifts the parabola to the right so that productivity is 0 at T.
+
+To incorporate fishing into the equation, simply set $Y = F(B-T)$ when $B >= T$ and 0 when $B < T$. These points for threshold models are illustrated above. In practical applications, I have a hard time imaging the estimability of these models, given that we might not have adequate data to inform the threshold parameter (could be wrong). 
+
+
+```r
+m = 25 # max productivity 
+b_inf = 100 # binf
+t = seq(0,50, 10) # threshold
+b = seq(1, 100, 1) # biomass
+
+col = viridis::viridis(n = length(t))
+for(i in 1:length(t)) {
+  P = (((4*m) / (b_inf - t[i])) * (b-t[i]) ) - (((4*m) / (b_inf - t[i])^2) * (b-t[i])^2 ) # productivity
+  if(i == 1) plot(b, P, type = "l", lwd = 5, col = col[i], xlab = "B", ylab = "P", ylim = c(-25, 25), main = "Latent Productivity (GS Model) at different thresholds")
+  else lines(b, P, type = "l", lwd = 5, col = col[i])
+}
+abline(h = 0, lty = 2, lwd = 3)
+```
+
+<img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-20-1.png" width="672" />
+
+
+### Models with environmental variables
+One constant criticism of these models is that productivity and carrying capacity are constant, when in reality, these can vary over time due to environmental fluctuations. Here equilibrium conditions are functions of the environment (i.e., new equilibrium at each environmental regime/condition). Similarly, the MSY is also a function of environmental conditions. See equations in section 2.1.6 (page 66), although in general, I think this could be done by adding "process error into a parameter and conditioning on an environmental variable". 
+
+### Parameter estimation
+To determine the equilibrium relationships between stock and production, several time periods in which things are at equilibrium need to be observed. For example, it would be helpful for estimation procedures if we observed periods of low stock sizes with without fishing, and periods of high stock sizes without fishing to adequately determine $m$ and $B_\infty$. 
+
+If a time series of yield and effort are available, we can generally use surplus production models to figure out what the population sizes are. So if we have CPUE data, we can use these methods to reconstruct abundance, as we can assume $Y = FB$ and $F = qE$, so $Y = qeB$. An analytical solution (eq. 2.37) can be derived if you make some assumptions for $B_\infty$ if data are available from the onset of the fishery. 
+
+### Annual Surplus Production
+To calculate annual surplus production, it doesn't really matter what model you use as long as you can estimate the latent productivity of the stock and have some information on yield. In this case, we can use the equations defined above $\frac{dB}{dt} = \frac{dP}{dt} - \frac{dY}{dt}$ and rearrange it as:
+
+\begin{equation}
+\frac{dY}{dt} = \frac{dP}{dt} - \frac{dB}{dt} \\
+\int_0^{Y_t} dY = \int_t^{t+1} P(B_t)dt - \int_B^{B+1} dB \\
+Y = \int_t^{t+1} P(B_t)dt - B_{t+1} - B_t \\
+ASP_t = \int_t^{t+1} P(B_t)dt \\
+ASP_t = Y_t + B_{t+1} - B_t
+\end{equation}
+
+Thus, annual surplus production is the sum of yield and the change in biomass from the previous year. Note that your annual surplus production can actually be negative. In particular, if you population is above carrying capacity, then your surplus production is going to be negative. 
+
+As noted, ASP can generally be obtained if we have yield and biomass information. Yield information is easy to get, but biomass might not be known. Instead, we can use CPUE data and estimate $q$ to obtain biomass information: $C/E/q = B$.
+
+### Relationship between surplus production and biomass
+For the GS model, ASP can be estimated as:
+
+\begin{equation}
+ASP_t = \frac{4m}{B_\infty}B_t - \frac{4m}{B^2_\infty}B^2_t + \epsilon_t
+\end{equation}
+
+which basically just results in a linear regression relationship that has a parabolic relationship with biomass. You can estimate this as:
+
+\begin{equation}
+y = \alpha x_1 + \beta x_2 + \epsilon
+\end{equation}
+
+and then rearrange the $\alpha$ and $\beta$ terms to derive management quantities. However, measurement errors are an issue when using these biomass quantities (likely can be alleviated in a state-space approach by partitioning out measurement error and process error). Other rearrangements and formulations can be found in page 69. For ASP for other surplus production formulations, a similar procedure is done where the equilibrium yield equations can be used to derive surplus production, because the population is in equilibrium when yield and productivity are equal. 
+
+For the PT model, estimating the $n$ parameter is quite difficult because the likelihood surface is quite flat and likely not adequate data in estimating the parameter in many cases. In this section, the book goes on to provide equations for reformulating the surplus production equations as a linear model, although given computational tools now, it likely is not necessary for us to use these formulations (i.e., estimate using non-linear optimization methods). 
+
+
+### Recruiment Adjustment in Surplus Production models (Ricker Model Example)
+In these SP models, recruitment is not explicitly accounted for. As in other models, recruitment should be linked to the previous year's biomass. This can be modelled using functional forms like the Ricker:
+
+\begin{equation}
+R_t = S_{t-1}exp(\alpha -\beta S_{t-1}) \\
+R_t / S_{t-1} = exp(\alpha -\beta S_{t-1}) \\
+log(R_t / S_{t-1}) = \alpha -\beta S_{t-1}
+\end{equation}
+
+where both $\alpha$ and $\beta$ are larger than 0. To estimate annual surplus production as recruitment, we need to adjust the surplus production relationship as:
+
+\begin{equation}
+log(ASP_t / B{t-1}) = \alpha -\beta B_{t-1} + \epsilon_t
+\end{equation}
+
+where we simply need to replace $R_t$ with the estimated relationship of $ASP_t$ from equations above. However, for the Ricker model, there is no estimate for $B_\infty$ because recruitment converges to 0 and spawning biomass gets large. 
+
+### Relation ship between Annual Surplus Production and Fishing Effort
+Unlike the relationship with biomass, a simple derivation does not exist for fishing effort. However, some ad-hoc methods for developing these relationships exist (see page 72), where: 
+
+\begin{equation}
+ASP_t = U_\infty E_t - \frac{U^2_\infty}{4m}E^2_t + \epsilon_t
+\end{equation}
+
+and $U_\infty = qB_\infty = C/E$. This relationship can be estimated using a multiple linear regression relationship. In general, we are just re-using the relationships derived above, and replacing them with $C/E = qB_\infty$. 
+
+
+### Schunte's Non-equilibrium Method
+Schunte's method allows the estimation of production parameters ($m$ and $B_\infty$) and catchability:
+
+\begin{equation}
+dU = qdB = \frac{4m}{B_\infty}U - \frac{4m}{qB^2_\infty}U^2 - qE \\
+dU \frac{1}{U} = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty}U - qE \\
+\int_{U_t}^{U_{t+1}} \frac{dU}{U} = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty}U - qE dt \\ 
+U_{t+1} - U_t = \int_{t}^{t+1} \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty}U - qE  \\ 
+log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} U_t - qE_t \\ 
+log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} \frac{U_t + U_{t+1}}{2} = q\frac{E_t + E_{t+1}}{2} + \epsilon_{t+1}\\ 
+\end{equation}
+
+where $U_t$ and $E_t$ are averages between $t, t+1$, which results in a multiple linear regression relationship. Although this requires good contrast in data to adequately estimate the productivity parameters. 
+
+### Difference Equations for Surplus Production
+Difference equations here are way more intuitive and much easier to use, especially given the computational tools we have at hand today. We can calculate changes in biomass using a GS model as: 
+
+\begin{equation}
+\frac{dB}{dt} = B_{t+1} - B_{t} = \frac{4m}{B_\infty}B_t - \frac{4m}{qB^2_\infty}B_t^2 - Y_t
+\end{equation}
+
+which we can then use to project the population forward and make predictions in biomass quantities. Using CPUE data and assuming that $Y_t = qE_tB_t$ and $C_t/E_t = qB_t$, we can use CPUE data to track changes in biomass as an index:
+
+Nonetheless, there are several extensions of these models which change the relationship of yield, q, effort, and biomass. In general, Hilborn found that you need good contrast in your effort and CPUE data to obtain reliable estimates. Constant effort tended to allow for equilibrium yield conditions, while allowing for more variation in yield allows you to learn more about the system and better estimate parameters (seeing a wider range of scenarios for the model to learn from data). More extensions of non-equilibrium methods and difference equation formulations of surplus production models are out there (e.g., Kalman filter/state-space methods) and are briefly discussed in page 75 - 78.
+
+### Synthesis
+#### Relationship between Surplus Production, Recruitment, Growth and Natural Mortality
+The GS model can be written as:
+
+\begin{equation}
+\frac{dB}{dt} =\frac{dP}{dt} - \frac{dY}{dt} = aB - bB^2 - FB
+\end{equation}
+
+where the latter part of the equation is just a linear model. Nonetheless, this shows us that $aB$ increases productivity, $B^2$ is regulation in density dependence, and $FB$ is a linear decrease as a function of fishing. Thus, latent productivity changes as a function of a density dependence effect given the quadratic nature, and changes as a function of a density independent effect when decremented by fishing mortality.
+
+Changes in population sizes are due to recruitment $R$, growth $g$, natural mortality $M$ and yield $Y$, and a general model to describe these changes are implicit in all surplus production models, but can be generally described as:
+
+\begin{equation}
+\frac{dB}{dt} = \frac{dR}{dt} + \frac{dG}{dt} - \frac{dM}{dt} - \frac{dY}{dt}
+\end{equation}
+
+where recruitment, growth, and mortality are combined together and are generally expressed as functions of biomass to allow for density dependence in surplus production models, while density independent effects are due to fishing purely (or environmental if you include those). The general criticism with these models is that you can't parse out time-lags for an individual component of latent productivity (e.g., recruitment, mortality, or growth). The book doesn't discuss this, but it also ignores key components like selectivity and age-structure. 
+
 
 Across all of the surplus production models, several key principles and patterns emerge:
 
@@ -933,7 +1135,9 @@ Across all of the surplus production models, several key principles and patterns
 
 1. Maximum yield and productivity both occur at $m$ - solved for by replacing $B$ as $B_m$ in $\frac{dP}{dt}$ equations. 
 
+1. Annual surplus production is the sum of yield and the change in biomass $ASP_t = Y_t + B_{t-1} - B_t$.
 
+1. In general, equilibrium surplus production models assume equilibrium conditions (duh), especially because stocks are never at equilibrium. Reformulating them as difference equations (aka non-equilibrium methods) will generally outperform equilibrium methods, and should always be used especially when effort data are available. 
 
 ## Chapter 3 (Stock and Recruitment)
 

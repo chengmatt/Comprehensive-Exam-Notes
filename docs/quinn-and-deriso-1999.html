@@ -157,6 +157,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.2.1" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#graham-schaefer-model"><i class="fa fa-check"></i><b>1.2.1</b> Graham-Schaefer Model</a></li>
 <li class="chapter" data-level="1.2.2" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#pella-tomlinson-model"><i class="fa fa-check"></i><b>1.2.2</b> Pella-Tomlinson Model</a></li>
 <li class="chapter" data-level="1.2.3" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#gompertz-fox-model"><i class="fa fa-check"></i><b>1.2.3</b> Gompertz-Fox Model</a></li>
+<li class="chapter" data-level="1.2.4" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#fletcher-quadratic-model"><i class="fa fa-check"></i><b>1.2.4</b> Fletcher Quadratic Model</a></li>
+<li class="chapter" data-level="1.2.5" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#threshold-models"><i class="fa fa-check"></i><b>1.2.5</b> Threshold Models</a></li>
+<li class="chapter" data-level="1.2.6" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#models-with-environmental-variables"><i class="fa fa-check"></i><b>1.2.6</b> Models with environmental variables</a></li>
+<li class="chapter" data-level="1.2.7" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#parameter-estimation"><i class="fa fa-check"></i><b>1.2.7</b> Parameter estimation</a></li>
+<li class="chapter" data-level="1.2.8" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#annual-surplus-production"><i class="fa fa-check"></i><b>1.2.8</b> Annual Surplus Production</a></li>
+<li class="chapter" data-level="1.2.9" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#relationship-between-surplus-production-and-biomass"><i class="fa fa-check"></i><b>1.2.9</b> Relationship between surplus production and biomass</a></li>
+<li class="chapter" data-level="1.2.10" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#recruiment-adjustment-in-surplus-production-models-ricker-model-example"><i class="fa fa-check"></i><b>1.2.10</b> Recruiment Adjustment in Surplus Production models (Ricker Model Example)</a></li>
+<li class="chapter" data-level="1.2.11" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#relation-ship-between-annual-surplus-production-and-fishing-effort"><i class="fa fa-check"></i><b>1.2.11</b> Relation ship between Annual Surplus Production and Fishing Effort</a></li>
+<li class="chapter" data-level="1.2.12" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#schuntes-non-equilibrium-method"><i class="fa fa-check"></i><b>1.2.12</b> Schunte’s Non-equilibrium Method</a></li>
+<li class="chapter" data-level="1.2.13" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#difference-equations-for-surplus-production"><i class="fa fa-check"></i><b>1.2.13</b> Difference Equations for Surplus Production</a></li>
+<li class="chapter" data-level="1.2.14" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#synthesis"><i class="fa fa-check"></i><b>1.2.14</b> Synthesis</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#chapter-3-stock-and-recruitment"><i class="fa fa-check"></i><b>1.3</b> Chapter 3 (Stock and Recruitment)</a></li>
 <li class="chapter" data-level="1.4" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#chapter-4-growth-and-fecundity"><i class="fa fa-check"></i><b>1.4</b> Chapter 4 (Growth and Fecundity)</a></li>
@@ -943,6 +954,163 @@ Y_m = P(B_m) = m
 </div>
 <div id="gompertz-fox-model" class="section level3" number="1.2.3">
 <h3><span class="header-section-number">1.2.3</span> Gompertz-Fox Model</h3>
+<p>The Gompertz-Fox model is a special case of the Pella-Tomlinson in that it approximates the PT model when n converges to 1. The Gompertz model is also controlled by 2 parameters but with a different shape than the GS model:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{dP}{dt} = -em \frac{B}{B_\infty} ln(\frac{B}{B_\infty})
+\end{equation}\]</span></p>
+<p>Similarly, maximum productivity occurs at <span class="math inline">\(m\)</span>, which can be found by setting <span class="math inline">\(\frac{dP}{dt}\)</span> wrt <span class="math inline">\(B\)</span> to 0. Here, maximum productivity occurs at around <span class="math inline">\(0.368B_\infty = B_\infty/e\)</span>. Unfortunately, given that its a fixed value and is unable to change (i.e., fixed proportion of carrying capacity), this model is just as inflexible as the GS model. Intuitively, the change in productivity when fishing is present is simply:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{dP}{dt} = -em \frac{B}{B_\infty} ln(\frac{B}{B_\infty}) - F_tB
+\end{equation}\]</span></p>
+<p>and equilibrium biomass under fishing occurs at:</p>
+<p><span class="math display">\[\begin{equation}
+B^* = B_\infty exp(\frac{-B_m}{m}F^*)
+\end{equation}\]</span></p>
+<p>where equilibrium biomass and equilibrium F is a decreasing exponential function (i.e., similar to the conditions in the PT model where n -&gt; 1).</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="quinn-and-deriso-1999.html#cb19-1" aria-hidden="true" tabindex="-1"></a>b_inf <span class="ot">=</span> <span class="dv">100</span> <span class="co"># k</span></span>
+<span id="cb19-2"><a href="quinn-and-deriso-1999.html#cb19-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">=</span> <span class="dv">30</span> <span class="co"># max productivity</span></span>
+<span id="cb19-3"><a href="quinn-and-deriso-1999.html#cb19-3" aria-hidden="true" tabindex="-1"></a>b_m <span class="ot">=</span> b_inf <span class="sc">*</span> <span class="fl">0.368</span> <span class="co"># msy</span></span>
+<span id="cb19-4"><a href="quinn-and-deriso-1999.html#cb19-4" aria-hidden="true" tabindex="-1"></a>eq_F <span class="ot">=</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="dv">1</span>, <span class="fl">0.05</span>) <span class="co"># equilibrium f</span></span>
+<span id="cb19-5"><a href="quinn-and-deriso-1999.html#cb19-5" aria-hidden="true" tabindex="-1"></a>eq_B <span class="ot">=</span> b_inf <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span>(b_m<span class="sc">/</span>m )<span class="sc">*</span> eq_F)</span>
+<span id="cb19-6"><a href="quinn-and-deriso-1999.html#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="quinn-and-deriso-1999.html#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(eq_F, eq_B, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;F&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;B&quot;</span>, </span>
+<span id="cb19-8"><a href="quinn-and-deriso-1999.html#cb19-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Equilibrium Biomass ~ Equilibrium F (Fox model, PT model; n =&gt; 1)&quot;</span>)</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>Equilibrium yield is obtained via <span class="math inline">\(Y^* = F^*B^*\)</span> and substituting the above equation into the yield equation:</p>
+<p><span class="math display">\[\begin{equation}
+Y^* = F^*B_\infty exp(\frac{-B_m}{m}F^*)
+\end{equation}\]</span></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="quinn-and-deriso-1999.html#cb20-1" aria-hidden="true" tabindex="-1"></a>b_inf <span class="ot">=</span> <span class="dv">100</span> <span class="co"># k</span></span>
+<span id="cb20-2"><a href="quinn-and-deriso-1999.html#cb20-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">=</span> <span class="dv">10</span> <span class="co"># max productivity</span></span>
+<span id="cb20-3"><a href="quinn-and-deriso-1999.html#cb20-3" aria-hidden="true" tabindex="-1"></a>b_m <span class="ot">=</span> b_inf <span class="sc">*</span> <span class="fl">0.368</span> <span class="co"># msy</span></span>
+<span id="cb20-4"><a href="quinn-and-deriso-1999.html#cb20-4" aria-hidden="true" tabindex="-1"></a>eq_F <span class="ot">=</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="dv">1</span>, <span class="fl">0.05</span>) <span class="co"># equilibrium f</span></span>
+<span id="cb20-5"><a href="quinn-and-deriso-1999.html#cb20-5" aria-hidden="true" tabindex="-1"></a>eq_B <span class="ot">=</span> b_inf <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span>(b_m<span class="sc">/</span>m )<span class="sc">*</span> eq_F) <span class="co"># equilibrium biomass</span></span>
+<span id="cb20-6"><a href="quinn-and-deriso-1999.html#cb20-6" aria-hidden="true" tabindex="-1"></a>eq_Y <span class="ot">=</span> eq_F <span class="sc">*</span> eq_B <span class="co"># equilibrium yield </span></span>
+<span id="cb20-7"><a href="quinn-and-deriso-1999.html#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb20-8"><a href="quinn-and-deriso-1999.html#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(eq_B, eq_Y, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;B&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Y&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Equilbrium Yield ~ Equilibrium Biomass&quot;</span>)</span>
+<span id="cb20-9"><a href="quinn-and-deriso-1999.html#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(eq_F, eq_Y, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;F&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Y&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Equilbrium F ~ Equilibrium Biomass&quot;</span>)</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>I’m not going to write down the time-dependent equations, but those can be found in page 62 (although working with the difference equations are much easier).</p>
+</div>
+<div id="fletcher-quadratic-model" class="section level3" number="1.2.4">
+<h3><span class="header-section-number">1.2.4</span> Fletcher Quadratic Model</h3>
+<p>The Fletcher Quadratic model expands the GS model by adding rotation terms. This avoids complications because the exponent in the PT model can be indeterminate. The rotation terms that are added allow the parabolic productivity curves to be rotated to new axes, and can resemble the PT model (eq. 2.28).</p>
+</div>
+<div id="threshold-models" class="section level3" number="1.2.5">
+<h3><span class="header-section-number">1.2.5</span> Threshold Models</h3>
+<p>In many fish stocks, productivity at low levels are even more reduced compared to the equilibrium methods, and many of these stocks cannot recover even when F is reduced. This suggests that there is a threshold of biomass below which the stock cannot recover. This threshold occurs in these surplus production models, when latent productivity is 0 or negative. For our surplus production models, this can easily be incorporated by adding an additional parameter in the latent productivity equations. For the GS model, this would be:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{dP}{dt} = \frac{4m}{(B_\infty - T)} (B-T) - \frac{4m}{(B_\infty - T)^2} (B-T)^2
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(T\)</span> is the additional parameter where the lower biomass level occurs, resulting in 0 latent productivity. This basically shifts the parabola to the right so that productivity is 0 at T.</p>
+<p>To incorporate fishing into the equation, simply set <span class="math inline">\(Y = F(B-T)\)</span> when <span class="math inline">\(B &gt;= T\)</span> and 0 when <span class="math inline">\(B &lt; T\)</span>. These points for threshold models are illustrated above. In practical applications, I have a hard time imaging the estimability of these models, given that we might not have adequate data to inform the threshold parameter (could be wrong).</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="quinn-and-deriso-1999.html#cb21-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">=</span> <span class="dv">25</span> <span class="co"># max productivity </span></span>
+<span id="cb21-2"><a href="quinn-and-deriso-1999.html#cb21-2" aria-hidden="true" tabindex="-1"></a>b_inf <span class="ot">=</span> <span class="dv">100</span> <span class="co"># binf</span></span>
+<span id="cb21-3"><a href="quinn-and-deriso-1999.html#cb21-3" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># threshold</span></span>
+<span id="cb21-4"><a href="quinn-and-deriso-1999.html#cb21-4" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">100</span>, <span class="dv">1</span>) <span class="co"># biomass</span></span>
+<span id="cb21-5"><a href="quinn-and-deriso-1999.html#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="quinn-and-deriso-1999.html#cb21-6" aria-hidden="true" tabindex="-1"></a>col <span class="ot">=</span> viridis<span class="sc">::</span><span class="fu">viridis</span>(<span class="at">n =</span> <span class="fu">length</span>(t))</span>
+<span id="cb21-7"><a href="quinn-and-deriso-1999.html#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(t)) {</span>
+<span id="cb21-8"><a href="quinn-and-deriso-1999.html#cb21-8" aria-hidden="true" tabindex="-1"></a>  P <span class="ot">=</span> (((<span class="dv">4</span><span class="sc">*</span>m) <span class="sc">/</span> (b_inf <span class="sc">-</span> t[i])) <span class="sc">*</span> (b<span class="sc">-</span>t[i]) ) <span class="sc">-</span> (((<span class="dv">4</span><span class="sc">*</span>m) <span class="sc">/</span> (b_inf <span class="sc">-</span> t[i])<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> (b<span class="sc">-</span>t[i])<span class="sc">^</span><span class="dv">2</span> ) <span class="co"># productivity</span></span>
+<span id="cb21-9"><a href="quinn-and-deriso-1999.html#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">==</span> <span class="dv">1</span>) <span class="fu">plot</span>(b, P, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">col =</span> col[i], <span class="at">xlab =</span> <span class="st">&quot;B&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;P&quot;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">25</span>, <span class="dv">25</span>), <span class="at">main =</span> <span class="st">&quot;Latent Productivity (GS Model) at different thresholds&quot;</span>)</span>
+<span id="cb21-10"><a href="quinn-and-deriso-1999.html#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="fu">lines</span>(b, P, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">col =</span> col[i])</span>
+<span id="cb21-11"><a href="quinn-and-deriso-1999.html#cb21-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-12"><a href="quinn-and-deriso-1999.html#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+<div id="models-with-environmental-variables" class="section level3" number="1.2.6">
+<h3><span class="header-section-number">1.2.6</span> Models with environmental variables</h3>
+<p>One constant criticism of these models is that productivity and carrying capacity are constant, when in reality, these can vary over time due to environmental fluctuations. Here equilibrium conditions are functions of the environment (i.e., new equilibrium at each environmental regime/condition). Similarly, the MSY is also a function of environmental conditions. See equations in section 2.1.6 (page 66), although in general, I think this could be done by adding “process error into a parameter and conditioning on an environmental variable.”</p>
+</div>
+<div id="parameter-estimation" class="section level3" number="1.2.7">
+<h3><span class="header-section-number">1.2.7</span> Parameter estimation</h3>
+<p>To determine the equilibrium relationships between stock and production, several time periods in which things are at equilibrium need to be observed. For example, it would be helpful for estimation procedures if we observed periods of low stock sizes with without fishing, and periods of high stock sizes without fishing to adequately determine <span class="math inline">\(m\)</span> and <span class="math inline">\(B_\infty\)</span>.</p>
+<p>If a time series of yield and effort are available, we can generally use surplus production models to figure out what the population sizes are. So if we have CPUE data, we can use these methods to reconstruct abundance, as we can assume <span class="math inline">\(Y = FB\)</span> and <span class="math inline">\(F = qE\)</span>, so <span class="math inline">\(Y = qeB\)</span>. An analytical solution (eq. 2.37) can be derived if you make some assumptions for <span class="math inline">\(B_\infty\)</span> if data are available from the onset of the fishery.</p>
+</div>
+<div id="annual-surplus-production" class="section level3" number="1.2.8">
+<h3><span class="header-section-number">1.2.8</span> Annual Surplus Production</h3>
+<p>To calculate annual surplus production, it doesn’t really matter what model you use as long as you can estimate the latent productivity of the stock and have some information on yield. In this case, we can use the equations defined above <span class="math inline">\(\frac{dB}{dt} = \frac{dP}{dt} - \frac{dY}{dt}\)</span> and rearrange it as:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{dY}{dt} = \frac{dP}{dt} - \frac{dB}{dt} \\
+\int_0^{Y_t} dY = \int_t^{t+1} P(B_t)dt - \int_B^{B+1} dB \\
+Y = \int_t^{t+1} P(B_t)dt - B_{t+1} - B_t \\
+ASP_t = \int_t^{t+1} P(B_t)dt \\
+ASP_t = Y_t + B_{t+1} - B_t
+\end{equation}\]</span></p>
+<p>Thus, annual surplus production is the sum of yield and the change in biomass from the previous year. Note that your annual surplus production can actually be negative. In particular, if you population is above carrying capacity, then your surplus production is going to be negative.</p>
+<p>As noted, ASP can generally be obtained if we have yield and biomass information. Yield information is easy to get, but biomass might not be known. Instead, we can use CPUE data and estimate <span class="math inline">\(q\)</span> to obtain biomass information: <span class="math inline">\(C/E/q = B\)</span>.</p>
+</div>
+<div id="relationship-between-surplus-production-and-biomass" class="section level3" number="1.2.9">
+<h3><span class="header-section-number">1.2.9</span> Relationship between surplus production and biomass</h3>
+<p>For the GS model, ASP can be estimated as:</p>
+<p><span class="math display">\[\begin{equation}
+ASP_t = \frac{4m}{B_\infty}B_t - \frac{4m}{B^2_\infty}B^2_t + \epsilon_t
+\end{equation}\]</span></p>
+<p>which basically just results in a linear regression relationship that has a parabolic relationship with biomass. You can estimate this as:</p>
+<p><span class="math display">\[\begin{equation}
+y = \alpha x_1 + \beta x_2 + \epsilon
+\end{equation}\]</span></p>
+<p>and then rearrange the <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> terms to derive management quantities. However, measurement errors are an issue when using these biomass quantities (likely can be alleviated in a state-space approach by partitioning out measurement error and process error). Other rearrangements and formulations can be found in page 69. For ASP for other surplus production formulations, a similar procedure is done where the equilibrium yield equations can be used to derive surplus production, because the population is in equilibrium when yield and productivity are equal.</p>
+<p>For the PT model, estimating the <span class="math inline">\(n\)</span> parameter is quite difficult because the likelihood surface is quite flat and likely not adequate data in estimating the parameter in many cases. In this section, the book goes on to provide equations for reformulating the surplus production equations as a linear model, although given computational tools now, it likely is not necessary for us to use these formulations (i.e., estimate using non-linear optimization methods).</p>
+</div>
+<div id="recruiment-adjustment-in-surplus-production-models-ricker-model-example" class="section level3" number="1.2.10">
+<h3><span class="header-section-number">1.2.10</span> Recruiment Adjustment in Surplus Production models (Ricker Model Example)</h3>
+<p>In these SP models, recruitment is not explicitly accounted for. As in other models, recruitment should be linked to the previous year’s biomass. This can be modelled using functional forms like the Ricker:</p>
+<p><span class="math display">\[\begin{equation}
+R_t = S_{t-1}exp(\alpha -\beta S_{t-1}) \\
+R_t / S_{t-1} = exp(\alpha -\beta S_{t-1}) \\
+log(R_t / S_{t-1}) = \alpha -\beta S_{t-1}
+\end{equation}\]</span></p>
+<p>where both <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are larger than 0. To estimate annual surplus production as recruitment, we need to adjust the surplus production relationship as:</p>
+<p><span class="math display">\[\begin{equation}
+log(ASP_t / B{t-1}) = \alpha -\beta B_{t-1} + \epsilon_t
+\end{equation}\]</span></p>
+<p>where we simply need to replace <span class="math inline">\(R_t\)</span> with the estimated relationship of <span class="math inline">\(ASP_t\)</span> from equations above. However, for the Ricker model, there is no estimate for <span class="math inline">\(B_\infty\)</span> because recruitment converges to 0 and spawning biomass gets large.</p>
+</div>
+<div id="relation-ship-between-annual-surplus-production-and-fishing-effort" class="section level3" number="1.2.11">
+<h3><span class="header-section-number">1.2.11</span> Relation ship between Annual Surplus Production and Fishing Effort</h3>
+<p>Unlike the relationship with biomass, a simple derivation does not exist for fishing effort. However, some ad-hoc methods for developing these relationships exist (see page 72), where:</p>
+<p><span class="math display">\[\begin{equation}
+ASP_t = U_\infty E_t - \frac{U^2_\infty}{4m}E^2_t + \epsilon_t
+\end{equation}\]</span></p>
+<p>and <span class="math inline">\(U_\infty = qB_\infty = C/E\)</span>. This relationship can be estimated using a multiple linear regression relationship. In general, we are just re-using the relationships derived above, and replacing them with <span class="math inline">\(C/E = qB_\infty\)</span>.</p>
+</div>
+<div id="schuntes-non-equilibrium-method" class="section level3" number="1.2.12">
+<h3><span class="header-section-number">1.2.12</span> Schunte’s Non-equilibrium Method</h3>
+<p>Schunte’s method allows the estimation of production parameters (<span class="math inline">\(m\)</span> and <span class="math inline">\(B_\infty\)</span>) and catchability:</p>
+<p><span class="math display">\[\begin{equation}
+dU = qdB = \frac{4m}{B_\infty}U - \frac{4m}{qB^2_\infty}U^2 - qE \\
+dU \frac{1}{U} = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty}U - qE \\
+\int_{U_t}^{U_{t+1}} \frac{dU}{U} = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty}U - qE dt \\ 
+U_{t+1} - U_t = \int_{t}^{t+1} \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty}U - qE  \\ 
+log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} U_t - qE_t \\ 
+log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} \frac{U_t + U_{t+1}}{2} = q\frac{E_t + E_{t+1}}{2} + \epsilon_{t+1}\\ 
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(U_t\)</span> and <span class="math inline">\(E_t\)</span> are averages between <span class="math inline">\(t, t+1\)</span>, which results in a multiple linear regression relationship. Although this requires good contrast in data to adequately estimate the productivity parameters.</p>
+</div>
+<div id="difference-equations-for-surplus-production" class="section level3" number="1.2.13">
+<h3><span class="header-section-number">1.2.13</span> Difference Equations for Surplus Production</h3>
+<p>Difference equations here are way more intuitive and much easier to use, especially given the computational tools we have at hand today. We can calculate changes in biomass using a GS model as:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{dB}{dt} = B_{t+1} - B_{t} = \frac{4m}{B_\infty}B_t - \frac{4m}{qB^2_\infty}B_t^2 - Y_t
+\end{equation}\]</span></p>
+<p>which we can then use to project the population forward and make predictions in biomass quantities. Using CPUE data and assuming that <span class="math inline">\(Y_t = qE_tB_t\)</span> and <span class="math inline">\(C_t/E_t = qB_t\)</span>, we can use CPUE data to track changes in biomass as an index:</p>
+<p>Nonetheless, there are several extensions of these models which change the relationship of yield, q, effort, and biomass. In general, Hilborn found that you need good contrast in your effort and CPUE data to obtain reliable estimates. Constant effort tended to allow for equilibrium yield conditions, while allowing for more variation in yield allows you to learn more about the system and better estimate parameters (seeing a wider range of scenarios for the model to learn from data). More extensions of non-equilibrium methods and difference equation formulations of surplus production models are out there (e.g., Kalman filter/state-space methods) and are briefly discussed in page 75 - 78.</p>
+</div>
+<div id="synthesis" class="section level3" number="1.2.14">
+<h3><span class="header-section-number">1.2.14</span> Synthesis</h3>
+<div id="relationship-between-surplus-production-recruitment-growth-and-natural-mortality" class="section level4" number="1.2.14.1">
+<h4><span class="header-section-number">1.2.14.1</span> Relationship between Surplus Production, Recruitment, Growth and Natural Mortality</h4>
+<p>The GS model can be written as:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{dB}{dt} =\frac{dP}{dt} - \frac{dY}{dt} = aB - bB^2 - FB
+\end{equation}\]</span></p>
+<p>where the latter part of the equation is just a linear model. Nonetheless, this shows us that <span class="math inline">\(aB\)</span> increases productivity, <span class="math inline">\(B^2\)</span> is regulation in density dependence, and <span class="math inline">\(FB\)</span> is a linear decrease as a function of fishing. Thus, latent productivity changes as a function of a density dependence effect given the quadratic nature, and changes as a function of a density independent effect when decremented by fishing mortality.</p>
+<p>Changes in population sizes are due to recruitment <span class="math inline">\(R\)</span>, growth <span class="math inline">\(g\)</span>, natural mortality <span class="math inline">\(M\)</span> and yield <span class="math inline">\(Y\)</span>, and a general model to describe these changes are implicit in all surplus production models, but can be generally described as:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{dB}{dt} = \frac{dR}{dt} + \frac{dG}{dt} - \frac{dM}{dt} - \frac{dY}{dt}
+\end{equation}\]</span></p>
+<p>where recruitment, growth, and mortality are combined together and are generally expressed as functions of biomass to allow for density dependence in surplus production models, while density independent effects are due to fishing purely (or environmental if you include those). The general criticism with these models is that you can’t parse out time-lags for an individual component of latent productivity (e.g., recruitment, mortality, or growth). The book doesn’t discuss this, but it also ignores key components like selectivity and age-structure.</p>
 <p>Across all of the surplus production models, several key principles and patterns emerge:</p>
 <ol style="list-style-type: decimal">
 <li><p><span class="math inline">\(\frac{dB}{dt} = \frac{dP}{dt} - \frac{dY}{dt}\)</span>, where changes in biomass are equal to changes in latent productivity and changes in yield, resulting in a change in “net productivity,”</p></li>
@@ -951,7 +1119,10 @@ Y_m = P(B_m) = m
 <li><p>To find equilibrium yield, biomass, or fishing mortality, we can use the equation <span class="math inline">\(Y^* = F^*B^*\)</span>, solve for those quantities, and rearrange this equation around. I think we generally need to solve for <span class="math inline">\(B^*\)</span> by setting <span class="math inline">\(\frac{dB}{dt} = 0\)</span> first to easily derive the other quantities,</p></li>
 <li><p>To solve for the biomass at which productivity is maximized, we generally need to set <span class="math inline">\(\frac{dP^.}{dB} = 0\)</span> with respect to <span class="math inline">\(B\)</span> to solve for <span class="math inline">\(B_m\)</span>,</p></li>
 <li><p>Maximum yield and productivity both occur at <span class="math inline">\(m\)</span> - solved for by replacing <span class="math inline">\(B\)</span> as <span class="math inline">\(B_m\)</span> in <span class="math inline">\(\frac{dP}{dt}\)</span> equations.</p></li>
+<li><p>Annual surplus production is the sum of yield and the change in biomass <span class="math inline">\(ASP_t = Y_t + B_{t-1} - B_t\)</span>.</p></li>
+<li><p>In general, equilibrium surplus production models assume equilibrium conditions (duh), especially because stocks are never at equilibrium. Reformulating them as difference equations (aka non-equilibrium methods) will generally outperform equilibrium methods, and should always be used especially when effort data are available.</p></li>
 </ol>
+</div>
 </div>
 </div>
 <div id="chapter-3-stock-and-recruitment" class="section level2" number="1.3">

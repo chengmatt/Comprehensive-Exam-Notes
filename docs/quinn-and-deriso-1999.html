@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 1 Quinn and Deriso (1999) | Cheng Comprehensive Exam Notes (Spring 2024)</title>
   <meta name="description" content="Chapter 1 Quinn and Deriso (1999) | Cheng Comprehensive Exam Notes (Spring 2024)" />
-  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 1 Quinn and Deriso (1999) | Cheng Comprehensive Exam Notes (Spring 2024)" />
   <meta property="og:type" content="book" />
+  
   
   
   <meta name="github-repo" content="chengmatt/Comprehensive-Exam-Notes" />
@@ -23,7 +24,7 @@
 <meta name="author" content="Matthew LH. Cheng" />
 
 
-<meta name="date" content="2024-01-16" />
+<meta name="date" content="2024-01-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,6 +33,7 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="broad-stock-assessment-questions.html"/>
+<script src="libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -49,9 +51,8 @@
 
 
 
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -92,7 +93,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
+code span.bu { } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +106,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.im { } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -202,12 +203,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="quinn-and-deriso-1999" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">Chapter 1</span> Quinn and Deriso (1999)<a href="quinn-and-deriso-1999.html#quinn-and-deriso-1999" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="chapter-1-population-growth-mortality-and-the-fishing-process" class="section level2 hasAnchor" number="1.1">
-<h2><span class="header-section-number">1.1</span> Chapter 1 (Population Growth, Mortality, and the Fishing Process)<a href="quinn-and-deriso-1999.html#chapter-1-population-growth-mortality-and-the-fishing-process" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="geometric-and-exponential-growth" class="section level3 hasAnchor" number="1.1.1">
-<h3><span class="header-section-number">1.1.1</span> Geometric and Exponential Growth<a href="quinn-and-deriso-1999.html#geometric-and-exponential-growth" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="quinn-and-deriso-1999" class="section level1" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Quinn and Deriso (1999)</h1>
+<div id="chapter-1-population-growth-mortality-and-the-fishing-process" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Chapter 1 (Population Growth, Mortality, and the Fishing Process)</h2>
+<div id="geometric-and-exponential-growth" class="section level3" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> Geometric and Exponential Growth</h3>
 <ul>
 <li><p>Representing changes in populations can be done in two ways: 1) time-discrete functions (difference equations), and 2) continuous functions (differential equations). Additionally, changes in population growth here are represented as either geometric or exponential. These population models presented below refer to the geometric and exponential laws of growth.</p></li>
 <li><p>A common assumption in the difference equation setting is that population growth or decline changes as a constant ratio from one point to the next:</p></li>
@@ -243,9 +244,9 @@ N_{t} = N_0R^t
 \end{equation}\]</span></p>
 <p>which yields the following after using lHoptial’s Rule:</p>
 <p><span class="math display">\[\begin{equation}
-\frac{dN(t)}{dt} = rN(t) \\
+\frac{dN(t)}{dt} = rN(t) \\ 
 \int_{N_0}^{N} \frac{1}{N(t)} dN(t) = \int rdt \\
-logN - logN_0 = rt \\
+logN - logN_0 = rt \\ 
 logN = logN_0 + rt\\
 N_t = N_0e^{rt}
 \end{equation}\]</span></p>
@@ -259,8 +260,8 @@ N_t = N_0e^{rt}
 <span id="cb2-8"><a href="quinn-and-deriso-1999.html#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(N<span class="sc">*</span><span class="fu">exp</span>(R_1<span class="fl">.5</span><span class="sc">*</span>t), <span class="at">xlab =</span> <span class="st">&quot;Age&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;N&quot;</span>, <span class="at">main =</span> <span class="st">&quot;r = 1.5&quot;</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span></code></pre></div>
 <p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>For both the difference and differential equation representation, the change in abundance is directly proportional to its previous abundance. Similarly, r the parameter that describes instantaneous growth demonstrates a population that declines exponentially if r &lt; 0, and increases exponentially when r &gt; 0.</p>
-<div id="cell-division-example-1.4" class="section level4 hasAnchor" number="1.1.1.1">
-<h4><span class="header-section-number">1.1.1.1</span> Cell Division Example 1.4<a href="quinn-and-deriso-1999.html#cell-division-example-1.4" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="cell-division-example-1.4" class="section level4" number="1.1.1.1">
+<h4><span class="header-section-number">1.1.1.1</span> Cell Division Example 1.4</h4>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="quinn-and-deriso-1999.html#cb3-1" aria-hidden="true" tabindex="-1"></a>N0 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># start numbers</span></span>
 <span id="cb3-2"><a href="quinn-and-deriso-1999.html#cb3-2" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">2</span>) <span class="co"># change in growth</span></span>
 <span id="cb3-3"><a href="quinn-and-deriso-1999.html#cb3-3" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">6</span>, <span class="fl">0.1</span>) <span class="co"># time sequence</span></span>
@@ -273,14 +274,14 @@ N_t = N_0e^{rt}
 <p>The example above showcases the danger of using a continuous model to calculate changes in populations when the model is actually a discrete time index. i.e., the abundance is different for time 4.5, compared to time 4 or time 5. An additional deficiency to some of these models is that it assumes growth in the population occurs without any bound (i.e., no carrying capacity).</p>
 </div>
 </div>
-<div id="logistic-model" class="section level3 hasAnchor" number="1.1.2">
-<h3><span class="header-section-number">1.1.2</span> Logistic Model<a href="quinn-and-deriso-1999.html#logistic-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="logistic-model" class="section level3" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> Logistic Model</h3>
 <ul>
 <li>Population growth cannot increase without bounds, because it is mediated by density dependent factors (e.g., food diseases, space limitations, and competition) can lead to changes in K (carrying capacity). As the population approaches K, your change in growth should begin to slow down.</li>
 </ul>
 <p>The logistic model is given below by including a linear modifying factor (1 - N/K) to reduce growth rates as N approaches K:</p>
 <p><span class="math display">\[\begin{equation}
-\frac{dN}{dt} = rN(1-\frac{N}{k}) \\
+\frac{dN}{dt} = rN(1-\frac{N}{k}) \\ 
 N_t = \frac{N_0e^{rt}}{1 - \frac{N_0}{K} + \frac{N_0}{K}e^{rt}}
 \end{equation}\]</span></p>
 <p>where the denominator of the second equation is a dampening factor to make sure the numerator doesn’t increase without bound. As you can see in the plot below, as N0 approaches K, the denominator gets larger, which reduces the change in the numerator such that is dampens it and is unable to increase without bound. When N &gt; K, it decreases exponentially, and when N = K, growth is constant. When N &lt; K, it increases sigmoidally. The differential equation is pretty easy to solve, but involves some annoying algebra to rearrange and calculate partial fractions for the N and r terms.</p>
@@ -299,8 +300,8 @@ N_t = \frac{N_0e^{rt}}{1 - \frac{N_0}{K} + \frac{N_0}{K}e^{rt}}
 <span id="cb4-13"><a href="quinn-and-deriso-1999.html#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>((<span class="dv">1</span> <span class="sc">-</span> N03<span class="sc">/</span>K <span class="sc">+</span> N03<span class="sc">/</span>K <span class="sc">*</span> <span class="fu">exp</span>(r<span class="sc">*</span>t)), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Denomiator&quot;</span>)</span></code></pre></div>
 <p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
-<div id="time-varying-parameters" class="section level3 hasAnchor" number="1.1.3">
-<h3><span class="header-section-number">1.1.3</span> Time-varying parameters<a href="quinn-and-deriso-1999.html#time-varying-parameters" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="time-varying-parameters" class="section level3" number="1.1.3">
+<h3><span class="header-section-number">1.1.3</span> Time-varying parameters</h3>
 <ul>
 <li>Logistic growth model and the r and K parameters do not necessarily have to be constant, but instead can vary as a function of time. This can happen if let’s say productivity of the population changes via a regime shift, or if there is a competitor has been removed from the population so as to free up resources available to the species of interest. (Reference page 7 for derivation).</li>
 <li>In general, the effect of r is greatest when populations are small, and the effect of K is greatest when the population is big. Furthermore, the change in population tends to be weighted more heavily towards the most recent K - given that the integral of Eq. 1.15 is the weighted harmonic mean of previous carrying capacities (I don’t really get that part…)</li>
@@ -320,15 +321,15 @@ N_t = \frac{N_0e^{rt}}{1 - \frac{N_0}{K} + \frac{N_0}{K}e^{rt}}
 <span id="cb5-13"><a href="quinn-and-deriso-1999.html#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(t, N01 <span class="sc">*</span> <span class="fu">exp</span>(r <span class="sc">*</span> t) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> (N01<span class="sc">/</span>K) <span class="sc">+</span> (N01<span class="sc">/</span>K <span class="sc">*</span> <span class="fu">exp</span>(r<span class="sc">*</span>t))), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;N&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Time-varying r and K&quot;</span>)</span></code></pre></div>
 <p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
-<div id="multi-species-extensions-page-9" class="section level3 hasAnchor" number="1.1.4">
-<h3><span class="header-section-number">1.1.4</span> Multi-species extensions (Page 9)<a href="quinn-and-deriso-1999.html#multi-species-extensions-page-9" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="multi-species-extensions-page-9" class="section level3" number="1.1.4">
+<h3><span class="header-section-number">1.1.4</span> Multi-species extensions (Page 9)</h3>
 <ul>
 <li><p>Multi-species extensions of the logistic growth model is needed because species can compete for the same resources, which can lead to decreasing population growth with increasing population sizes when multiple species interact - as is the case for many populations. However, this can also include both positive and negative relationships (parasite-host, mutualism, protocooperation, etc). In the extensions of multi-species models for logistic growth, the impact of competition is primarily to lower the equilibrium abundance of carrying capacity of the other species (makes sense because there are less resources for them in equilibrium).</p></li>
 <li><p>In general, these models are seldom used for management, but are generally used for exploring hypotheses about species interactions, ecosystem information about bioenergetics and food habits, etc. They’re hard to parameterize because species interactions are highly variable, different response functions among species, and probably confounding with other variables. All of this leads to poor prediction.</p></li>
 </ul>
 </div>
-<div id="theory-of-mortality" class="section level3 hasAnchor" number="1.1.5">
-<h3><span class="header-section-number">1.1.5</span> Theory of Mortality<a href="quinn-and-deriso-1999.html#theory-of-mortality" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="theory-of-mortality" class="section level3" number="1.1.5">
+<h3><span class="header-section-number">1.1.5</span> Theory of Mortality</h3>
 <ul>
 <li>Key principle: The abundance of an age-class decreases as it ages because of mortality.
 The following equation is commonly used in modern day stock assessments:</li>
@@ -349,14 +350,14 @@ N_{t+\tau} = N_te^{-Z_t\tau}
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(\tau\)</span> represents the fraction of the year and partitions out Z to be a fraction.</p>
 </div>
-<div id="theory-of-fishing" class="section level3 hasAnchor" number="1.1.6">
-<h3><span class="header-section-number">1.1.6</span> Theory of Fishing<a href="quinn-and-deriso-1999.html#theory-of-fishing" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="theory-of-fishing" class="section level3" number="1.1.6">
+<h3><span class="header-section-number">1.1.6</span> Theory of Fishing</h3>
 <ul>
 <li>Total mortality is decomposed into natural mortality and fishing mortality, both of which are commonly represented as instantaneous rates. Thus Z = F+M and the resultant population dynamics would look like:</li>
 </ul>
 <p><span class="math display">\[\begin{equation}
 \frac{dN}{dt} = -FN - MN = -(F + M)N \\
-N_t = N_0e^{-Z_t} = N_0e^{-(F+M)t}
+N_t = N_0e^{-Z_t} = N_0e^{-(F+M)t} 
 \end{equation}\]</span></p>
 <p>Thus, catch (C) is then composed of:</p>
 <p><span class="math display">\[\begin{equation}
@@ -374,9 +375,9 @@ C = \int_0^\tau -FNdt \\
 \end{equation}\]</span></p>
 <p>Solving for <span class="math inline">\(\int_0^\tau -FNdt\)</span> we get:</p>
 <p><span class="math display">\[\begin{equation}
-\int_0^\tau FNdt = \int_0^\tau -FN_0e^{-Zt}dt \\
-= -FN_0 \int_0^\tau e^{-Zt}dt \\
-= -FN_0 \int_0^\tau e^{-Zt}dt \\
+\int_0^\tau FNdt = \int_0^\tau -FN_0e^{-Zt}dt \\ 
+= -FN_0 \int_0^\tau e^{-Zt}dt \\ 
+= -FN_0 \int_0^\tau e^{-Zt}dt \\ 
 = -FN_0 [-\frac{1}{Z} (e^{-Zt}-e^0)] \\
 = -FN_0 [-\frac{1}{Z}e^{-Zt}+\frac{1}{Z}e^0)] \\
 = FN_0 [\frac{1}{Z} - \frac{1}{Z}e^{-Zt}] \\
@@ -396,8 +397,8 @@ N_t = [N_0e^{-\frac{1}{2}Zt} - C]e^{-M(t-\frac{1}{2})}\\
 \end{equation}\]</span></p>
 <p>where t is now equal to 1 and we are simply incorporating only natural mortality in the latter half of the year.</p>
 </div>
-<div id="stochastic-theory-of-fishing" class="section level3 hasAnchor" number="1.1.7">
-<h3><span class="header-section-number">1.1.7</span> Stochastic Theory of Fishing<a href="quinn-and-deriso-1999.html#stochastic-theory-of-fishing" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="stochastic-theory-of-fishing" class="section level3" number="1.1.7">
+<h3><span class="header-section-number">1.1.7</span> Stochastic Theory of Fishing</h3>
 <ul>
 <li>Rarely is it the case that we have deterministic fishing - i.e., F does not vary nor does M. We can use statistical methods to incorporate stochasticity into the fishing process, although there are some key assumptions: 1) no immigration, recruitment, or emigration from the population.</li>
 </ul>
@@ -407,8 +408,8 @@ p_j = \int_{t_j}^{t_j+1}F_tr_tdt \\
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(p_j\)</span> is the probability an individual is captured, <span class="math inline">\(F_t\)</span> is the fishing mortality at time t, and <span class="math inline">\(r_t\)</span> is the probability and individual survives, and is a function of fishing and natural mortality (integrate over an interval to get it). Given this, the probability of not capturing an individual is therefore <span class="math inline">\(q = 1 - p_j\)</span>. So for a given cohort, the catch distribution can be assumed to follow a multinomial distribution, where the expectation and variances are simply derived from the binomial (multinomial individual components are binomially distributed) (e.g., <span class="math inline">\(E(C_j) = N_0p_j, V(C_j) = N_0p_j(1-p_j)\)</span>). Following a similar fashion, the probability of selecting N individuals (the random variable) from a cohort then follows a binomial distribution with probability equal to <span class="math inline">\(r_t\)</span> (individuals survive) and the total number of samples taken equalling to <span class="math inline">\(N_0\)</span> (initial abundance). Thus, these equations allow for stochasticity in both catch and abundance and are random variables that are governed by some statistical distribution with a set sample space (e.g., binomial, multinomial). Allowing for stochastic theory here therefore allows us to figure out what the variances and uncertainty of our population estimates are.</p>
 </div>
-<div id="cpue-and-fishing-process" class="section level3 hasAnchor" number="1.1.8">
-<h3><span class="header-section-number">1.1.8</span> CPUE and Fishing Process<a href="quinn-and-deriso-1999.html#cpue-and-fishing-process" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="cpue-and-fishing-process" class="section level3" number="1.1.8">
+<h3><span class="header-section-number">1.1.8</span> CPUE and Fishing Process</h3>
 <ul>
 <li>Catch is the product of both fishing mortality and the abundance of the population <span class="math inline">\(C = FN\)</span>, therefore, changes in catch equals changes in either fishing mortality or abundance and are confounded if you want to interpret changes in abundance. Effort data is needed to better parse out whether catch is changing (fluctuations in catch) due to F or N.</li>
 </ul>
@@ -425,7 +426,7 @@ Ft = qE
 <p>where q is the catchability coefficient - denoting the fraction of N individuals captured per unit effort. If q remains constant, then a higher effort equates to a higher fishing mortality rate. If q changes (which can reflect improvements in fishing gear, targeting practices, expansion into other areas, etc.) the fishing mortality can also get modified. So if catch is proportional to FN, then rewriting <span class="math inline">\(C = FN\)</span> yields:</p>
 <p><span class="math display">\[\begin{equation}
 C = FN \\
-C = qEN \\
+C = qEN \\ 
 \frac{C}{E} = qN
 \end{equation}\]</span></p>
 <p>where catch-per-unit effort can be assumed to be proportional to changes in abundance, if q is constant over time (rarely the case). Even if q is not known, you can still use CPUE to figure out relative changes in abundance. If q is known, you can simply divide CPUE by q to get N. If information about area swept or effective fishing area is known, you can extrapolate out to the total area sampled to get total abundance as well:</p>
@@ -439,11 +440,11 @@ N = \frac{A}{qE}C \\
 \frac{N}{qE} = AC\\
 NqE = AC \\
 \frac{N}{A}q = \frac{C}{E} \\
-qD = \frac{C}{E}
+qD = \frac{C}{E} 
 \end{equation}\]</span></p>
 <p>and the changes in population density are therefore proportional to changes in CPUE, assuming that area swept is proportional to fishing effort (i.e., if area swept increases, then fishing effort increases as well).</p>
-<div id="regional-considerations-of-cpue-data" class="section level4 hasAnchor" number="1.1.8.1">
-<h4><span class="header-section-number">1.1.8.1</span> Regional considerations of CPUE data<a href="quinn-and-deriso-1999.html#regional-considerations-of-cpue-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="regional-considerations-of-cpue-data" class="section level4" number="1.1.8.1">
+<h4><span class="header-section-number">1.1.8.1</span> Regional considerations of CPUE data</h4>
 <ul>
 <li>In some cases, we might want to compare CPUE data among regions. If certain areas fished (i.e., management areas) have different CPUEs, the interpreation of relative abundance can depend on the space of that area. For example, if you fish in a small area and you have the same CPUE as a large area, that implies that the small area has a larger density of fish than the large area.</li>
 </ul>
@@ -454,7 +455,7 @@ qD = \frac{C}{E}
 <p>where the subscript <span class="math inline">\(r\)</span> denotes region. To get the total abundance <span class="math inline">\(N\)</span>, its simply a sum of the densities extrapolated to the total area where one just has to cancel out the denominator of area in the density calculations:</p>
 <p><span class="math display">\[\begin{equation}
 N = \sum_rN_r = \sum_r A_rD_r \\
-N = \sum_r A_r\frac{N_r}{A_r} \\
+N = \sum_r A_r\frac{N_r}{A_r} \\ 
 \end{equation}\]</span></p>
 <p>These equations suggest that when using CPUE data to interpret overall population trends, we need to weight the CPUE data by the area. Taking a simple sum without weighting by area can lead to spurious conclusions about population trends (i.e., because the densities by area are different).</p>
 <ul>
@@ -462,13 +463,13 @@ N = \sum_r A_r\frac{N_r}{A_r} \\
 <li><p>The naive use of CPUE data should be cautioned against e.g.,: <span class="math inline">\(\frac{C}{E} = \frac{\sum_rC_r}{\sum_rE_r}\)</span> because you are not weighting the effort appropriately. Essentially, what happens here is that CPUE is now weighted by effort - this is only valid when fishing is uniformly distributed in relation to fish habitat (i.e., random sampling).</p></li>
 </ul>
 </div>
-<div id="cpue-standardization-and-selectivity" class="section level4 hasAnchor" number="1.1.8.2">
-<h4><span class="header-section-number">1.1.8.2</span> CPUE standardization and selectivity<a href="quinn-and-deriso-1999.html#cpue-standardization-and-selectivity" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="cpue-standardization-and-selectivity" class="section level4" number="1.1.8.2">
+<h4><span class="header-section-number">1.1.8.2</span> CPUE standardization and selectivity</h4>
 <ul>
 <li>The use of CPUE is centered on the fact that q is constant across space and time, etc. However, q can change from vessel to vessel, areas, and time, because of differences in soak time, use of different gear, new advances, etc. Thus, to correctly interpret CPUE data, q needs to be corrected for such that it remains constant. For example, if q increases, while the abundance decreases, you CPUE can still be increasing - which leads to hyperstability.</li>
 </ul>
-<div id="standardization" class="section level5 hasAnchor" number="1.1.8.2.1">
-<h5><span class="header-section-number">1.1.8.2.1</span> Standardization<a href="quinn-and-deriso-1999.html#standardization" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<div id="standardization" class="section level5" number="1.1.8.2.1">
+<h5><span class="header-section-number">1.1.8.2.1</span> Standardization</h5>
 <ul>
 <li>Two general approaches: 1) standardized by fishing power coefficients (less done now that we have computational tools, and also more expensive), and 2) using statistical models (e.g., GLM, GAMs, VAST).</li>
 </ul>
@@ -479,8 +480,8 @@ FishingPower_i = \frac{U_i}{U_j}
 <p>where <span class="math inline">\(U\)</span> is CPUE and FishingPower reflects the ratio of CPUEs. If gear <span class="math inline">\(i\)</span> is better at catching fish per unit of effort, then <span class="math inline">\(FishingPower_i &gt; 1\)</span>, vice versa. Effective effort can then be calculated as <span class="math inline">\(EffE_i = FishingPower_iE_i\)</span>, which is then used as to calculate CPUE <span class="math inline">\(\frac{C_i}{EffE_i}\)</span> to make them comparable among gears or areas, etc.</p>
 <p>The second approach is to use some form of a linear model to estimate fishing power coefficients - which are the parameters of the model. Effective effort can then be estimated by multiplying the fishing power coefficients by the observed effort. The total effective effort would then be summed across the reference effort level and the effective effort and the standardized CPUE would be calculated by summing catch across the levels (without any modification) and dividing by the effective effort, giving us our CPUE trend. Note that model-based methods will change in terms of the CPUE trend obtained as you continue to add new data.</p>
 </div>
-<div id="selectivity" class="section level5 hasAnchor" number="1.1.8.2.2">
-<h5><span class="header-section-number">1.1.8.2.2</span> Selectivity<a href="quinn-and-deriso-1999.html#selectivity" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<div id="selectivity" class="section level5" number="1.1.8.2.2">
+<h5><span class="header-section-number">1.1.8.2.2</span> Selectivity</h5>
 <ul>
 <li>Selectivity refers to catching fish of particular size or age ranges. Gear selectivity is a function of fishing mortality and catchability. Thus, changes in catchability is a special case of changes in selectivity (potentially confounded in assessment applications).</li>
 </ul>
@@ -492,7 +493,7 @@ q_x = s_xq
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(s_x\)</span> is the selectivity for a given category, and catchability can be calculated for a given category (e.g., proportion of the stock of category x caught with one unit of effort). Furthermore, CPUE is then not a reflection of the overall stock, but rather the component of the stock that is selected by the fishery (e.g., the exploitable population):</p>
 <p><span class="math display">\[\begin{equation}
-\frac{C_x}{E_x} = qs_xN_x
+\frac{C_x}{E_x} = qs_xN_x 
 \end{equation}\]</span></p>
 <p>Using the same ideas as fishing power coefficients, if the average abundance doesn’t change substantially (e.g., survey) such as to impact CPUE (because you can cancel out the N), then you can compare the CPUE specific to category x to understand the relative catchability between two different gears:</p>
 <p><span class="math display">\[\begin{equation}
@@ -501,12 +502,12 @@ q_x = s_xq
 <p>where <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span> refer to the different gears. As you can see above, selectivity and catchability are confounded and you can only compare the relative selectivities between the two different gear types (because q cannot easily be distinguished). In the context of an assessment, it really shows the importance of getting q correct/constant and standardizing the CPUE such that information from selectivity can be attributed to the selectivity process rather than the catchability process. In general, the comparison between gear selectivities are a special case of CPUE standardization - i.e., comparing the fishing power coefficients and making them relative to some reference gear.</p>
 <p>CPUE standardization and investigation of gear selectivities can be investigated jointly. One approach would be to construct age or length specific CPUE, the other approach would be to add in these bins as a factor in a linear model, and look at how CPUE changes as a function of bins.</p>
 </div>
-<div id="sampling-cpue-data" class="section level5 hasAnchor" number="1.1.8.2.3">
-<h5><span class="header-section-number">1.1.8.2.3</span> Sampling CPUE data<a href="quinn-and-deriso-1999.html#sampling-cpue-data" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<div id="sampling-cpue-data" class="section level5" number="1.1.8.2.3">
+<h5><span class="header-section-number">1.1.8.2.3</span> Sampling CPUE data</h5>
 <p>Assuming that CPUE is collected with random sampling, the variance of catch sampled is proportional to fishing effort (i.e., more samples and more effort = lower variance; see Eq. 1.46 and 1.47). Subsequent calculations for the variance of effort and CPUE can be found in pages 26 - 27, and simply follows the linear properties of variances using their expected values.</p>
 </div>
-<div id="more-complex-models-for-cpue" class="section level5 hasAnchor" number="1.1.8.2.4">
-<h5><span class="header-section-number">1.1.8.2.4</span> More Complex Models for CPUE<a href="quinn-and-deriso-1999.html#more-complex-models-for-cpue" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<div id="more-complex-models-for-cpue" class="section level5" number="1.1.8.2.4">
+<h5><span class="header-section-number">1.1.8.2.4</span> More Complex Models for CPUE</h5>
 <p>As noted above, catchability might not be constant due to a variety of factors, and might not be linearly related to abundance. Several models can be constructed and one such model raises effort and abundance to estimated parameters to get non-linear relationships:</p>
 <p><span class="math display">\[\begin{equation}
 C = qE^{\alpha + 1} N^{\beta + 1} \\
@@ -536,14 +537,14 @@ C = qE^\alpha E N^\beta N \\
 <p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>In the case where <span class="math inline">\(\alpha\)</span> changes, it changes the relationship between fishing mortality and effort. Recall that <span class="math inline">\(F = qE\)</span>. Thus, F no longer changes linearly with effort. Similar to the relationship between hyperstability and hyperdepletion, when <span class="math inline">\(\alpha = 0\)</span>, the relationship between F and effort is linear, when <span class="math inline">\(-1 &lt; \alpha &lt; 0\)</span> more effort leads to what we term as gear saturation (more effort = less incremental catch), and when <span class="math inline">\(\alpha &gt; 0\)</span>, it leads to what we term as gear synergy (more effort = more incremental catch). Other extensions of these models (accounting for non-linear relationships between F and effort and abundance and CPUE) are similar and more flexible options are available (see page 29).</p>
 </div>
-<div id="statistical-models-for-cpue" class="section level5 hasAnchor" number="1.1.8.2.5">
-<h5><span class="header-section-number">1.1.8.2.5</span> Statistical models for CPUE<a href="quinn-and-deriso-1999.html#statistical-models-for-cpue" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<div id="statistical-models-for-cpue" class="section level5" number="1.1.8.2.5">
+<h5><span class="header-section-number">1.1.8.2.5</span> Statistical models for CPUE</h5>
 <p>To fit statistical models for CPUE (using the more “complex” models described above), one needs to figure out what distribution to use to adequately characterize the uncertainty in CPUE predictions. Back in the day, we would do a bunch of different transformations (e.g., log, Box-Cox) and use Poisson approximations to fit models to CPUE data, likely given computational demands. However, in the modern day, we are now able to use more complex statistical distributions (e.g., Tweedie, negative-binomial) to fit to CPUE data. The book gives a full detailed explanation taking you step-by-step how the MLE process is done, as well as getting the mean and variances using mgf and integration methods, and the delta method (pages 31 - 33).</p>
 <p>There are couple ways to obtain confidence intervals for the median of CPUE, which include: 1) the delta method as mentioned above <span class="math inline">\(\sqrt n (g(X_n) - g(\mu)) \xrightarrow{D} N(0,\sigma_\mu^2 g^`(\mu)^2)\)</span>, 2) likelihood profiles, 3) reparameterize the model so that you are estimating the median instead of the mean, 3) brute-force methods (e.g., bootstrapping, MCMC).</p>
 </div>
 </div>
-<div id="other-considerations-w-cpue-data-schooling-searching" class="section level4 hasAnchor" number="1.1.8.3">
-<h4><span class="header-section-number">1.1.8.3</span> Other considerations w/ CPUE data (Schooling, Searching)<a href="quinn-and-deriso-1999.html#other-considerations-w-cpue-data-schooling-searching" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="other-considerations-w-cpue-data-schooling-searching" class="section level4" number="1.1.8.3">
+<h4><span class="header-section-number">1.1.8.3</span> Other considerations w/ CPUE data (Schooling, Searching)</h4>
 <p>There are several considerations that need to be accounted for when using CPUE data. Under a scenario where we are using passive fishing gear (e.g., hook and line w/ bait) where fish are attracted to bait, there is a potential for increased variance in your catch because of aggregations (i.e., sampling is not representative of the entire population or similar to clustering issues - need to account for covariances in variance calculations). No bias is expected to occur unless when there is severe competition for bait (e.g., hook competition) or the fishery is in areas of high abundance.</p>
 <p>In terms of active searching gear, there are some other implications that need to be considered, particularly when fishing for schooling species. The book gives an example where if a sampling process is random and a small fraction of the school is taken, the number of schools stays the same, but the population goes down. In this case, using encounter non-encounter data (i.e., binomial likelihood) would give us an index on the number of schools in the population, but not the overall population (i.e., more encounters = more schools). The other issue the book points out is that if catch per unit effort is used, and the catch of the school remains constant per unit effort, your average CPUE will remain the same, but abundance declines, which might not be reflected in your data (I don’t really get this point…). Nonetheless, the general consensus is that using CPUE for schooling fish can be tricky.</p>
 <p>Some models have been developed to estimate the encounter rates as a function of predator search and handling time (Michaelis-Menten equation):</p>
@@ -578,8 +579,8 @@ n = \frac{a\tau_sD}{1 + a\tau_hD}
 <span id="cb8-10"><a href="quinn-and-deriso-1999.html#cb8-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
-<div id="line-transect-model-schooling-populations" class="section level4 hasAnchor" number="1.1.8.4">
-<h4><span class="header-section-number">1.1.8.4</span> Line Transect Model (Schooling Populations)<a href="quinn-and-deriso-1999.html#line-transect-model-schooling-populations" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="line-transect-model-schooling-populations" class="section level4" number="1.1.8.4">
+<h4><span class="header-section-number">1.1.8.4</span> Line Transect Model (Schooling Populations)</h4>
 <p>Some other extensions of this model provided by the book uses line transect theory, where the total number of schools encountered is the ratio of effective area search and the total area occupied by the population, multiplied by the number of schools:</p>
 <p><span class="math display">\[\begin{equation}
 E(n_t) = \frac{2L_tc(S_t)}{A}N_t \\
@@ -601,8 +602,8 @@ T{t+1} = T_t - C_t
 <p>In an example where we have data for number of schools encountered, length of search, and catch from each encounter, then three CPUE measures can be used: 1) schools / length of search, 2) catch / length of search, and 3) catch / school encountered. The expected values of the CPUE measures can easily be derived using the aforementioned equations and rearrange them (see page 39). In general, these relationships (CPUE) show that CPUE is not directly proportional to the abundance of the schools or the average school size, and is often hard to interpret. In reality, you need information on encounter rates, fragmentation rates, school size, etc. to really understand what’s going on with schooling population dynamics. Welp… we went through all these equations, just to find out that none of the CPUE measures above do a great job of describing the population…</p>
 </div>
 </div>
-<div id="schooling-population-example-vagaries-of-cpue" class="section level3 hasAnchor" number="1.1.9">
-<h3><span class="header-section-number">1.1.9</span> Schooling Population Example (Vagaries of CPUE)<a href="quinn-and-deriso-1999.html#schooling-population-example-vagaries-of-cpue" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="schooling-population-example-vagaries-of-cpue" class="section level3" number="1.1.9">
+<h3><span class="header-section-number">1.1.9</span> Schooling Population Example (Vagaries of CPUE)</h3>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="quinn-and-deriso-1999.html#cb9-1" aria-hidden="true" tabindex="-1"></a>N_1 <span class="ot">=</span> <span class="dv">100</span> <span class="co"># number of schools in pop</span></span>
 <span id="cb9-2"><a href="quinn-and-deriso-1999.html#cb9-2" aria-hidden="true" tabindex="-1"></a>S_t <span class="ot">=</span> <span class="dv">10</span> <span class="co"># number of individuals per school</span></span>
 <span id="cb9-3"><a href="quinn-and-deriso-1999.html#cb9-3" aria-hidden="true" tabindex="-1"></a>T_1 <span class="ot">=</span> N_1 <span class="sc">*</span> S_t <span class="co"># number of total individuals</span></span>
@@ -655,12 +656,12 @@ T{t+1} = T_t - C_t
 <span id="cb10-8"><a href="quinn-and-deriso-1999.html#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(N_vec, Cn, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">xlab =</span> <span class="st">&quot;Total Schools&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Catch / Schools Encountered&quot;</span> )</span></code></pre></div>
 <p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
 <p>As you can see, an increase in the number of schools does not necessarily reflect an increase in the numbers (because of fragmentation). Catch / number of schools encountered, results in a constant CPUE, while an increase in encounters and catch / length searched reflects a lower population size, and an increase in the aforementioned CPUE measures leads to an increased number of schools detected (but the population size is reduced). So this is all to say its hard to figure out a good index for schooling populations, especially if fragmentation occurs.</p>
-<div id="effects-of-catchability-differing-between-individuals" class="section level4 hasAnchor" number="1.1.9.1">
-<h4><span class="header-section-number">1.1.9.1</span> Effects of Catchability differing between individuals<a href="quinn-and-deriso-1999.html#effects-of-catchability-differing-between-individuals" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="effects-of-catchability-differing-between-individuals" class="section level4" number="1.1.9.1">
+<h4><span class="header-section-number">1.1.9.1</span> Effects of Catchability differing between individuals</h4>
 <p>Catchability can differ between individuals because of learned behaviors (avoidance), propensity to bite hooks, habitat preference of a cohort (e.g., the catchability of a large cohort might increase b/c they’re everywhere, similar to AK sablefish). Nonetheless, during the initial period, the catchability of the cohort will be high, but after removing individuals with high catchability, the ones remaining in the population actually have low catchability.</p>
 <p>A possible model for describing the catchability processes above is described below and is conditional on catchability decreasing because of increased effort on the stock (i.e., quickly removing vulnerable individuals first). This can easily be implemented within an assessment model using penalized or state-space approaches:</p>
 <p><span class="math display">\[\begin{equation}
-u(t,q) = 1 - exp(-qE_t) \\
+u(t,q) = 1 - exp(-qE_t) \\ 
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(E_t\)</span> is the effort expended and <span class="math inline">\(u(t,q)\)</span> is the probability of capture (basically the number of fish that died due to fishing because its just <span class="math inline">\(qE_t = F\)</span>). Hence, the above equation is just our annual death fraction. Thus, the probability an individual survives is <span class="math inline">\(P(survive|q) = exp(-qE_t)\)</span>, which is what we formerly termed as our annual survival fraction.</p>
 <p>To get the probability density of <span class="math inline">\(q\)</span> given that a fish survives, we need to multiply the probability that a fish survives <span class="math inline">\(exp(-qE_t)\)</span> by the density function of <span class="math inline">\(q\)</span> given that there is prior fishing, and integrate it to normalize:</p>
@@ -720,32 +721,32 @@ V_t(q) = r/\lambda^2_t \\
 <span id="cb12-22"><a href="quinn-and-deriso-1999.html#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(t, q_t <span class="sc">*</span> sel, <span class="at">xlab =</span> <span class="st">&quot;t&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;q * Sel&quot;</span>, <span class="at">main =</span> <span class="st">&quot;q * Gear Selectivity&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span></code></pre></div>
 <p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
-<div id="stochastic-fishing-models" class="section level4 hasAnchor" number="1.1.9.2">
-<h4><span class="header-section-number">1.1.9.2</span> Stochastic Fishing Models<a href="quinn-and-deriso-1999.html#stochastic-fishing-models" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="stochastic-fishing-models" class="section level4" number="1.1.9.2">
+<h4><span class="header-section-number">1.1.9.2</span> Stochastic Fishing Models</h4>
 <p>Catch rates for a given operation can be highly variable. In fisheries where a lot of vessels operate, the mean aggregate catch rate can be close to the true mean, by the central limit theorem. However, some exceptions exist, especially if vessels do not operate independently (sharing information, non-random sampling, preferential sampling, etc)</p>
-<div id="purse-seine-model" class="section level5 hasAnchor" number="1.1.9.2.1">
-<h5><span class="header-section-number">1.1.9.2.1</span> Purse-Seine Model<a href="quinn-and-deriso-1999.html#purse-seine-model" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<div id="purse-seine-model" class="section level5" number="1.1.9.2.1">
+<h5><span class="header-section-number">1.1.9.2.1</span> Purse-Seine Model</h5>
 <p>The purse seine model described in the book predicts catch by using a Markov process (transitions between searching and setting states), and time spent on as give state is a random variable where its distribution is conditional on the state. Setting on a school is governed by a binomial process and the waiting time in between setting is governed by a negative exponential (Laplace) (see page 43 for more details). Catch can then be predicted, conditional on search and set times.</p>
 </div>
 </div>
-<div id="angling-gear-model" class="section level4 hasAnchor" number="1.1.9.3">
-<h4><span class="header-section-number">1.1.9.3</span> Angling Gear Model<a href="quinn-and-deriso-1999.html#angling-gear-model" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="angling-gear-model" class="section level4" number="1.1.9.3">
+<h4><span class="header-section-number">1.1.9.3</span> Angling Gear Model</h4>
 <p>This is a similar extension to the purse-seine model but explicitly incorporates components about handling time, attack rates, and in the context of multi-species, incorporates competition/inhibition factors. These models can predict an index of abundance, although the interpretation can be difficult particularly in a multi-species context due to gear/hook competition.</p>
 <p>For example, the book gives an example where in a multi-species case (e.g., the AK longline survey), an increase in CPUE of one species over time might not be due to competition necessarily, but can be due to differences in handling time of the angler - i.e., more catch potentially if handling time is low (depth fished for a given species). Similarly, other species can impact the CPUE, where declines in CPUE of other species and increase the CPUE of a species.</p>
 </div>
-<div id="longline-model" class="section level4 hasAnchor" number="1.1.9.4">
-<h4><span class="header-section-number">1.1.9.4</span> Longline Model<a href="quinn-and-deriso-1999.html#longline-model" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="longline-model" class="section level4" number="1.1.9.4">
+<h4><span class="header-section-number">1.1.9.4</span> Longline Model</h4>
 <p>For a longline survey, the abundance can be nonlinearly related to CPUE, due to gear saturation and competition (inter and intra). Here, the model is similar to the angling gear model where multi-species generalizations can be incorporated. Additionally, components are incorporated to account for removed bait but non-captures. Three probabilities are incorporated: 1) probability a bait is taken, 2) probability species <span class="math inline">\(i\)</span> attacked a hook, and 3) probability that an attack leads to a fish getting hooked. This whole model is represented using multinomial probabilities of species-specific catch (pages 47 - 49).</p>
 <p>More generally, I think a lot of these factors can be incorporated without the use of such an invovled model. In particular, we can incorporated factors from other species in a linear model and standardize CPUE that way.</p>
 </div>
 </div>
 </div>
-<div id="chapter-2-stock-productivity-and-surplus-production" class="section level2 hasAnchor" number="1.2">
-<h2><span class="header-section-number">1.2</span> Chapter 2 (Stock Productivity and Surplus Production)<a href="quinn-and-deriso-1999.html#chapter-2-stock-productivity-and-surplus-production" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="chapter-2-stock-productivity-and-surplus-production" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Chapter 2 (Stock Productivity and Surplus Production)</h2>
 <p>The main goal of determining stock productivity is to understand the surplus that can be harvested after accounting for recruitment, mortality, and growth. Here, the subsequent models described are simplistic and make a lot of assumptions - i.e., the stock is an aggregate of a population, and no direct accounting is made of growth, natural mortality, age, structure, recruitment, and species interactions (biomass dynamics models). The book establishes some notation below, which I’m not the biggest fan of, so I’ll make my own simplifications:</p>
 <p><span class="math display">\[\begin{equation}
 B = NW \\
-Y = CW
+Y = CW 
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(B\)</span> is biomass, <span class="math inline">\(N\)</span> is numbers, <span class="math inline">\(Y\)</span> and <span class="math inline">\(C\)</span> are yield and catch, and <span class="math inline">\(W\)</span> is weight (average). The book defines latent productivity as the instantaneous biomass production when fishing is absent. Latent productivity is a function of biomass alone. Equations are provided below for latent productivity:</p>
 <p><span class="math display">\[\begin{equation}
@@ -767,7 +768,7 @@ Y^* = P^.(B^*) \tau \\
 \end{equation}\]</span></p>
 <p>where the last part of the equation tells us if our model is an annual time step, we can harvest the population at a rate of <span class="math inline">\(\frac{Y^*}{\tau}\)</span> to keep the population in equilibrium without driving the stock above or below its current level. Yield generally has the relationship of:</p>
 <p><span class="math display">\[\begin{equation}
-\frac{dY}{dt} = F_tB_t
+\frac{dY}{dt} = F_tB_t 
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(F_t\)</span> is the fishing mortality rate. The equilibrium yield can then be solved for by replacing <span class="math inline">\(F_t\)</span> with <span class="math inline">\(F^*\)</span> if biomass is at an equilibrium:</p>
 <p><span class="math display">\[\begin{equation}
@@ -775,11 +776,11 @@ Y^*/\tau = F^*B^* \\
 F^* = Y^*/\tau/B^* = P(B^*)/B^* \\
 \end{equation}\]</span></p>
 <p>if fishing mortality is <span class="math inline">\(F = qE\)</span>, then we can also similarly solve for equilibrium effort. Thus, solving for these equilibrium quantities allows us to solve for effort or fishing mortality rates that would result in equilibrium yield - i.e., how much can we remove from the population without depleting it. These models also often have a carrying capacity parameter (<span class="math inline">\(B_\infty\)</span>), where when no fishing occurs, it converges toward this value.</p>
-<div id="graham-schaefer-model" class="section level3 hasAnchor" number="1.2.1">
-<h3><span class="header-section-number">1.2.1</span> Graham-Schaefer Model<a href="quinn-and-deriso-1999.html#graham-schaefer-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="graham-schaefer-model" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Graham-Schaefer Model</h3>
 <p>This model is our typical parabolic curve, where the midpoint is where our productivity is maximized. In general, we will use the Fletcher formulation of this:</p>
 <p><span class="math display">\[\begin{equation}
-P(B^.) = \frac{4m}{B_\infty} (1 -\frac{B}{B_\infty}) B
+P(B^.) = \frac{4m}{B_\infty} (1 -\frac{B}{B_\infty}) B 
 \end{equation}\]</span></p>
 <p>To solve for equilibrium conditions and solve for where maximum productivity occurs, we need to set this equation to 0:
 <span class="math display">\[\begin{equation}
@@ -788,7 +789,7 @@ P(B^.) = \frac{4m}{B_\infty} (1 -\frac{B}{B_\infty}) B = 0
 <p>although the equation has two solutions, 1) when <span class="math inline">\(B = 0\)</span> and 2) when <span class="math inline">\(B = B_\infty\)</span> because of <span class="math inline">\((1 -\frac{B}{B_\infty})\)</span>. To understand the regions in which equilibrium occurs, i.e., where productivity does not change (<span class="math inline">\(\frac{dP^.}{dB} = 0\)</span>). To understand where productivity is maximized, solve for:</p>
 <p><span class="math display">\[\begin{equation}
 \frac{dP^.}{dB} = \frac{4m}{B_\infty} - \frac{8mB}{B^2_\infty} = 0 \\
-B_m = \frac{B_\infty}{2}
+B_m = \frac{B_\infty}{2} 
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(B_m\)</span> is the biomass at which productivity is maximized and the population is at equilibrium. Maximum productivity of this stock can then be solved for by replacing <span class="math inline">\(B_m\)</span> into the Fletcher equation and yields <span class="math inline">\(m\)</span>.</p>
 <p>When fishing occurs in the population, the change is biomass is then defined as:</p>
@@ -812,8 +813,8 @@ Y^* = F^*B^* = qE^*B^* \\
 <p>To collate everything together, the points at which yield/productivity is maximized are:
 <span class="math display">\[\begin{equation}
 B_m = B_\infty / 2 \\
-F_m = 2m / B_\infty \\
-E_m = 2m / qB_\infty
+F_m = 2m / B_\infty \\ 
+E_m = 2m / qB_\infty 
 \end{equation}\]</span></p>
 <p>because of the relationship between yield and latent productivity <span class="math inline">\(Y_m = P(B_m) = m\)</span> and the relationship between yield, biomass, and fishing mortality where <span class="math inline">\(Y = FB = qEB\)</span></p>
 <p>The figures below illustrates the behavior of equilibrium F, effort, yield, and biomass. All these relationships are parabolic and the maximum productivity occurs in the middle of the curve. Note that these are not rates of change.</p>
@@ -860,8 +861,8 @@ B_t = \frac{B^*}{1 + \frac{B^*-B_0}{B_0}exp(-(4m/B_\infty-F^*)t)}
 <p>The biomass decreases exponentially when <span class="math inline">\(B_0 &gt; B^*\)</span>, increases sigmoidally when <span class="math inline">\(B_0 &lt; B^*\)</span>, and remains constant when both are equal. If F exceeds <span class="math inline">\(4m/B_\infty\)</span>, then the stock is driven to extinction because the rate of decrease surpasses the rate of increase.</p>
 <p>Yield is calculated similarly by integrating over its relationship <span class="math inline">\(dY/dt = FB\)</span> (see equation 2.10 in book), where equilibrium yield increases with increased equilibrium F in a similar fashion (i.e., following logistic growth patterns). In general, all of these equilibrium calculations can lead to new equilibrium being defined, and your reference points can change - especially in the situation where you have time-varying productivity parameters.</p>
 </div>
-<div id="pella-tomlinson-model" class="section level3 hasAnchor" number="1.2.2">
-<h3><span class="header-section-number">1.2.2</span> Pella-Tomlinson Model<a href="quinn-and-deriso-1999.html#pella-tomlinson-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="pella-tomlinson-model" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Pella-Tomlinson Model</h3>
 <p>The Graham-Schaefer model is not flexible and is critcized because maximum sustainable yiled always occurs at the middle of the parabolic curve, and is a symmetric relationship. However, these yield curves might not be symmetric and may shift left or right. The Pella-Tomlinson model introduces a new parameter <span class="math inline">\(n\)</span> that can shift this curve left or right. Fletcher reformulated this to make it more interpretable as:</p>
 <p><span class="math display">\[\begin{equation}
 \frac{dP}{dt} = \gamma m (\frac{B}{B_\infty}) - \gamma m (\frac{B}{B_\infty})^n \\
@@ -930,8 +931,8 @@ Y^* = F^*B_\infty (1 - \frac{B_\infty}{\gamma m}F^*)^{1/(n-1)}\\
 <p>To collate everything together, the points at which yield/productivity is maximized are:
 <span class="math display">\[\begin{equation}
 B_m = n^{1/(1-n)}B_\infty \\
-F_m = (n-1/n) (\gamma m / B_\infty )\\
-E_m = (n-1/n) (\gamma m / qB_\infty) \\
+F_m = (n-1/n) (\gamma m / B_\infty )\\ 
+E_m = (n-1/n) (\gamma m / qB_\infty) \\ 
 \end{equation}\]</span></p>
 <p>for <span class="math inline">\(B_m\)</span>, that is found by setting the productivity equation for the Pella-Tomlinson to 0 and solving the derivative, and the subsequent equations for F and E are found by substituting <span class="math inline">\(B_m\)</span> into <span class="math inline">\(F_m = m / B_m\)</span> and <span class="math inline">\(E_m = F_m /q\)</span> using the general equations <span class="math inline">\(dY/dt = F_tB_t\)</span> and <span class="math inline">\(F_t = qE_t\)</span>.</p>
 <p>Note that for all of the aforementioned equations, MSY in yield occurs at maximum productivity (under fishing conditions in this case):</p>
@@ -940,11 +941,11 @@ Y_m = P(B_m) = m
 \end{equation}\]</span></p>
 <p>so that maximizing yield is equivalent to maximizing productivity (eq. 2.5, page 53).</p>
 </div>
-<div id="gompertz-fox-model" class="section level3 hasAnchor" number="1.2.3">
-<h3><span class="header-section-number">1.2.3</span> Gompertz-Fox Model<a href="quinn-and-deriso-1999.html#gompertz-fox-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="gompertz-fox-model" class="section level3" number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Gompertz-Fox Model</h3>
 <p>Across all of the surplus production models, several key principles and patterns emerge:</p>
 <ol style="list-style-type: decimal">
-<li><p><span class="math inline">\(\frac{dB}{dt} = \frac{dP}{dt} - \frac{dY}{dt}\)</span>, where changes in biomass are equal to changes in latent productivity and changes in yield, resulting in a change in “net productivity”,</p></li>
+<li><p><span class="math inline">\(\frac{dB}{dt} = \frac{dP}{dt} - \frac{dY}{dt}\)</span>, where changes in biomass are equal to changes in latent productivity and changes in yield, resulting in a change in “net productivity,”</p></li>
 <li><p>You can take annual surplus production as yield (<span class="math inline">\(\frac{dP}{dt}\)</span>), to keep the population at an equilibrium,</p></li>
 <li><p>To find equilibrium conditions, we simply need to set the differential equations to 0 (e.g., <span class="math inline">\(\frac{dB}{dt} = 0\)</span>),</p></li>
 <li><p>To find equilibrium yield, biomass, or fishing mortality, we can use the equation <span class="math inline">\(Y^* = F^*B^*\)</span>, solve for those quantities, and rearrange this equation around. I think we generally need to solve for <span class="math inline">\(B^*\)</span> by setting <span class="math inline">\(\frac{dB}{dt} = 0\)</span> first to easily derive the other quantities,</p></li>
@@ -953,32 +954,32 @@ Y_m = P(B_m) = m
 </ol>
 </div>
 </div>
-<div id="chapter-3-stock-and-recruitment" class="section level2 hasAnchor" number="1.3">
-<h2><span class="header-section-number">1.3</span> Chapter 3 (Stock and Recruitment)<a href="quinn-and-deriso-1999.html#chapter-3-stock-and-recruitment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="chapter-3-stock-and-recruitment" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Chapter 3 (Stock and Recruitment)</h2>
 </div>
-<div id="chapter-4-growth-and-fecundity" class="section level2 hasAnchor" number="1.4">
-<h2><span class="header-section-number">1.4</span> Chapter 4 (Growth and Fecundity)<a href="quinn-and-deriso-1999.html#chapter-4-growth-and-fecundity" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="chapter-4-growth-and-fecundity" class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Chapter 4 (Growth and Fecundity)</h2>
 </div>
-<div id="chapter-5-delay-difference-models" class="section level2 hasAnchor" number="1.5">
-<h2><span class="header-section-number">1.5</span> Chapter 5 (Delay Difference Models)<a href="quinn-and-deriso-1999.html#chapter-5-delay-difference-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="chapter-5-delay-difference-models" class="section level2" number="1.5">
+<h2><span class="header-section-number">1.5</span> Chapter 5 (Delay Difference Models)</h2>
 </div>
-<div id="chapter-6-per-recruit-and-year-class-models" class="section level2 hasAnchor" number="1.6">
-<h2><span class="header-section-number">1.6</span> Chapter 6 (Per Recruit and Year Class Models)<a href="quinn-and-deriso-1999.html#chapter-6-per-recruit-and-year-class-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="chapter-6-per-recruit-and-year-class-models" class="section level2" number="1.6">
+<h2><span class="header-section-number">1.6</span> Chapter 6 (Per Recruit and Year Class Models)</h2>
 </div>
-<div id="chapter-7-renewal-theory" class="section level2 hasAnchor" number="1.7">
-<h2><span class="header-section-number">1.7</span> Chapter 7 (Renewal Theory)<a href="quinn-and-deriso-1999.html#chapter-7-renewal-theory" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="chapter-7-renewal-theory" class="section level2" number="1.7">
+<h2><span class="header-section-number">1.7</span> Chapter 7 (Renewal Theory)</h2>
 </div>
-<div id="chapter-8-catch-age-and-age-structured-assessment-methods" class="section level2 hasAnchor" number="1.8">
-<h2><span class="header-section-number">1.8</span> Chapter 8 (Catch age and Age structured Assessment Methods)<a href="quinn-and-deriso-1999.html#chapter-8-catch-age-and-age-structured-assessment-methods" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="chapter-8-catch-age-and-age-structured-assessment-methods" class="section level2" number="1.8">
+<h2><span class="header-section-number">1.8</span> Chapter 8 (Catch age and Age structured Assessment Methods)</h2>
 </div>
-<div id="chapter-9-size-structured-models-and-assessment-methods" class="section level2 hasAnchor" number="1.9">
-<h2><span class="header-section-number">1.9</span> Chapter 9 (Size structured Models and Assessment Methods)<a href="quinn-and-deriso-1999.html#chapter-9-size-structured-models-and-assessment-methods" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="chapter-9-size-structured-models-and-assessment-methods" class="section level2" number="1.9">
+<h2><span class="header-section-number">1.9</span> Chapter 9 (Size structured Models and Assessment Methods)</h2>
 </div>
-<div id="chapter-10-migration-movement-and-other-spatiotemporal-considerations" class="section level2 hasAnchor" number="1.10">
-<h2><span class="header-section-number">1.10</span> Chapter 10 (Migration Movement and Other Spatiotemporal Considerations)<a href="quinn-and-deriso-1999.html#chapter-10-migration-movement-and-other-spatiotemporal-considerations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="chapter-10-migration-movement-and-other-spatiotemporal-considerations" class="section level2" number="1.10">
+<h2><span class="header-section-number">1.10</span> Chapter 10 (Migration Movement and Other Spatiotemporal Considerations)</h2>
 </div>
-<div id="chapter-11-optimal-harvesting" class="section level2 hasAnchor" number="1.11">
-<h2><span class="header-section-number">1.11</span> Chapter 11 (Optimal Harvesting)<a href="quinn-and-deriso-1999.html#chapter-11-optimal-harvesting" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="chapter-11-optimal-harvesting" class="section level2" number="1.11">
+<h2><span class="header-section-number">1.11</span> Chapter 11 (Optimal Harvesting)</h2>
 
 </div>
 </div>
@@ -1048,7 +1049,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

@@ -2,6 +2,6 @@ book_filename: "bookdown-start"
 chapter_name: "Chapter "
 repo: https://github.com/chengmatt/Comprehensive-Exam-Notes
 output_dir: docs
-rmd_files: ["index.Rmd", "01-Quinn-and-Deriso-1999.Rmd", "02-Broad-Stock-Assessment-Questions.Rmd"]
+rmd_files: ["index.Rmd", "01-Quinn-and-Deriso-1999.Rmd", "01.2-Broad-Stock-Assessment-Questions.Rmd"]
 clean: [packages.bib, bookdown.bbl]
 new_session: yes

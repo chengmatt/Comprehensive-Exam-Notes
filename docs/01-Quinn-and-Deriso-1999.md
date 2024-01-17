@@ -920,12 +920,18 @@ so that maximizing yield is equivalent to maximizing productivity (eq. 2.5, page
 ### Gompertz-Fox Model
 
 Across all of the surplus production models, several key principles and patterns emerge:
+
 1. $\frac{dB}{dt} = \frac{dP}{dt} - \frac{dY}{dt}$, where changes in biomass are equal to changes in latent productivity and changes in yield, resulting in a change in "net productivity", 
-2. You can take annual surplus production as yield, to keep the population at an equilibrium, 
-2. To find equilibrium conditions, we simply need to set the differential equations to 0 e.g., ($\frac{dB}{dt} = 0$),
-3. To find equilibrium yield, biomass, or fishing mortality, we can use the equation $Y^* = F^*B^*$, solve for those quantities, and rearrange this equation around. I think we generally need to solve for $B^*$ by setting $\frac{dB}{dt} = 0$ first to easily derive the other quantities. 
-4. To solve for the biomass at which productivity is maximized, we generally need to set $\frac{dP^.}{dt} = 0$ with respect to B to solve for $B_m$.
-5. Maximum yield and productivity both occur at $m$ - solved for by replacing $B$ as $B_m$ in $\frac{dP}{dt}$ equations. 
+
+1. You can take annual surplus production as yield ($\frac{dP}{dt}$), to keep the population at an equilibrium, 
+
+1. To find equilibrium conditions, we simply need to set the differential equations to 0 e.g., ($\frac{dB}{dt} = 0$),
+
+1. To find equilibrium yield, biomass, or fishing mortality, we can use the equation $Y^* = F^*B^*$, solve for those quantities, and rearrange this equation around. I think we generally need to solve for $B^*$ by setting $\frac{dB}{dt} = 0$ first to easily derive the other quantities.,
+
+1. To solve for the biomass at which productivity is maximized, we generally need to set $\frac{dP^.}{dt} = 0$ with respect to B to solve for $B_m$,
+
+1. Maximum yield and productivity both occur at $m$ - solved for by replacing $B$ as $B_m$ in $\frac{dP}{dt}$ equations. 
 
 
 

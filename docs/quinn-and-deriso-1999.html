@@ -155,7 +155,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="1.2.1" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#graham-schaefer-model"><i class="fa fa-check"></i><b>1.2.1</b> Graham-Schaefer Model</a></li>
 <li class="chapter" data-level="1.2.2" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#pella-tomlinson-model"><i class="fa fa-check"></i><b>1.2.2</b> Pella-Tomlinson Model</a></li>
-<li class="chapter" data-level="1.2.3" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#fox-model"><i class="fa fa-check"></i><b>1.2.3</b> Fox Model</a></li>
+<li class="chapter" data-level="1.2.3" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#gompertz-fox-model"><i class="fa fa-check"></i><b>1.2.3</b> Gompertz-Fox Model</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#chapter-3-stock-and-recruitment"><i class="fa fa-check"></i><b>1.3</b> Chapter 3 (Stock and Recruitment)</a></li>
 <li class="chapter" data-level="1.4" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#chapter-4-growth-and-fecundity"><i class="fa fa-check"></i><b>1.4</b> Chapter 4 (Growth and Fecundity)</a></li>
@@ -785,9 +785,9 @@ P(B^.) = \frac{4m}{B_\infty} (1 -\frac{B}{B_\infty}) B
 <span class="math display">\[\begin{equation}
 P(B^.) = \frac{4m}{B_\infty} (1 -\frac{B}{B_\infty}) B = 0
 \end{equation}\]</span></p>
-<p>although the equation has two solutions, 1) when <span class="math inline">\(B = 0\)</span> and 2) when <span class="math inline">\(B = B_\infty\)</span> because of <span class="math inline">\((1 -\frac{B}{B_\infty})\)</span>. To understand the regions in which equilibrium occurs, i.e., where productivity does not change (<span class="math inline">\(\frac{dP^.}{B} = 0\)</span>), solve for:</p>
+<p>although the equation has two solutions, 1) when <span class="math inline">\(B = 0\)</span> and 2) when <span class="math inline">\(B = B_\infty\)</span> because of <span class="math inline">\((1 -\frac{B}{B_\infty})\)</span>. To understand the regions in which equilibrium occurs, i.e., where productivity does not change (<span class="math inline">\(\frac{dP^.}{dB} = 0\)</span>). To understand where productivity is maximized, solve for:</p>
 <p><span class="math display">\[\begin{equation}
-\frac{dP^.}{B} = \frac{4m}{B_\infty} - \frac{8mB}{B^2_\infty} \\
+\frac{dP^.}{dB} = \frac{4m}{B_\infty} - \frac{8mB}{B^2_\infty} = 0 \\
 B_m = \frac{B_\infty}{2}
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(B_m\)</span> is the biomass at which productivity is maximized and the population is at equilibrium. Maximum productivity of this stock can then be solved for by replacing <span class="math inline">\(B_m\)</span> into the Fletcher equation and yields <span class="math inline">\(m\)</span>.</p>
@@ -815,7 +815,7 @@ B_m = B_\infty / 2 \\
 F_m = 2m / B_\infty \\
 E_m = 2m / qB_\infty
 \end{equation}\]</span></p>
-<p>because of the relationship between yield, biomass, and F <span class="math inline">\(Y = FB = qEB\)</span> and the relationship between yield and latent productivity <span class="math inline">\(Y_m = P(B_m) = m\)</span>.</p>
+<p>because of the relationship between yield and latent productivity <span class="math inline">\(Y_m = P(B_m) = m\)</span> and the relationship between yield, biomass, and fishing mortality where <span class="math inline">\(Y = FB = qEB\)</span></p>
 <p>The figures below illustrates the behavior of equilibrium F, effort, yield, and biomass. All these relationships are parabolic and the maximum productivity occurs in the middle of the curve. Note that these are not rates of change.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="quinn-and-deriso-1999.html#cb14-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">=</span> <span class="dv">25</span> <span class="co"># maximum productivity</span></span>
 <span id="cb14-2"><a href="quinn-and-deriso-1999.html#cb14-2" aria-hidden="true" tabindex="-1"></a>B_inf <span class="ot">=</span> <span class="dv">100</span> <span class="co"># K of biomass</span></span>
@@ -940,8 +940,15 @@ Y_m = P(B_m) = m
 \end{equation}\]</span></p>
 <p>so that maximizing yield is equivalent to maximizing productivity (eq. 2.5, page 53).</p>
 </div>
-<div id="fox-model" class="section level3 hasAnchor" number="1.2.3">
-<h3><span class="header-section-number">1.2.3</span> Fox Model<a href="quinn-and-deriso-1999.html#fox-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="gompertz-fox-model" class="section level3 hasAnchor" number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Gompertz-Fox Model<a href="quinn-and-deriso-1999.html#gompertz-fox-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Across all of the surplus production models, several key principles and patterns emerge:
+1. <span class="math inline">\(\frac{dB}{dt} = \frac{dP}{dt} - \frac{dY}{dt}\)</span>, where changes in biomass are equal to changes in latent productivity and changes in yield, resulting in a change in “net productivity”,
+2. You can take annual surplus production as yield, to keep the population at an equilibrium,
+2. To find equilibrium conditions, we simply need to set the differential equations to 0 e.g., (<span class="math inline">\(\frac{dB}{dt} = 0\)</span>),
+3. To find equilibrium yield, biomass, or fishing mortality, we can use the equation <span class="math inline">\(Y^* = F^*B^*\)</span>, solve for those quantities, and rearrange this equation around. I think we generally need to solve for <span class="math inline">\(B^*\)</span> by setting <span class="math inline">\(\frac{dB}{dt} = 0\)</span> first to easily derive the other quantities.
+4. To solve for the biomass at which productivity is maximized, we generally need to set <span class="math inline">\(\frac{dP^.}{dt} = 0\)</span> with respect to B to solve for <span class="math inline">\(B_m\)</span>.
+5. Maximum yield and productivity both occur at <span class="math inline">\(m\)</span> - solved for by replacing <span class="math inline">\(B\)</span> as <span class="math inline">\(B_m\)</span> in <span class="math inline">\(\frac{dP}{dt}\)</span> equations.</p>
 </div>
 </div>
 <div id="chapter-3-stock-and-recruitment" class="section level2 hasAnchor" number="1.3">

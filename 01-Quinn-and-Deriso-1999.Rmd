@@ -669,10 +669,10 @@ To solve for equilibrium conditions and solve for where maximum productivity occ
 P(B^.) = \frac{4m}{B_\infty} (1 -\frac{B}{B_\infty}) B = 0
 \end{equation}
 
-although the equation has two solutions, 1) when $B = 0$ and 2) when $B = B_\infty$ because of $(1 -\frac{B}{B_\infty})$. To understand the regions in which equilibrium occurs, i.e., where productivity does not change ($\frac{dP^.}{B} = 0$), solve for:
+although the equation has two solutions, 1) when $B = 0$ and 2) when $B = B_\infty$ because of $(1 -\frac{B}{B_\infty})$. To understand the regions in which equilibrium occurs, i.e., where productivity does not change ($\frac{dP^.}{dB} = 0$). To understand where productivity is maximized, solve for:
 
 \begin{equation}
-\frac{dP^.}{B} = \frac{4m}{B_\infty} - \frac{8mB}{B^2_\infty} \\
+\frac{dP^.}{dB} = \frac{4m}{B_\infty} - \frac{8mB}{B^2_\infty} = 0 \\
 B_m = \frac{B_\infty}{2} 
 \end{equation}
 
@@ -710,7 +710,7 @@ F_m = 2m / B_\infty \\
 E_m = 2m / qB_\infty 
 \end{equation}
 
-because of the relationship between yield, biomass, and F $Y = FB = qEB$ and the relationship between yield and latent productivity $Y_m = P(B_m) = m$.
+because of the relationship between yield and latent productivity $Y_m = P(B_m) = m$ and the relationship between yield, biomass, and fishing mortality where $Y = FB = qEB$
 
 The figures below illustrates the behavior of equilibrium F, effort, yield, and biomass. All these relationships are parabolic and the maximum productivity occurs in the middle of the curve. Note that these are not rates of change.
 
@@ -864,7 +864,17 @@ Y_m = P(B_m) = m
 
 so that maximizing yield is equivalent to maximizing productivity (eq. 2.5, page 53).
 
-### Fox Model
+### Gompertz-Fox Model
+
+Across all of the surplus production models, several key principles and patterns emerge:
+1. $\frac{dB}{dt} = \frac{dP}{dt} - \frac{dY}{dt}$, where changes in biomass are equal to changes in latent productivity and changes in yield, resulting in a change in "net productivity", 
+2. You can take annual surplus production as yield, to keep the population at an equilibrium, 
+2. To find equilibrium conditions, we simply need to set the differential equations to 0 e.g., ($\frac{dB}{dt} = 0$),
+3. To find equilibrium yield, biomass, or fishing mortality, we can use the equation $Y^* = F^*B^*$, solve for those quantities, and rearrange this equation around. I think we generally need to solve for $B^*$ by setting $\frac{dB}{dt} = 0$ first to easily derive the other quantities. 
+4. To solve for the biomass at which productivity is maximized, we generally need to set $\frac{dP^.}{dt} = 0$ with respect to B to solve for $B_m$.
+5. Maximum yield and productivity both occur at $m$ - solved for by replacing $B$ as $B_m$ in $\frac{dP}{dt}$ equations. 
+
+
 
 ## Chapter 3 (Stock and Recruitment)
 

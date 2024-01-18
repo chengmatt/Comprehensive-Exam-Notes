@@ -1082,11 +1082,11 @@ ASP_t = U_\infty E_t - \frac{U^2_\infty}{4m}E^2_t + \epsilon_t
 dU = qdB = \frac{4m}{B_\infty}U - \frac{4m}{qB^2_\infty}U^2 - qE \\
 dU \frac{1}{U} = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty}U - qE \\
 \int_{U_t}^{U_{t+1}} \frac{dU}{U} = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty}U - qE dt \\ 
-U_{t+1} - U_t = \int_{t}^{t+1} \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty}U - qE  \\ 
-log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} U_t - qE_t \\ 
+log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} \int_{t}^{t+1} U - qE dt \\ 
+log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} U_{t+1} - U_{t} - q(E_{t-1} - E_t) \\ 
 log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} \frac{U_t + U_{t+1}}{2} = q\frac{E_t + E_{t+1}}{2} + \epsilon_{t+1}\\ 
 \end{equation}\]</span></p>
-<p>where <span class="math inline">\(U_t\)</span> and <span class="math inline">\(E_t\)</span> are averages between <span class="math inline">\(t, t+1\)</span>, which results in a multiple linear regression relationship. Although this requires good contrast in data to adequately estimate the productivity parameters.</p>
+<p>where we’ll turn the differences into averages for <span class="math inline">\(U,E\)</span>, which results in a multiple linear regression relationship. Although like many other methods, this requires good contrast in data to adequately estimate the productivity parameters.</p>
 </div>
 <div id="difference-equations-for-surplus-production" class="section level3" number="1.2.13">
 <h3><span class="header-section-number">1.2.13</span> Difference Equations for Surplus Production</h3>
@@ -1120,7 +1120,7 @@ log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} \frac{U_
 <li><p>To solve for the biomass at which productivity is maximized, we generally need to set <span class="math inline">\(\frac{dP^.}{dB} = 0\)</span> with respect to <span class="math inline">\(B\)</span> to solve for <span class="math inline">\(B_m\)</span>,</p></li>
 <li><p>Maximum yield and productivity both occur at <span class="math inline">\(m\)</span> - solved for by replacing <span class="math inline">\(B\)</span> as <span class="math inline">\(B_m\)</span> in <span class="math inline">\(\frac{dP}{dt}\)</span> equations.</p></li>
 <li><p>Annual surplus production is the sum of yield and the change in biomass <span class="math inline">\(ASP_t = Y_t + B_{t-1} - B_t\)</span>.</p></li>
-<li><p>In general, equilibrium surplus production models assume equilibrium conditions (duh), especially because stocks are never at equilibrium. Reformulating them as difference equations (aka non-equilibrium methods) will generally outperform equilibrium methods, and should always be used especially when effort data are available.</p></li>
+<li><p>In general, equilibrium surplus production models assume equilibrium conditions (duh), but are problematic, because stocks are never at equilibrium. Using non-equilibrium methods is generally the most appropriate, especially if you have some measure of effort over time.</p></li>
 </ol>
 </div>
 </div>

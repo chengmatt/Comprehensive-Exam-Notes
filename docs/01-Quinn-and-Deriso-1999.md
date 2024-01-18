@@ -1084,12 +1084,12 @@ Schunte's method allows the estimation of production parameters ($m$ and $B_\inf
 dU = qdB = \frac{4m}{B_\infty}U - \frac{4m}{qB^2_\infty}U^2 - qE \\
 dU \frac{1}{U} = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty}U - qE \\
 \int_{U_t}^{U_{t+1}} \frac{dU}{U} = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty}U - qE dt \\ 
-U_{t+1} - U_t = \int_{t}^{t+1} \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty}U - qE  \\ 
-log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} U_t - qE_t \\ 
+log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} \int_{t}^{t+1} U - qE dt \\ 
+log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} U_{t+1} - U_{t} - q(E_{t-1} - E_t) \\ 
 log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} \frac{U_t + U_{t+1}}{2} = q\frac{E_t + E_{t+1}}{2} + \epsilon_{t+1}\\ 
 \end{equation}
 
-where $U_t$ and $E_t$ are averages between $t, t+1$, which results in a multiple linear regression relationship. Although this requires good contrast in data to adequately estimate the productivity parameters. 
+where we'll turn the differences into averages for $U,E$, which results in a multiple linear regression relationship. Although like many other methods, this requires good contrast in data to adequately estimate the productivity parameters. 
 
 ### Difference Equations for Surplus Production
 Difference equations here are way more intuitive and much easier to use, especially given the computational tools we have at hand today. We can calculate changes in biomass using a GS model as: 
@@ -1137,7 +1137,7 @@ Across all of the surplus production models, several key principles and patterns
 
 1. Annual surplus production is the sum of yield and the change in biomass $ASP_t = Y_t + B_{t-1} - B_t$.
 
-1. In general, equilibrium surplus production models assume equilibrium conditions (duh), especially because stocks are never at equilibrium. Reformulating them as difference equations (aka non-equilibrium methods) will generally outperform equilibrium methods, and should always be used especially when effort data are available. 
+1. In general, equilibrium surplus production models assume equilibrium conditions (duh), but are problematic, because stocks are never at equilibrium. Using non-equilibrium methods is generally the most appropriate, especially if you have some measure of effort over time.
 
 ## Chapter 3 (Stock and Recruitment)
 

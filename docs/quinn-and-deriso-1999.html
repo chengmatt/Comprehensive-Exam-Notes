@@ -24,7 +24,7 @@
 <meta name="author" content="Matthew LH. Cheng" />
 
 
-<meta name="date" content="2024-01-17" />
+<meta name="date" content="2024-01-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -169,7 +169,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.2.13" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#difference-equations-for-surplus-production"><i class="fa fa-check"></i><b>1.2.13</b> Difference Equations for Surplus Production</a></li>
 <li class="chapter" data-level="1.2.14" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#synthesis"><i class="fa fa-check"></i><b>1.2.14</b> Synthesis</a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#chapter-3-stock-and-recruitment"><i class="fa fa-check"></i><b>1.3</b> Chapter 3 (Stock and Recruitment)</a></li>
+<li class="chapter" data-level="1.3" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#chapter-3-stock-and-recruitment"><i class="fa fa-check"></i><b>1.3</b> Chapter 3 (Stock and Recruitment)</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#spawner-recruit-models"><i class="fa fa-check"></i><b>1.3.1</b> Spawner Recruit Models</a></li>
+<li class="chapter" data-level="1.3.2" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#beverton-holt"><i class="fa fa-check"></i><b>1.3.2</b> Beverton-Holt</a></li>
+<li class="chapter" data-level="1.3.3" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#ricker-model"><i class="fa fa-check"></i><b>1.3.3</b> Ricker Model</a></li>
+<li class="chapter" data-level="1.3.4" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#ludwig-walters-model"><i class="fa fa-check"></i><b>1.3.4</b> Ludwig-Walters Model</a></li>
+<li class="chapter" data-level="1.3.5" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#environmental-variation"><i class="fa fa-check"></i><b>1.3.5</b> Environmental Variation</a></li>
+<li class="chapter" data-level="1.3.6" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#cushing-model"><i class="fa fa-check"></i><b>1.3.6</b> Cushing Model</a></li>
+<li class="chapter" data-level="1.3.7" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#deriso-schunte-model"><i class="fa fa-check"></i><b>1.3.7</b> Deriso-Schunte Model</a></li>
+<li class="chapter" data-level="1.3.8" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#shepherd-model"><i class="fa fa-check"></i><b>1.3.8</b> Shepherd Model</a></li>
+<li class="chapter" data-level="1.3.9" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#gamma-model"><i class="fa fa-check"></i><b>1.3.9</b> Gamma Model</a></li>
+<li class="chapter" data-level="1.3.10" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#biological-meaning-of-parameters"><i class="fa fa-check"></i><b>1.3.10</b> Biological Meaning of Parameters</a></li>
+<li class="chapter" data-level="1.3.11" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#parameter-estimation-1"><i class="fa fa-check"></i><b>1.3.11</b> Parameter Estimation</a></li>
+<li class="chapter" data-level="1.3.12" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#measurement-error-models"><i class="fa fa-check"></i><b>1.3.12</b> Measurement error models</a></li>
+</ul></li>
 <li class="chapter" data-level="1.4" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#chapter-4-growth-and-fecundity"><i class="fa fa-check"></i><b>1.4</b> Chapter 4 (Growth and Fecundity)</a></li>
 <li class="chapter" data-level="1.5" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#chapter-5-delay-difference-models"><i class="fa fa-check"></i><b>1.5</b> Chapter 5 (Delay Difference Models)</a></li>
 <li class="chapter" data-level="1.6" data-path="quinn-and-deriso-1999.html"><a href="quinn-and-deriso-1999.html#chapter-6-per-recruit-and-year-class-models"><i class="fa fa-check"></i><b>1.6</b> Chapter 6 (Per Recruit and Year Class Models)</a></li>
@@ -1128,6 +1142,226 @@ Using non-equilibrium methods (allowing for process error and observation error)
 </div>
 <div id="chapter-3-stock-and-recruitment" class="section level2" number="1.3">
 <h2><span class="header-section-number">1.3</span> Chapter 3 (Stock and Recruitment)</h2>
+<p>Modelling entries into the population remains a key process in fishery stock assessments, although there is still considerable debate as to whether recruitment is driven by SSB or driven by the environment. However, we know a priori that there should be upper limits in stock size due to food, competition, density depence, etc.</p>
+<div id="spawner-recruit-models" class="section level3" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Spawner Recruit Models</h3>
+<p>In general, the regeneration of a fish population follows as Eggs -&gt; Larvae -&gt; Juveniles -&gt; Recruits (into the fishery) -&gt; Spawners -&gt; Eggs…</p>
+<p>The simplest model to modelling entrants into the population (in the form of eggs) is to just assume some proportional relationship with no density dependence:</p>
+<p><span class="math display">\[\begin{equation}
+N_0 = fS
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(f\)</span> is just some constant value representing the average fecundity per spawner and <span class="math inline">\(N_0\)</span> denotes egg production. Recruitment into the fishery then is proportional to egg production as well:</p>
+<p><span class="math display">\[\begin{equation}
+R = lN_0
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(l\)</span> is the survival of eggs to recruits into the fishery. Given that these are all proportional relationships, recruits are therefore directly proportional to spawners in this model:</p>
+<p><span class="math display">\[\begin{equation}
+R = lN_0 = lfS = \alpha S
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\alpha\)</span> is the combination of average fecundity per spawner and the survival of eggs. This is a density-independent relationship because the number of recruits you get per spawner are independent of the number of spawners you have (i.e., its a constant relationship). Given the above relationship which is density-independent, <span class="math inline">\(\alpha\)</span> therefore is also known as the density independent parameter.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="quinn-and-deriso-1999.html#cb22-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.5</span> <span class="co"># net fec x survival</span></span>
+<span id="cb22-2"><a href="quinn-and-deriso-1999.html#cb22-2" aria-hidden="true" tabindex="-1"></a>s <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">500</span>, <span class="dv">1</span>) <span class="co"># spawners</span></span>
+<span id="cb22-3"><a href="quinn-and-deriso-1999.html#cb22-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> alpha <span class="sc">*</span> s <span class="co"># recruits</span></span>
+<span id="cb22-4"><a href="quinn-and-deriso-1999.html#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="quinn-and-deriso-1999.html#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb22-6"><a href="quinn-and-deriso-1999.html#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s, r, <span class="at">xlab =</span> <span class="st">&quot;Spawners&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Recruits&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Recruits ~ Spawners&quot;</span>)</span>
+<span id="cb22-7"><a href="quinn-and-deriso-1999.html#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s, r<span class="sc">/</span>s, <span class="at">xlab =</span> <span class="st">&quot;Spawners&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Recruits/Spawners&quot;</span>, </span>
+<span id="cb22-8"><a href="quinn-and-deriso-1999.html#cb22-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">main =</span>  <span class="st">&quot;Recruits/Spawners ~ Spawners&quot;</span>)</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>If the number of recruits is constant, say <span class="math inline">\(R = 5\)</span>, then the above relationship says that:</p>
+<p><span class="math display">\[\begin{equation}
+5 = lN_0 \\
+5/N_0 = l
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(l\)</span> is the net survival of eggs to recruits, and is dependent on the stock size. That is to say, if the number of recruits is constant, then there is a density-dependent effect of the number of eggs produced and the survival of eggs (inverse relationship). Thus, assuming constant recruitment (mean recruits) assumes that early life history is a density-dependent function of egg production.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="quinn-and-deriso-1999.html#cb23-1" aria-hidden="true" tabindex="-1"></a>R <span class="ot">=</span> <span class="dv">1</span> <span class="co"># constant recruitment (or mean recruitment)</span></span>
+<span id="cb23-2"><a href="quinn-and-deriso-1999.html#cb23-2" aria-hidden="true" tabindex="-1"></a>N0 <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">1</span>)</span>
+<span id="cb23-3"><a href="quinn-and-deriso-1999.html#cb23-3" aria-hidden="true" tabindex="-1"></a>l <span class="ot">=</span> <span class="dv">1</span> <span class="sc">/</span> N0 <span class="co"># survival of eggs</span></span>
+<span id="cb23-4"><a href="quinn-and-deriso-1999.html#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(N0,l, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">xlab =</span> <span class="st">&quot;N0&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Net survival of eggs to recruits (l)&quot;</span>)</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p>The above equation is one extreme where recruitment is proportional to SSB. However, the other end of the extreme is to model recruitment as a mean process governed by some pdf because its so highly variable and complex (like many stocks in AK), and thus is independent of SSB. But it fails to recognize limitations in recruitment at both low and high stock sizes, whereas density-independent recruitment recognizes limitations of recruitment at low stock sizes. Interestingly, some sort extensions can be done, where you can model a Markov process and allow recruitment to transition between high and low levels.</p>
+</div>
+<div id="beverton-holt" class="section level3" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> Beverton-Holt</h3>
+<p>Obviously, if density-dependent effects are present at some point, then assuming density-independent relationships is unacceptable (maybe disagree, we do the best with what we have given data availability). If we assume that recruitment is driven by both density-independent and dependent factors, we can formulate mortality for a given life-stage as:</p>
+<p><span class="math display">\[\begin{equation}
+Z_t = a_1 + b_1N
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(a_1\)</span> is a density-independent effect on mortality, and <span class="math inline">\(b_1\)</span> is a density-dependent effect of numbers at time <span class="math inline">\(t\)</span> on mortality. Reformulating this as a differential equation on changes in numbers at age, we get:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{dN}{dt} = -Z_tN \\
+\frac{dN}{dt} = -(a_1 + b_1N)N \\
+\frac{dN}{dt} = -(a_1N + b_1N^2)
+\end{equation}\]</span></p>
+<p>which basically just gives the logistic growth equations but with negative parameters and <span class="math inline">\(a_1N\)</span> is the density independent effect where as <span class="math inline">\(b_1N^2\)</span> is the density dependent effect that has non-linear relationship with spawners. This results in:</p>
+<p><span class="math display">\[\begin{equation}
+R = \frac{N_0}{e^{a_1t} - \frac{b_1}{a_1}N_0 + } + \frac{b_1}{a_1}N_0e^{a_1t}} \\
+R = \frac{S}{\alpha + \beta S} \\
+R = \frac{\alpha S}{1 + \beta S}
+\end{equation}\]</span></p>
+<p>assuming that the number of eggs produced is proportional to the number of spawners <span class="math inline">\(N_0 = fS = lfS\)</span>. Here, <span class="math inline">\(\alpha\)</span> is the density-independent parameter represent the number of recruits per spawner at lower spawning biomass which is proportional to fecundity given that <span class="math inline">\(\alpha = lf\)</span>, while <span class="math inline">\(\beta\)</span> are density-dependent effects (includes fecundity as well). The BH is a monotonically increasing relationship with spawners and asymptotes at <span class="math inline">\(\alpha / \beta\)</span> (max recruitment). Additionally, your productivity (R/S) decreases exponentially with increasing spawners (i.e., the number of recruits you get as spawners increases declines).</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="quinn-and-deriso-1999.html#cb24-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="fl">0.5</span> <span class="co"># alpha </span></span>
+<span id="cb24-2"><a href="quinn-and-deriso-1999.html#cb24-2" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">=</span> <span class="dv">5</span> <span class="co"># beta</span></span>
+<span id="cb24-3"><a href="quinn-and-deriso-1999.html#cb24-3" aria-hidden="true" tabindex="-1"></a>s <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">50</span>, <span class="dv">1</span>) <span class="co"># spawners</span></span>
+<span id="cb24-4"><a href="quinn-and-deriso-1999.html#cb24-4" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> s <span class="sc">/</span> (a <span class="sc">+</span> beta<span class="sc">*</span>s) <span class="co"># recruits</span></span>
+<span id="cb24-5"><a href="quinn-and-deriso-1999.html#cb24-5" aria-hidden="true" tabindex="-1"></a>max_rec <span class="ot">=</span> <span class="dv">1</span> <span class="sc">/</span> beta <span class="co"># maximum recruitment possible (conditioned on your density dependent factor)</span></span>
+<span id="cb24-6"><a href="quinn-and-deriso-1999.html#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="quinn-and-deriso-1999.html#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb24-8"><a href="quinn-and-deriso-1999.html#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s, r, <span class="at">xlab =</span> <span class="st">&quot;Spawners&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Recruits&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span>
+<span id="cb24-9"><a href="quinn-and-deriso-1999.html#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> max_rec, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb24-10"><a href="quinn-and-deriso-1999.html#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s, r<span class="sc">/</span>s, <span class="at">xlab =</span> <span class="st">&quot;Spawners&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Recruits/Spawners&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+</div>
+<div id="ricker-model" class="section level3" number="1.3.3">
+<h3><span class="header-section-number">1.3.3</span> Ricker Model</h3>
+<p>In the BH model, R ~ SSB asymptotes. However, in the Ricker model, a dome-shaped relationship can be generated and similarly follows the differential equations above"</p>
+<p><span class="math display">\[\begin{equation}
+Z_t = a_1 + b_1S \\
+\frac{dN}{dt} = -Z_tN \\
+\frac{dN}{dt} = -(a_1 + b_1S)N \\
+\frac{dN}{dt} = -(a_1 + b_1S) \\
+\int_{N_0}^{N_t} \frac{dN}{N} = -(a_1 + b_1S) dt \\
+N_t = N_0exp(-(a_1 + b_1S)t)
+\end{equation}\]</span></p>
+<p>assuming the following <span class="math inline">\(N_0 = fS\)</span>, we can rewrite this as:</p>
+<p><span class="math display">\[\begin{equation}
+R = (fe^{-{a_1}t})(Se^{-{b_1}tS}) \\
+R = \alpha Se^{-\beta S} = Se^{\alpha - \beta S}
+\end{equation}\]</span></p>
+<p>where a dome-shaped relationship occurs, and recruits decline to 0 as spawning biomass increases, because of a negative influence of spawners on the early life history (e.g., superimposition).</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="quinn-and-deriso-1999.html#cb25-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="fl">0.5</span> <span class="co"># alpha </span></span>
+<span id="cb25-2"><a href="quinn-and-deriso-1999.html#cb25-2" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">=</span> <span class="fl">0.3</span> <span class="co"># beta</span></span>
+<span id="cb25-3"><a href="quinn-and-deriso-1999.html#cb25-3" aria-hidden="true" tabindex="-1"></a>s <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">15</span>, <span class="fl">0.1</span>) <span class="co"># spawners</span></span>
+<span id="cb25-4"><a href="quinn-and-deriso-1999.html#cb25-4" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> a <span class="sc">*</span> s <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span>beta <span class="sc">*</span> s)</span>
+<span id="cb25-5"><a href="quinn-and-deriso-1999.html#cb25-5" aria-hidden="true" tabindex="-1"></a>max_rec <span class="ot">=</span> <span class="dv">1</span> <span class="sc">/</span> beta <span class="co"># maximum recruitment possible (conditioned on your density dependent factor)</span></span>
+<span id="cb25-6"><a href="quinn-and-deriso-1999.html#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="quinn-and-deriso-1999.html#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb25-8"><a href="quinn-and-deriso-1999.html#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s, r, <span class="at">xlab =</span> <span class="st">&quot;Spawners&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Recruits&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span>
+<span id="cb25-9"><a href="quinn-and-deriso-1999.html#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> max_rec, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb25-10"><a href="quinn-and-deriso-1999.html#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s, r<span class="sc">/</span>s, <span class="at">xlab =</span> <span class="st">&quot;Spawners&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Recruits/Spawners&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+</div>
+<div id="ludwig-walters-model" class="section level3" number="1.3.4">
+<h3><span class="header-section-number">1.3.4</span> Ludwig-Walters Model</h3>
+<p>This model is most similar to the Ricker model and similarly shows domed-shaped characeteristics, which is parameterized as:</p>
+<p><span class="math display">\[\begin{equation}
+R = \alpha Sexp(-\beta S\gamma)
+\end{equation}\]</span></p>
+</div>
+<div id="environmental-variation" class="section level3" number="1.3.5">
+<h3><span class="header-section-number">1.3.5</span> Environmental Variation</h3>
+<p>The Ricker model can be extended to incorporate environmental variation, where:</p>
+<p><span class="math display">\[\begin{equation}
+R = \alpha Se^{-\beta S + \gamma_1X_1 + ... \gamma_pX_p} 
+\end{equation}\]</span></p>
+<p>and the terms inside the exponential are simply a linear model. In this case, environmental variation is assumed to impact both density independent and dependent components of the model because it can be rewritten as:</p>
+<p><span class="math display">\[\begin{equation}
+R = \alpha Se^{-\beta S}e^{\gamma_1X_1 + ... \gamma_pX_p} \\
+R = \alpha Se^{-\beta S}e^\epsilon
+\end{equation}\]</span></p>
+<p>where we are essentially modelling correlating process error terms with environmental impacts and encapsulating all of that into a process error term, if no environmental covariates are present. Alternatively, some other models can be formulated by incorporated process error into the spawners an allowing for an adjustment to yield “effective spawning biomass.” This can also be done to adjust the effective recruits from the deterministic RS relationship and correct for the impacts of environment (e.g., <span class="math inline">\(R^{adj} = Re^{\sum \gamma_iX_i}\)</span>). Other extensions include modelling these as a GAM and incoporating environmental effects as covariates.</p>
+</div>
+<div id="cushing-model" class="section level3" number="1.3.6">
+<h3><span class="header-section-number">1.3.6</span> Cushing Model</h3>
+<p>Note that for any SR relationship, any mathematical model can be used as lonhjg as it goes through the origin, increases monotonically at low spawning levels (i.e., linear increase), and has some level of density dependence. Cushing proposed the following model:</p>
+<p><span class="math display">\[\begin{equation}
+R = \alpha S^\gamma
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\gamma\)</span> is an index of density-dependence and is different from 1. However, this model has a lot of limitations, and can increase to infinite recruitment when there is infinite biomass, with no peak recruitment occuring. However, there can be some density dependence as long as <span class="math inline">\(\gamma &lt; 1\)</span>.</p>
+</div>
+<div id="deriso-schunte-model" class="section level3" number="1.3.7">
+<h3><span class="header-section-number">1.3.7</span> Deriso-Schunte Model</h3>
+<p>This is a three parameter model that combines BH and Ricker model formulations, and is derived using some theory from predator-prey models:</p>
+<p><span class="math display">\[\begin{equation}
+R = \alpha S (1 - \beta \gamma S)^{1/\gamma}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\alpha\)</span> is density-independence, <span class="math inline">\(\beta\)</span> is the optimality parameter, and <span class="math inline">\(\gamma\)</span> is the recruitment limitation or skewness. These models can represent BH or Ricker curves, depending on the value of <span class="math inline">\(\gamma\)</span>, and can also repersent situations where recruitment is proprotional to SSB. The maximuim recruitment for this model occurs at different points depending on the value of <span class="math inline">\(\gamma\)</span> and can be found in page 95.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="quinn-and-deriso-1999.html#cb26-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.3</span> <span class="co"># prod par</span></span>
+<span id="cb26-2"><a href="quinn-and-deriso-1999.html#cb26-2" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">=</span> <span class="fl">0.5</span> <span class="co"># opt par</span></span>
+<span id="cb26-3"><a href="quinn-and-deriso-1999.html#cb26-3" aria-hidden="true" tabindex="-1"></a>gamma <span class="ot">=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.0001</span>, <span class="sc">-</span><span class="fl">5e3</span>) <span class="co"># skewness</span></span>
+<span id="cb26-4"><a href="quinn-and-deriso-1999.html#cb26-4" aria-hidden="true" tabindex="-1"></a>s <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">1</span>)</span>
+<span id="cb26-5"><a href="quinn-and-deriso-1999.html#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb26-6"><a href="quinn-and-deriso-1999.html#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s, alpha <span class="sc">*</span> s <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span>beta<span class="sc">*</span>gamma[<span class="dv">1</span>]<span class="sc">*</span>s)<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span>gamma[<span class="dv">1</span>]), <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Gamma = -1, BH&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;S&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;R&quot;</span>)</span>
+<span id="cb26-7"><a href="quinn-and-deriso-1999.html#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s, alpha <span class="sc">*</span> s <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span>beta<span class="sc">*</span>gamma[<span class="dv">2</span>]<span class="sc">*</span>s)<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span>gamma[<span class="dv">2</span>]), <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Gamma ~= 0, Ricker&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;S&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;R&quot;</span>)</span>
+<span id="cb26-8"><a href="quinn-and-deriso-1999.html#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s, alpha <span class="sc">*</span> s <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span>beta<span class="sc">*</span>gamma[<span class="dv">3</span>]<span class="sc">*</span>s)<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span>gamma[<span class="dv">3</span>]), <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Gamma ~= -Inf, Proportional&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;S&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;R&quot;</span>)</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+</div>
+<div id="shepherd-model" class="section level3" number="1.3.8">
+<h3><span class="header-section-number">1.3.8</span> Shepherd Model</h3>
+<p>This model similarly has three parameters and combines the ideas of BH, Ricker, and Cushing models:</p>
+<p><span class="math display">\[\begin{equation}
+R = \frac{\alpha S }{1 + \beta S^\gamma}
+\end{equation}\]</span></p>
+<p>and is a special case of the Deriso-Schunte model (<span class="math inline">\(\gamma = 1\)</span>; BH, <span class="math inline">\(\gamma &gt; 1\)</span>; Ricker, <span class="math inline">\(\gamma &lt; 1\)</span>; Proportional)</p>
+</div>
+<div id="gamma-model" class="section level3" number="1.3.9">
+<h3><span class="header-section-number">1.3.9</span> Gamma Model</h3>
+<p>The gamma model generalizes the Ricker and the Cushing and is just based on an unnormalized (i.e., no normalizing constants) gamma function:</p>
+<p><span class="math display">\[\begin{equation}
+R = \alpha S^\gamma e^{- \beta S}
+\end{equation}\]</span></p>
+<p>but this model is unable to caputre BH dynamics, and is always going to have some sort of dome-shaped pattern.</p>
+<p>All to say, there are tons of parameterizations of SR relationships, but generally in stock assessments, we tend to use BH, Ricker, or mean recruitment to model these processes</p>
+</div>
+<div id="biological-meaning-of-parameters" class="section level3" number="1.3.10">
+<h3><span class="header-section-number">1.3.10</span> Biological Meaning of Parameters</h3>
+<p>If spawning stock is measured in terms of egg production, then <span class="math inline">\(R/S\)</span> represents early life-history survival and mortality. All of the recruitment models include components</p>
+<ol style="list-style-type: decimal">
+<li>Compensatory Mortality: survival decreases with increasing spawning abundance, which can be represented as:</li>
+</ol>
+<p><span class="math display">\[\begin{equation}
+\frac{d(R/S)}{dS} &lt; 0
+\end{equation}\]</span></p>
+<p>where your change in <span class="math inline">\(R/S\)</span> essentially decreases as function of spawning biomass. Additionally, some models include a second component:</p>
+<ol style="list-style-type: decimal">
+<li>Overcompensation: the number of recruits decrease with increasing spawning biomass (e.g., Ricker), where:</li>
+</ol>
+<p><span class="math display">\[\begin{equation}
+\frac{dR}{dS} &lt; 0
+\end{equation}\]</span></p>
+<p>So for the Beverton-Holt model, this model is purely compensation, where the number of recruits per spawners decreases, but the number of recruits you get for a given spawning biomass does not decrease. The Ricker model includes both compensation and overcompensation. The other component that some of these models contain is:</p>
+<ol style="list-style-type: decimal">
+<li>Depensatory Mortality: where the early survival rates of juveniles increases as a function of spawning biomass, where:</li>
+</ol>
+<p><span class="math display">\[\begin{equation}
+\frac{d(R/S)}{dS} &gt; 0
+\end{equation}\]</span></p>
+<p>where the productivity of your stock actually increases with increasing egg production/SSB. Expanding on this a bit, depenstation can occur if there is a predation rate that is constant, or decreases nonlinearly with decreasing recruitment (i.e., large number of fish are produced, but only a constant number of fish are predated on, resulting in more total fish surviving - e.g., predator-swamping). A similar concept is also what we term as:</p>
+<ol style="list-style-type: decimal">
+<li>Critical Depensation: where the SSB is so low, that recruitment fails to replenish the stock analagous to the ideas of recruitment overfishing.</li>
+</ol>
+<p>Of the models discussed, only the gamma model includes depensation, where R/S increases with increasing spawning biomass.</p>
+<p>The BH model can be extended to actually incorporate depensatory mortality by including the <span class="math inline">\(\gamma\)</span> term in it:
+<span class="math display">\[\begin{equation}
+R = \frac{\alpha S^\gamma}{1 + \beta S^\gamma} 
+\end{equation}\]</span></p>
+<p>However, depensation is often hard to detect in the natural world (although Furey et al. has a bunch of papers on how depensatory mortality can be caused by predator swamping).</p>
+</div>
+<div id="parameter-estimation-1" class="section level3" number="1.3.11">
+<h3><span class="header-section-number">1.3.11</span> Parameter Estimation</h3>
+<p>Tradtionally, a lot of SR models are linearized and represented as linear regression models. For example, the BH spawner recruit model can be formulated as:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{S}{R} = \alpha + \beta S \\
+y = \alpha + \beta S + \epsilon
+\end{equation}\]</span></p>
+<p>which assumes that errors are independent, although you can also model errors following AR1 processes. You also assume <span class="math inline">\(S\)</span> is measured without error, although this is seldom true - but state-space models can overcome this:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{S}{R} = \alpha + \beta S^{True} + \epsilon \\
+S^{True} = S^{Obs} + \theta \\
+\theta \sim N(0, \sigma)
+\end{equation}\]</span></p>
+<p>Failing to account for measurement errors will lead to biased CIs generated as well as estimates. Another consideration is that strong recruitments in some years, will lead to strong recruitments (because of increased SSB) in following years, and impact subsequent estimates of recruitment. This is particullarly peritent and can cause large biases if errors are autocorrelated (not independent). For a linear form of the Ricker model, it can be formulated as:</p>
+<p><span class="math display">\[\begin{equation}
+R = \alpha Se^{-\beta S} \\
+\frac{R}{S} = \alpha e^{-\beta S}\\
+log(\frac{R}{S}) = log(\alpha) -\beta S
+\end{equation}\]</span></p>
+<p>which becomes a linear regression equation. Here, we can use traditional hypotheses tests to figure out whether the descending limb of the Ricker is significant (i.e., <span class="math inline">\(\beta &gt; 0\)</span>). However, we need to be cautious about some of these approaches when testing for evidence of overcompensation and the correlations and significance values they generate because the independent variable is also in the dependent variable (some studies have shown that R/S can have about a -0.7 correlation with S, even when they are generated completly independently). Generally spekaing, including environmental covariates into these relationships just simply involves adding them in as new independent variables. Similar formulations of linear models can be recast for the other SR models discussed above. Generally speaking, once we get the alpha and beta parameter estimates from linear regression, we can then back-predict what the expected recruitment should be given a level of spawning biomass.</p>
+<p>For non-linear approaches and how to go about parameterizing, see pages 103 - 104. But in general, this is just the deterministic functions multipled or added by some process error. The only choice here really is to consider what the error structure of process error should look like.</p>
+</div>
+<div id="measurement-error-models" class="section level3" number="1.3.12">
+<h3><span class="header-section-number">1.3.12</span> Measurement error models</h3>
+</div>
 </div>
 <div id="chapter-4-growth-and-fecundity" class="section level2" number="1.4">
 <h2><span class="header-section-number">1.4</span> Chapter 4 (Growth and Fecundity)</h2>

@@ -1079,8 +1079,280 @@ Across all of the surplus production models, several key principles and patterns
 Using non-equilibrium methods (allowing for process error and observation error) is generally the most appropriate, especially if you have some measure of effort over time.
 
 ## Chapter 3 (Stock and Recruitment)
+Modelling entries into the population remains a key process in fishery stock assessments, although there is still considerable debate as to whether recruitment is driven by SSB or driven by the environment. However, we know a priori that there should be upper limits in stock size due to food, competition, density depence, etc.
+
+### Spawner Recruit Models
+In general, the regeneration of a fish population follows as Eggs -> Larvae -> Juveniles -> Recruits (into the fishery) -> Spawners -> Eggs...
+
+The simplest model to modelling entrants into the population (in the form of eggs) is to just assume some proportional relationship with no density dependence:
+
+\begin{equation}
+N_0 = fS
+\end{equation}
+
+where $f$ is just some constant value representing the average fecundity per spawner and $N_0$ denotes egg production. Recruitment into the fishery then is proportional to egg production as well:
+
+\begin{equation}
+R = lN_0
+\end{equation}
+
+where $l$ is the survival of eggs to recruits into the fishery. Given that these are all proportional relationships, recruits are therefore directly proportional to spawners in this model:
+
+\begin{equation}
+R = lN_0 = lfS = \alpha S
+\end{equation}
+
+where $\alpha$ is the combination of average fecundity per spawner and the survival of eggs. This is a density-independent relationship because the number of recruits you get per spawner are independent of the number of spawners you have (i.e., its a constant relationship). Given the above relationship which is density-independent, $\alpha$ therefore is also known as the density independent parameter. 
+
+```{r}
+alpha = 0.5 # net fec x survival
+s = seq(1, 500, 1) # spawners
+r = alpha * s # recruits
+
+par(mfrow = c(1, 2))
+plot(s, r, xlab = "Spawners", ylab = "Recruits", lwd = 5, type = "l", main = "Recruits ~ Spawners")
+plot(s, r/s, xlab = "Spawners", ylab = "Recruits/Spawners", 
+     lwd = 5, type = "l", main =  "Recruits/Spawners ~ Spawners")
+```
+
+
+If the number of recruits is constant, say $R = 5$, then the above relationship says that:
+
+\begin{equation}
+5 = lN_0 \\
+5/N_0 = l
+\end{equation}
+
+where $l$ is the net survival of eggs to recruits, and is dependent on the stock size. That is to say, if the number of recruits is constant, then there is a density-dependent effect of the number of eggs produced and the survival of eggs (inverse relationship). Thus, assuming constant recruitment (mean recruits) assumes that early life history is a density-dependent function of egg production.
+
+```{r}
+R = 1 # constant recruitment (or mean recruitment)
+N0 = seq(1, 5, 1)
+l = 1 / N0 # survival of eggs
+plot(N0,l, type = "l", lwd = 5, xlab = "N0", ylab = "Net survival of eggs to recruits (l)")
+```
+
+The above equation is one extreme where recruitment is proportional to SSB. However, the other end of the extreme is to model recruitment as a mean process governed by some pdf because its so highly variable and complex (like many stocks in AK), and thus is independent of SSB. But it fails to recognize limitations in recruitment at both low and high stock sizes, whereas density-independent recruitment recognizes limitations of recruitment at low stock sizes. Interestingly, some sort extensions can be done, where you can model a Markov process and allow recruitment to transition between high and low levels. 
+
+### Beverton-Holt
+Obviously, if density-dependent effects are present at some point, then assuming density-independent relationships is unacceptable (maybe disagree, we do the best with what we have given data availability). If we assume that recruitment is driven by both density-independent and dependent factors, we can formulate mortality for a given life-stage as:
+
+\begin{equation}
+Z_t = a_1 + b_1N
+\end{equation}
+
+where $a_1$ is a density-independent effect on mortality, and $b_1$ is a density-dependent effect of numbers at time $t$ on mortality. Reformulating this as a differential equation on changes in numbers at age, we get:
+
+\begin{equation}
+\frac{dN}{dt} = -Z_tN \\
+\frac{dN}{dt} = -(a_1 + b_1N)N \\
+\frac{dN}{dt} = -(a_1N + b_1N^2)
+\end{equation}
+
+which basically just gives the logistic growth equations but with negative parameters and $a_1N$ is the density independent effect where as $b_1N^2$ is the density dependent effect that has non-linear relationship with spawners. This results in:
+
+\begin{equation}
+R = \frac{N_0}{e^{a_1t} - \frac{b_1}{a_1}N_0 + } + \frac{b_1}{a_1}N_0e^{a_1t}} \\
+R = \frac{S}{\alpha + \beta S} \\
+R = \frac{\alpha S}{1 + \beta S}
+\end{equation}
+
+assuming that the number of eggs produced is proportional to the number of spawners $N_0 = fS = lfS$. Here, $\alpha$ is the density-independent parameter represent the number of recruits per spawner at lower spawning biomass which is proportional to fecundity given that $\alpha = lf$, while $\beta$ are density-dependent effects (includes fecundity as well). The BH is a monotonically increasing relationship with spawners and asymptotes at $\alpha / \beta$ (max recruitment). Additionally, your productivity (R/S) decreases exponentially with increasing spawners (i.e., the number of recruits you get as spawners increases declines). 
+
+```{r}
+a = 0.5 # alpha 
+beta = 5 # beta
+s = seq(1, 50, 1) # spawners
+r = s / (a + beta*s) # recruits
+max_rec = 1 / beta # maximum recruitment possible (conditioned on your density dependent factor)
+
+par(mfrow = c(1,2))
+plot(s, r, xlab = "Spawners", ylab = "Recruits", lwd = 5, type = "l")
+abline(h = max_rec, lty = 2)
+plot(s, r/s, xlab = "Spawners", ylab = "Recruits/Spawners", lwd = 5, type = "l")
+```
+
+
+### Ricker Model
+In the BH model, R ~ SSB asymptotes. However, in the Ricker model, a dome-shaped relationship can be generated and similarly follows the differential equations above"
+
+\begin{equation}
+Z_t = a_1 + b_1S \\
+\frac{dN}{dt} = -Z_tN \\
+\frac{dN}{dt} = -(a_1 + b_1S)N \\
+\frac{dN}{dt} = -(a_1 + b_1S) \\
+\int_{N_0}^{N_t} \frac{dN}{N} = -(a_1 + b_1S) dt \\
+N_t = N_0exp(-(a_1 + b_1S)t)
+\end{equation}
+
+assuming the following $N_0 = fS$, we can rewrite this as:
+
+\begin{equation}
+R = (fe^{-{a_1}t})(Se^{-{b_1}tS}) \\
+R = \alpha Se^{-\beta S} = Se^{\alpha - \beta S}
+\end{equation}
+
+where a dome-shaped relationship occurs, and recruits decline to 0 as spawning biomass increases, because of a negative influence of spawners on the early life history (e.g., superimposition). 
+
+```{r}
+a = 0.5 # alpha 
+beta = 0.3 # beta
+s = seq(1, 15, 0.1) # spawners
+r = a * s * exp(-beta * s)
+max_rec = 1 / beta # maximum recruitment possible (conditioned on your density dependent factor)
+
+par(mfrow = c(1,2))
+plot(s, r, xlab = "Spawners", ylab = "Recruits", lwd = 5, type = "l")
+abline(h = max_rec, lty = 2)
+plot(s, r/s, xlab = "Spawners", ylab = "Recruits/Spawners", lwd = 5, type = "l")
+```
+
+
+### Ludwig-Walters Model
+This model is most similar to the Ricker model and similarly shows domed-shaped characeteristics, which is parameterized as:
+
+\begin{equation}
+R = \alpha Sexp(-\beta S\gamma)
+\end{equation}
+
+### Environmental Variation
+The Ricker model can be extended to incorporate environmental variation, where:
+
+\begin{equation}
+R = \alpha Se^{-\beta S + \gamma_1X_1 + ... \gamma_pX_p} 
+\end{equation}
+
+and the terms inside the exponential are simply a linear model. In this case, environmental variation is assumed to impact both density independent and dependent components of the model because it can be rewritten as:
+
+\begin{equation}
+R = \alpha Se^{-\beta S}e^{\gamma_1X_1 + ... \gamma_pX_p} \\
+R = \alpha Se^{-\beta S}e^\epsilon
+\end{equation}
+
+where we are essentially modelling correlating process error terms with environmental impacts and encapsulating all of that into a process error term, if no environmental covariates are present. Alternatively, some other models can be formulated by incorporated process error into the spawners an allowing for an adjustment to yield "effective spawning biomass". This can also be done to adjust the effective recruits from the deterministic RS relationship and correct for the impacts of environment (e.g., $R^{adj} = Re^{\sum \gamma_iX_i}$). Other extensions include modelling these as a GAM and incoporating environmental effects as covariates. 
+
+
+### Cushing Model
+Note that for any SR relationship, any mathematical model can be used as lonhjg as it goes through the origin, increases monotonically at low spawning levels (i.e., linear increase), and has some level of density dependence. Cushing proposed the following model:
+
+\begin{equation}
+R = \alpha S^\gamma
+\end{equation}
+
+where $\gamma$ is an index of density-dependence and is different from 1. However, this model has a lot of limitations, and can increase to infinite recruitment when there is infinite biomass, with no peak recruitment occuring. However, there can be some density dependence as long as $\gamma < 1$.
+
+### Deriso-Schunte Model
+This is a three parameter model that combines BH and Ricker model formulations, and is derived using some theory from predator-prey models:
+
+\begin{equation}
+R = \alpha S (1 - \beta \gamma S)^{1/\gamma}
+\end{equation}
+
+where $\alpha$ is density-independence, $\beta$ is the optimality parameter, and $\gamma$ is the recruitment limitation or skewness. These models can represent BH or Ricker curves, depending on the value of $\gamma$, and can also repersent situations where recruitment is proprotional to SSB. The maximuim recruitment for this model occurs at different points depending on the value of $\gamma$ and can be found in page 95.
+
+```{r}
+alpha = 0.3 # prod par
+beta = 0.5 # opt par
+gamma = c(-1, 0.0001, -5e3) # skewness
+s = seq(1, 10, 1)
+par(mfrow = c(1,3))
+plot(s, alpha * s * (1-beta*gamma[1]*s)^(1/gamma[1]), lwd = 5, type = "l", main = "Gamma = -1, BH", xlab = "S", ylab = "R")
+plot(s, alpha * s * (1-beta*gamma[2]*s)^(1/gamma[2]), lwd = 5, type = "l", main = "Gamma ~= 0, Ricker", xlab = "S", ylab = "R")
+plot(s, alpha * s * (1-beta*gamma[3]*s)^(1/gamma[3]), lwd = 5, type = "l", main = "Gamma ~= -Inf, Proportional", xlab = "S", ylab = "R")
+```
+
+
+### Shepherd Model
+This model similarly has three parameters and combines the ideas of BH, Ricker, and Cushing models:
+
+\begin{equation}
+R = \frac{\alpha S }{1 + \beta S^\gamma}
+\end{equation}
+
+and is a special case of the Deriso-Schunte model ($\gamma = 1$; BH, $\gamma > 1$; Ricker, $\gamma < 1$; Proportional)
+
+### Gamma Model
+The gamma model generalizes the Ricker and the Cushing and is just based on an unnormalized (i.e., no normalizing constants) gamma function:
+
+\begin{equation}
+R = \alpha S^\gamma e^{- \beta S}
+\end{equation}
+
+but this model is unable to caputre BH dynamics, and is always going to have some sort of dome-shaped pattern. 
+
+All to say, there are tons of parameterizations of SR relationships, but generally in stock assessments, we tend to use BH, Ricker, or mean recruitment to model these processes
+
+### Biological Meaning of Parameters
+If spawning stock is measured in terms of egg production, then $R/S$ represents early life-history survival and mortality. All of the recruitment models include components 
+
+1. Compensatory Mortality: survival decreases with increasing spawning abundance, which can be represented as:
+
+\begin{equation}
+\frac{d(R/S)}{dS} < 0
+\end{equation}
+
+where your change in $R/S$ essentially decreases as function of spawning biomass. Additionally, some models include a second component:
+
+1. Overcompensation: the number of recruits decrease with increasing spawning biomass (e.g., Ricker), where:
+
+\begin{equation}
+\frac{dR}{dS} < 0
+\end{equation}
+
+So for the Beverton-Holt model, this model is purely compensation, where the number of recruits per spawners decreases, but the number of recruits you get for a given spawning biomass does not decrease. The Ricker model includes both compensation and overcompensation. The other component that some of these models contain is:
+
+1. Depensatory Mortality: where the early survival rates of juveniles increases as a function of spawning biomass, where: 
+
+\begin{equation}
+\frac{d(R/S)}{dS} > 0
+\end{equation}
+
+where the productivity of your stock actually increases with increasing egg production/SSB. Expanding on this a bit, depenstation can occur if there is a predation rate that is constant, or decreases nonlinearly with decreasing recruitment (i.e., large number of fish are produced, but only a constant number of fish are predated on, resulting in more total fish surviving - e.g., predator-swamping). A similar concept is also what we term as:
+
+1. Critical Depensation: where the SSB is so low, that recruitment fails to replenish the stock analagous to the ideas of recruitment overfishing. 
+
+Of the models discussed, only the gamma model includes depensation, where R/S increases with increasing spawning biomass. 
+
+The BH model can be extended to actually incorporate depensatory mortality by including the $\gamma$ term in it: 
+\begin{equation}
+R = \frac{\alpha S^\gamma}{1 + \beta S^\gamma} 
+\end{equation}
+
+However, depensation is often hard to detect in the natural world (although Furey et al. has a bunch of papers on how depensatory mortality can be caused by predator swamping).
+
+### Parameter Estimation
+Tradtionally, a lot of SR models are linearized and represented as linear regression models. For example, the BH spawner recruit model can be formulated as:
+
+\begin{equation}
+\frac{S}{R} = \alpha + \beta S \\
+y = \alpha + \beta S + \epsilon
+\end{equation}
+
+which assumes that errors are independent, although you can also model errors following AR1 processes. You also assume $S$ is measured without error, although this is seldom true - but state-space models can overcome this:
+
+\begin{equation}
+\frac{S}{R} = \alpha + \beta S^{True} + \epsilon \\
+S^{True} = S^{Obs} + \theta \\
+\theta \sim N(0, \sigma)
+\end{equation}
+
+Failing to account for measurement errors will lead to biased CIs generated as well as estimates. Another consideration is that strong recruitments in some years, will lead to strong recruitments (because of increased SSB) in following years, and impact subsequent estimates of recruitment. This is particullarly peritent and can cause large biases if errors are autocorrelated (not independent). For a linear form of the Ricker model, it can be formulated as:
+
+\begin{equation}
+R = \alpha Se^{-\beta S} \\
+\frac{R}{S} = \alpha e^{-\beta S}\\
+log(\frac{R}{S}) = log(\alpha) -\beta S
+\end{equation}
+
+which becomes a linear regression equation. Here, we can use traditional hypotheses tests to figure out whether the descending limb of the Ricker is significant (i.e., $\beta > 0$). However, we need to be cautious about some of these approaches when testing for evidence of overcompensation and the correlations and significance values they generate because the independent variable is also in the dependent variable (some studies have shown that R/S can have about a -0.7 correlation with S, even when they are generated completly independently). Generally spekaing, including environmental covariates into these relationships just simply involves adding them in as new independent variables. Similar formulations of linear models can be recast for the other SR models discussed above. Generally speaking, once we get the alpha and beta parameter estimates from linear regression, we can then back-predict what the expected recruitment should be given a level of spawning biomass. 
+
+For non-linear approaches and how to go about parameterizing, see pages 103 - 104. But in general, this is just the deterministic functions multipled or added by some process error. The only choice here really is to consider what the error structure of process error should look like.
+
+### Measurement error models
+
 
 ## Chapter 4 (Growth and Fecundity)
+
 
 ## Chapter 5 (Delay Difference Models)
 

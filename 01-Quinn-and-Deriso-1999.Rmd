@@ -1291,7 +1291,7 @@ If spawning stock is measured in terms of egg production, then $R/S$ represents 
 \frac{d(R/S)}{dS} < 0
 \end{equation}
 
-where your change in $R/S$ essentially decreases as function of spawning biomass. Additionally, some models include a second component:
+where your change in $R/S$ essentially decreases as function of spawning biomass. Another way to think of this is your survival increases with low spawning abundance (e.g., monotonically increasing at low S). Additionally, some models include a second component:
 
 1. Overcompensation: the number of recruits decrease with increasing spawning biomass (e.g., Ricker), where:
 
@@ -1307,7 +1307,7 @@ So for the Beverton-Holt model, this model is purely compensation, where the num
 \frac{d(R/S)}{dS} > 0
 \end{equation}
 
-where the productivity of your stock actually increases with increasing egg production/SSB. Expanding on this a bit, depenstation can occur if there is a predation rate that is constant, or decreases nonlinearly with decreasing recruitment (i.e., large number of fish are produced, but only a constant number of fish are predated on, resulting in more total fish surviving - e.g., predator-swamping). A similar concept is also what we term as:
+where the productivity of your stock actually increases with increasing egg production/SSB. Another way to think of this is that your survival decreases with decreasing spawning abundance (recruitment overfishing). Expanding on this a bit, depenstation can occur if there is a predation rate that is constant, or decreases nonlinearly with decreasing recruitment (i.e., large number of fish are produced, but only a constant number of fish are predated on, resulting in more total fish surviving - e.g., predator-swamping). A similar concept is also what we term as:
 
 1. Critical Depensation: where the SSB is so low, that recruitment fails to replenish the stock analagous to the ideas of recruitment overfishing. 
 

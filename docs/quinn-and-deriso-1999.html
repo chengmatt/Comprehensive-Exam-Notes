@@ -1077,20 +1077,20 @@ ASP_t = U_\infty E_t - \frac{U^2_\infty}{4m}E^2_t + \epsilon_t
 </div>
 <div id="schuntes-non-equilibrium-method" class="section level3" number="1.2.12">
 <h3><span class="header-section-number">1.2.12</span> Schunte’s Non-equilibrium Method</h3>
-<p>Schunte’s method allows the estimation of production parameters (<span class="math inline">\(m\)</span> and <span class="math inline">\(B_\infty\)</span>) and catchability:</p>
+<p>Schunte’s method allows the estimation of production parameters (<span class="math inline">\(m\)</span> and <span class="math inline">\(B_\infty\)</span>) and catchability, as well as process error <span class="math inline">\(\epsilon_t\)</span> to allow for non-equilibrium calculations:</p>
 <p><span class="math display">\[\begin{equation}
 dU = qdB = \frac{4m}{B_\infty}U - \frac{4m}{qB^2_\infty}U^2 - qE \\
 dU \frac{1}{U} = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty}U - qE \\
 \int_{U_t}^{U_{t+1}} \frac{dU}{U} = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty}U - qE dt \\ 
 log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} \int_{t}^{t+1} U - qE dt \\ 
-log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} U_{t+1} - U_{t} - q(E_{t-1} - E_t) \\ 
-log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} \frac{U_t + U_{t+1}}{2} = q\frac{E_t + E_{t+1}}{2} + \epsilon_{t+1}\\ 
+log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} U_{t+1} - U_{t} - q(E_{t+1} - E_t) \\ 
+log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} \frac{U_t + U_{t+1}}{2} - q\frac{E_t + E_{t+1}}{2} + \epsilon_{t+1}\\ 
 \end{equation}\]</span></p>
-<p>where we’ll turn the differences into averages for <span class="math inline">\(U,E\)</span>, which results in a multiple linear regression relationship. Although like many other methods, this requires good contrast in data to adequately estimate the productivity parameters.</p>
+<p>where we’ll turn the differences into averages for <span class="math inline">\(U,E\)</span>, which results in a multiple linear regression relationship. Although like many other methods, this requires good contrast in data to adequately estimate the productivity parameters. Nonetheless, these equations allow us to deviate from the equilibrium assumptions imposed by all the SPMs described above, where we have some process error in our equation. Thus, changes in catch are not due to only density dependent effects of the population in response to fishing, but can also account for resiliency of the species to recover from fishing (i.e., not just density dependent effects impacting recovery, but also how long it takes the fish to mature and grow to large sizes). All to say, non-equilibrium methods should be used, because they better account for process error in the deterministic equation, where changes in biomass can be due to growth and maturity processes, as well as changes in M, etc.</p>
 </div>
 <div id="difference-equations-for-surplus-production" class="section level3" number="1.2.13">
 <h3><span class="header-section-number">1.2.13</span> Difference Equations for Surplus Production</h3>
-<p>Difference equations here are way more intuitive and much easier to use, especially given the computational tools we have at hand today. We can calculate changes in biomass using a GS model as:</p>
+<p>Difference equations here are way more intuitive and much easier to use. We can calculate changes in biomass using a GS model as:</p>
 <p><span class="math display">\[\begin{equation}
 \frac{dB}{dt} = B_{t+1} - B_{t} = \frac{4m}{B_\infty}B_t - \frac{4m}{qB^2_\infty}B_t^2 - Y_t
 \end{equation}\]</span></p>
@@ -1120,7 +1120,8 @@ log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} \frac{U_
 <li><p>To solve for the biomass at which productivity is maximized, we generally need to set <span class="math inline">\(\frac{dP^.}{dB} = 0\)</span> with respect to <span class="math inline">\(B\)</span> to solve for <span class="math inline">\(B_m\)</span>,</p></li>
 <li><p>Maximum yield and productivity both occur at <span class="math inline">\(m\)</span> - solved for by replacing <span class="math inline">\(B\)</span> as <span class="math inline">\(B_m\)</span> in <span class="math inline">\(\frac{dP}{dt}\)</span> equations.</p></li>
 <li><p>Annual surplus production is the sum of yield and the change in biomass <span class="math inline">\(ASP_t = Y_t + B_{t-1} - B_t\)</span>.</p></li>
-<li><p>In general, equilibrium surplus production models assume equilibrium conditions (duh), but are problematic, because stocks are never at equilibrium. Using non-equilibrium methods is generally the most appropriate, especially if you have some measure of effort over time.</p></li>
+<li><p>In general, equilibrium surplus production models assume no process or observation error and are problematic, because stocks are never at equilibrium, where catch = surplus production for that level of fishing effort, such that changes in catch are due to changes in density dependence to regulate the population back to an equilibrium. But this is almost never the case because changes in yield can be due to rapid changes in effort, which can lead to yield surpassing the point of maximum sustained yield.
+Using non-equilibrium methods (allowing for process error and observation error) is generally the most appropriate, especially if you have some measure of effort over time.</p></li>
 </ol>
 </div>
 </div>

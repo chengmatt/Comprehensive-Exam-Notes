@@ -1078,21 +1078,21 @@ and $U_\infty = qB_\infty = C/E$. This relationship can be estimated using a mul
 
 
 ### Schunte's Non-equilibrium Method
-Schunte's method allows the estimation of production parameters ($m$ and $B_\infty$) and catchability:
+Schunte's method allows the estimation of production parameters ($m$ and $B_\infty$) and catchability, as well as process error $\epsilon_t$ to allow for non-equilibrium calculations:
 
 \begin{equation}
 dU = qdB = \frac{4m}{B_\infty}U - \frac{4m}{qB^2_\infty}U^2 - qE \\
 dU \frac{1}{U} = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty}U - qE \\
 \int_{U_t}^{U_{t+1}} \frac{dU}{U} = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty}U - qE dt \\ 
 log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} \int_{t}^{t+1} U - qE dt \\ 
-log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} U_{t+1} - U_{t} - q(E_{t-1} - E_t) \\ 
-log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} \frac{U_t + U_{t+1}}{2} = q\frac{E_t + E_{t+1}}{2} + \epsilon_{t+1}\\ 
+log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} U_{t+1} - U_{t} - q(E_{t+1} - E_t) \\ 
+log(\frac{U_{t+1}}{U_t}) = \frac{4m}{B_\infty} - \frac{4m}{qB^2_\infty} \frac{U_t + U_{t+1}}{2} - q\frac{E_t + E_{t+1}}{2} + \epsilon_{t+1}\\ 
 \end{equation}
 
-where we'll turn the differences into averages for $U,E$, which results in a multiple linear regression relationship. Although like many other methods, this requires good contrast in data to adequately estimate the productivity parameters. 
+where we'll turn the differences into averages for $U,E$, which results in a multiple linear regression relationship. Although like many other methods, this requires good contrast in data to adequately estimate the productivity parameters. Nonetheless, these equations allow us to deviate from the equilibrium assumptions imposed by all the SPMs described above, where we have some process error in our equation. Thus, changes in catch are not due to only density dependent effects of the population in response to fishing, but can also account for resiliency of the species to recover from fishing (i.e., not just density dependent effects impacting recovery, but also how long it takes the fish to mature and grow to large sizes). All to say, non-equilibrium methods should be used, because they better account for process error in the deterministic equation, where changes in biomass can be due to growth and maturity processes, as well as changes in M, etc.
 
 ### Difference Equations for Surplus Production
-Difference equations here are way more intuitive and much easier to use, especially given the computational tools we have at hand today. We can calculate changes in biomass using a GS model as: 
+Difference equations here are way more intuitive and much easier to use. We can calculate changes in biomass using a GS model as: 
 
 \begin{equation}
 \frac{dB}{dt} = B_{t+1} - B_{t} = \frac{4m}{B_\infty}B_t - \frac{4m}{qB^2_\infty}B_t^2 - Y_t
@@ -1137,7 +1137,8 @@ Across all of the surplus production models, several key principles and patterns
 
 1. Annual surplus production is the sum of yield and the change in biomass $ASP_t = Y_t + B_{t-1} - B_t$.
 
-1. In general, equilibrium surplus production models assume equilibrium conditions (duh), but are problematic, because stocks are never at equilibrium. Using non-equilibrium methods is generally the most appropriate, especially if you have some measure of effort over time.
+1. In general, equilibrium surplus production models assume no process or observation error and are problematic, because stocks are never at equilibrium, where catch = surplus production for that level of fishing effort, such that changes in catch are due to changes in density dependence to regulate the population back to an equilibrium. But this is almost never the case because changes in yield can be due to rapid changes in effort, which can lead to yield surpassing the point of maximum sustained yield. 
+Using non-equilibrium methods (allowing for process error and observation error) is generally the most appropriate, especially if you have some measure of effort over time.
 
 ## Chapter 3 (Stock and Recruitment)
 

@@ -1195,7 +1195,7 @@ Z_t = a_1 + b_1N
 \end{equation}\]</span></p>
 <p>which basically just gives the logistic growth equations but with negative parameters and <span class="math inline">\(a_1N\)</span> is the density independent effect where as <span class="math inline">\(b_1N^2\)</span> is the density dependent effect that has non-linear relationship with spawners. This results in:</p>
 <p><span class="math display">\[\begin{equation}
-R = \frac{N_0}{e^{a_1t} - \frac{b_1}{a_1}N_0 + } + \frac{b_1}{a_1}N_0e^{a_1t}} \\
+R = \frac{N_0}{e^{a_1t} - \frac{b_1}{a_1}N_0 + \frac{b_1}{a_1}N_0e^{a_1t}} \\
 R = \frac{S}{\alpha + \beta S} \\
 R = \frac{\alpha S}{1 + \beta S}
 \end{equation}\]</span></p>
@@ -1219,7 +1219,7 @@ R = \frac{\alpha S}{1 + \beta S}
 Z_t = a_1 + b_1S \\
 \frac{dN}{dt} = -Z_tN \\
 \frac{dN}{dt} = -(a_1 + b_1S)N \\
-\frac{dN}{dt} = -(a_1 + b_1S) \\
+\frac{dN}{dN} = -(a_1 + b_1S) dt \\
 \int_{N_0}^{N_t} \frac{dN}{N} = -(a_1 + b_1S) dt \\
 N_t = N_0exp(-(a_1 + b_1S)t)
 \end{equation}\]</span></p>

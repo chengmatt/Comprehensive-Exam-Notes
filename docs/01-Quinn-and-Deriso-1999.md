@@ -1220,7 +1220,7 @@ where $a_1$ is a density-independent effect on mortality, and $b_1$ is a density
 which basically just gives the logistic growth equations but with negative parameters and $a_1N$ is the density independent effect where as $b_1N^2$ is the density dependent effect that has non-linear relationship with spawners. This results in:
 
 \begin{equation}
-R = \frac{N_0}{e^{a_1t} - \frac{b_1}{a_1}N_0 + } + \frac{b_1}{a_1}N_0e^{a_1t}} \\
+R = \frac{N_0}{e^{a_1t} - \frac{b_1}{a_1}N_0 + \frac{b_1}{a_1}N_0e^{a_1t}} \\
 R = \frac{S}{\alpha + \beta S} \\
 R = \frac{\alpha S}{1 + \beta S}
 \end{equation}
@@ -1251,7 +1251,7 @@ In the BH model, R ~ SSB asymptotes. However, in the Ricker model, a dome-shaped
 Z_t = a_1 + b_1S \\
 \frac{dN}{dt} = -Z_tN \\
 \frac{dN}{dt} = -(a_1 + b_1S)N \\
-\frac{dN}{dt} = -(a_1 + b_1S) \\
+\frac{dN}{dN} = -(a_1 + b_1S) dt \\
 \int_{N_0}^{N_t} \frac{dN}{N} = -(a_1 + b_1S) dt \\
 N_t = N_0exp(-(a_1 + b_1S)t)
 \end{equation}

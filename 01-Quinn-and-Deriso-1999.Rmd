@@ -1123,7 +1123,7 @@ If the number of recruits is constant, say $R = 5$, then the above relationship 
 5/N_0 = l
 \end{equation}
 
-where $l$ is the net survival of eggs to recruits, and is dependent on the stock size. That is to say, if the number of recruits is constant, then there is a density-dependent effect of the number of eggs produced and the survival of eggs (inverse relationship). Thus, assuming constant recruitment (mean recruits) assumes that early life history is a density-dependent function of egg production.
+where $l$ is the net survival of eggs to recruits, and is dependent on the stock size. That is to say, if the number of recruits is constant, then there is a density-dependent effect of the number of eggs produced and the survival of eggs (inverse relationship). Thus, assuming constant recruitment (mean recruits) assumes that early life history is a density-dependent function of egg production (compenssatory process).
 
 ```{r}
 R = 1 # constant recruitment (or mean recruitment)
@@ -1293,7 +1293,7 @@ If spawning stock is measured in terms of egg production, then $R/S$ represents 
 
 where your change in $R/S$ essentially decreases as function of spawning biomass. Another way to think of this is your survival increases with low spawning abundance (e.g., monotonically increasing at low S). Additionally, some models include a second component:
 
-1. Overcompensation: the number of recruits decrease with increasing spawning biomass (e.g., Ricker), where:
+2. Overcompensation: the number of recruits decrease with increasing spawning biomass (e.g., Ricker), where:
 
 \begin{equation}
 \frac{dR}{dS} < 0
@@ -1301,15 +1301,15 @@ where your change in $R/S$ essentially decreases as function of spawning biomass
 
 So for the Beverton-Holt model, this model is purely compensation, where the number of recruits per spawners decreases, but the number of recruits you get for a given spawning biomass does not decrease. The Ricker model includes both compensation and overcompensation. The other component that some of these models contain is:
 
-1. Depensatory Mortality: where the early survival rates of juveniles increases as a function of spawning biomass, where: 
+3. Depensatory Mortality: where the early survival rates of juveniles increases as a function of spawning biomass, where: 
 
 \begin{equation}
 \frac{d(R/S)}{dS} > 0
 \end{equation}
 
-where the productivity of your stock actually increases with increasing egg production/SSB. Another way to think of this is that your survival decreases with decreasing spawning abundance (recruitment overfishing). Expanding on this a bit, depenstation can occur if there is a predation rate that is constant, or decreases nonlinearly with decreasing recruitment (i.e., large number of fish are produced, but only a constant number of fish are predated on, resulting in more total fish surviving - e.g., predator-swamping). A similar concept is also what we term as:
+where the productivity of your stock actually increases with increasing egg production/SSB. Another way to think of this is that your survival decreases with decreasing spawning abundance (recruitment overfishing). Expanding on this a bit, depenstation can occur if there is a predation rate that is constant, or decreases nonlinearly with decreasing recruitment (i.e., large number of fish are produced, but only a constant number of fish are predated on, resulting in more total fish surviving - e.g., predator-swamping). Another example would be fish schooling, because when prey group together, they're harder to find (not randomly or uniformly distributed). A similar concept is also what we term as:
 
-1. Critical Depensation: where the SSB is so low, that recruitment fails to replenish the stock analagous to the ideas of recruitment overfishing. 
+4. Critical Depensation: where the SSB is so low, that recruitment fails to replenish the stock analagous to the ideas of recruitment overfishing. 
 
 Of the models discussed, only the gamma model includes depensation, where R/S increases with increasing spawning biomass. 
 
@@ -1349,6 +1349,65 @@ which becomes a linear regression equation. Here, we can use traditional hypothe
 For non-linear approaches and how to go about parameterizing, see pages 103 - 104. But in general, this is just the deterministic functions multipled or added by some process error. The only choice here really is to consider what the error structure of process error should look like.
 
 ### Measurement error models
+Measurement errors are not a panacea because if you have large errors in your measurements, then its hard for the model to figure out what the underlying non-linear relationships should be. The book goes on to state that some approaches have been developed to account for both process and observation error, but the best approach still remains unknown. Given recent developments in state-space models and non-linear optimization methods, I would say the approach is to include both in your models. Back in the dark ages, we needed to know the ratio of process and measurement error to adequately use these approaches, and needed to be linearized and errors were normal (Kalman filter limitation)/ In general, measurement error and process error can be taken into account via (for a Ricker model):
+
+\begin{equation}
+R_t = \alpha S_te^{-\beta S_t} + e_t \\
+S_t = S_t^{obs} + v_t \\
+v_t \sim N(0, \sigma_v^2) \\
+e_t \sim N(0, \sigma_e^2)
+\end{equation}
+
+Some other approaches of this can be generalized, by allowing both recruitment and spawning biomass to have measurement error.
+
+### Autocorrelated errors
+In general, our stock-recruit models do not have correlated errors. However, if the environment effects on these relationships are large, then subsequent observations of recruitment are correlated. This will result in observations of runs of good years and bad years, if environmental effects are strong. In general, allowing for autocorrelated errors can be done via:
+
+\begin{equation}
+R_t = F(S_{t-1})e^{\epsilon_t} \\
+log(R_t) = log(F(S_{t-1}) + \epsilon_t \\
+\epsilon_t = a_t + \phi_1 \epsilon_{t-1} ... \phi_p \epsilon_{t-p}
+\end{equation}
+
+which is basically just modelling the errors as an AR(p) process. Failing to account for these autocorrelations can result in large biases in estimates of recruitment (might be important for sablefish) potentially, given recent large cohorts. 
+
+### Semelparous Populations
+Some semelparous populations have a constant age of maturity (assumed for simplification), whereas iteroparous populations can have multiple ages contributing to reproduction. Nonetheless, recruits and spawners returning are easier to measure and can be summed across returning age classes to from a given brood year to get recruits, which allows us to easily find the point at which $S_msy$ should be defined, given equations of when peak recruitment occurs (from book). 
+
+In terms of the time-trajectories of a behavior of a stock, pure compensation and pure depensation models allow spawners to converge monotonically towards carrying capcity, while critical depensation models has an unstable point where spawners = 0, in which the population goes to 0. For overcompensation models (Ricker), the population can display very random behavior, tending towards 0, reaching carrying capacity, or cycling around both points (see page 120 for a graphical example). Page 121 dives into details about when productivity is high, overcompensation models can give rise to very chaotic behavior/a limit cycle. 
+
+When harvesting is present, the maximum harvest at equilibrium can be found by taking the derivative of $F(S)$ and solving it to equal to 1, which represents the largest vertical difference between the SR curve and the replacement line $R = S$. Thus, these are similar to our surplus production models for semelparous populations. Thus, for any stock recruit model for semelparous populations, the maximum sustained catch in equilibrium is $m = R_m - S_m$. Basically this says that if we harvest $m$, we still have enough recruits to replace spawners, and is the production of the stock if it wasn't harvested. Some equations are given in pages 122 - 123 to find analytical solutions of MSC. 
+
+```{r}
+a = 2 # alpha 
+beta = 0.0000462 # beta
+s = seq(1e3, 3e4, 50) # spawners
+r = a * s * exp(-beta * s)
+max_rec = 1 / beta # maximum recruitment possible (conditioned on your density dependent factor)
+
+# Define ricker function
+f <- function(s, a, beta) return(a * s * exp(-beta * s))
+
+# Find the derivative of f(s) with respect to s
+derivative <- Deriv::Deriv(expression(a * s * exp(-beta * s)), "s")
+
+# Solve
+solution <- uniroot(function(s) eval(derivative, envir = list(s = s, a = a, beta = beta)) - 1, interval = c(1e3, 3e4))
+
+# The solution is in solution$root
+s_value <- solution$root
+
+par(mfrow = c(1,2))
+plot(s, r, xlab = "Spawners", ylab = "Recruits", lwd = 3, type = "l", main = "Ricker Model w/ replacement line and point at MSC")
+abline(0, 1, lty = 2) # replacement line
+abline(v = s_value, lty = 2)
+abline(r[which.min(abs(s - s_value))] - s[which.min(abs(s - s_value))], 1, lty = 2) # m = r - s
+points(s[which.min(abs(s - s_value))], r[which.min(abs(s - s_value))], cex = 3, pch = 18, col = "red")
+plot(s, r - s, type = "l", xlab = "Spawners", ylab = "m  = (R-S)", lwd = 3, main = "Point at which MSC occurs")
+abline(v = s_value, lty = 2)
+points(s[which.max(r-s)], max(r - s), cex = 3, pch = 18, col = "red")
+abline(h = 0, lty = 2)
+```
 
 
 ## Chapter 4 (Growth and Fecundity)

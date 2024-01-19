@@ -53,6 +53,8 @@ gamma-model
 biological-meaning-of-parameters
 parameter-estimation-1
 measurement-error-models
+autocorrelated-errors
+semelparous-populations
 chapter-4-growth-and-fecundity
 chapter-5-delay-difference-models
 chapter-6-per-recruit-and-year-class-models

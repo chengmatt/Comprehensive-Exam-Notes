@@ -1491,7 +1491,149 @@ abline(h = 0, lty = 2)
 
 
 ## Chapter 4 (Growth and Fecundity)
+Growth of an organism is the combination of 2 processes:
+1. Anabolism, which is the synthesis of proteins.,
+1. Catabolism, which is the degradation of proteins.
 
+Catabolism occurs in every living organism, where it breaks down cells and is therefore proportional to the mass and weight of an individual, while anabolism is the building up of body substances, and is proportional to the surface area of an individual (because its proportional to respiration).
+
+### Weight Length Models
+Growth is a three-dimensional process, with length, width, and depth of an individual changing over time. Generally, individuals do not shrink in length (although there are some examples I believe), and growth is generally limited by a species maximum size. 
+
+Isometric growth is when the length, width, and depth of an individual change in proportion to each other. Here, the surface area of an organism is proportional to the square of a 1D measurement, and the volume is proportional to the cube of a 1D measurement. Thus, weight can be proportional to the cube of length. In general, we can write these models as:
+
+\begin{equation}
+W = \alpha L^3 \\
+W = \alpha L^\beta
+\end{equation}
+
+where the latter equation (allometric growth) is used if fish growth does not fit an isometric relationship (i.e., the dimensions of weight, length, and depth do not grow proportionally to each other). The $\alpha$ parameter is also known as the condition factor because two fish with the same lengths, but with different weights can have a different $\alpha$, where the fish that weighs more (better condition) has a higher alpha, while $\beta$ measures curvature (larger $\beta$ = more curved).
+
+When estimating these relationships, its necessary to choose the correct error structure. Assuming additive error suggests that variability in the relationship is a constant of length, while multiplicative error suggests variability increases as a function of length. Some strategies for estimating these relationships involve first fitting the allometric equation, testing whether $\beta$ is significantly different from 3, and if not, using the isometric equation and re-estimating this relationship.
+
+### Length Age Model
+The fundamental part of this model is that growth rates begin to decline as fishes get older. A simple differential equation can be formulated:
+
+\begin{equation}
+\frac{dL}{dt} = \omega - \kappa L, \omega > 0, \kappa > 0
+\end{equation}
+
+where an initial condition of $L(t_0) = L_0$ is imposed, $\omega$ is the growth rate at $t_0$, and the growth rate declines linearly as a function of length to 0 at $\omega / \kappa = L_\infty$. Given these conditions, we can substitute them back into our differential equation to yield:
+
+\begin{equation}
+\frac{dL}{dt} = \kappa L_\infty - \kappa L, \kappa > 0, L_\infty > 0 \\
+\frac{dL}{dt} = \kappa (L_\infty - L) \\
+dL / (L_\infty - L) = \kappa  dt \\
+L = L_\infty [1 - e^{-\kappa (t - t_0)}]
+\end{equation}
+
+where $t_0$ is a theoretical age at which the individual is at length 0 and governs where the x-intercept is. Here $L_\infty$ is the asymptotic length and $\kappa$ is the curvature parameter (growth rate), which becomes more curved at larger numbers (steeper). $L_\infty$ and $\kappa$ are negatively correlated because increasing the asymptote decreases the curvature. This equation can also be recast into a difference equation:
+
+\begin{equation}
+L_{t + \tau} - L_t = (L_\infty - L_t)(1 - e^{-\kappa \tau})
+\end{equation}
+
+
+```r
+L_inf = 100 # linfity
+k = 0.1 # brody growth
+t0 = -5 # theoretical age at length 0
+a = seq(-5, 50, 1) # ages
+L = L_inf * (1 - exp(-k * (a - t0))) # vonB
+diffL = diff(L)
+par(mfrow = c(1,2))
+plot(a, L, xlab = "Age", ylab = "Length", lwd = 5, type = "l")
+plot(L[-1], diffL, xlab = "L", ylab = "difference L", main = "Walford Plot (growth increments)", type = "l", lwd = 5)
+```
+
+<img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-27-1.png" width="672" />
+
+
+#### Brody Model
+The Brody model describes changes in size as sigmoidal, with two phases and is a 6 parameter model (see page 134 for equations). There are two sets of equations that are modeled, and the given equation modeled is determined by some critical age - i.e., transition to 2nd equation if we are at a particular age. Because this is 2 sets of equations, the derivatives at the two equations must be equal for this equation to be continuous (e.g., similar to a spline by joining the knots together). In general, we won't use this model, but its noted that if you have data from early and adult stages collected on different time scales or studies, it can be useful. 
+
+#### Estimation
+In general, we should be using nonlinear least squares to estimate these equations. The assumption of additive and multiplicative errors can simply be checked for by residual plots (e.g., fan shape additive errors = need to switch to multiplicative errors) Note that it could be problematic if you don't have good data observed for older ages and younger ages, given that the asymptotic parameter and the growth rate parameter are negatively correlated. You probably need well defined data at those points to effectively parse out those values. There are some other reparameterizations of the vonB out there, using the concept of expected-value parameterizations where some of the parameters are expected values of the dependent variable at some points of the independent variable - i.e., we can use independent variables to derive the expected values of parameters (page 139 for equations; Francis and the Schnute equations are commonly used in fisheries nowadays). This can help in some cases with estimation problems. 
+
+### Weight Age Models
+Growth in weight and age relationships typically grow the fastest at intermediate ages and often takes on a sigmoidal shape. If growth is past the inflection point for a given set of ages, we can reasonably model weight with a form of the LVB model (because LVB has no inflection point). In general, there are some formualtions of weight-age models that we can write as difference equations to represent growth increments:
+
+\begin{equation}
+W_{t+1} = W_t + \rho (W_t - W_{t-1})
+\end{equation}
+
+where we are just adding some increment to the previous weight, and $\rho$ is a constant such that growth increments decrease by a factor of $\rho$. However, these difference equation forms for modelling weight-age relationships are not really used, as they were used back in the day simply for mathematical convenience. 
+
+#### Combining Weight-Length and Length-Age Models
+A weight-age model can be simply constructed by combining the weight-length and length-age models, such that:
+
+\begin{equation}
+W_t = W[L_t] \\
+W_t = [\alpha L_\infty (1 - e^{-\kappa(t-t_0)})]^\beta \\
+W_\infty = (\alpha L_\infty)^\beta \\ 
+W_t = W_\infty (1 - e^{-\kappa(t-t_0)})^\beta
+\end{equation}
+
+It can be proved using differential equations and derivatives that this model has an increasing function rising to an asymptote, a single maximum point, and an inflection point (unlike the difference equations), which leads to a sigmoidal curve. This is a 4 parameter model and can genearlly be used to adequately describe growth of many fishes. However, this leads to some model instability and is highly correlated in its parameters ($L_\infty, \kappa$, $t_0, \beta$). Commonly, what we do is fit the weight-length relationship outside this model, and fix the beta at the estimated value. We can also just simply fit weight-length and length-age relationships separately, and then combine the two models to get weight-age relationships. Interestingly, the book gives another approach of reparmeterizing this equation, basically where we end up modelling the response as $X_i = W^{1/\beta}$, but requires a fixed estimate of $\beta$. 
+
+
+### Size-Age Model
+Here, size-age models are generalized models where size can be either length, weight, width. This is helpful for modelling shellfish and organisms that don't have a pre-defined way of measuring length or weight. The initial section of the book here gives our traditional allometric growth model, and also presents a linear model for representing relationships between size-age relationships (i.e., polynomial models; allowing for power terms in the linear model).
+
+#### Gompertz Growth Model
+The Gompertz Growth Model is another sigmoidal growth model (can also be used to model population changes):
+
+\begin{equation}
+\frac{dY}{dt} = \lambda e^{-\kappa t}Y \\
+\frac{dY}{Y} = \lambda e^{-\kappa t}dt \\
+\int_{Y_0}^Y \frac{dY}{Y} = \int_0^t \lambda e^{-\kappa t}dt \\
+Y = Y_\infty exp[-\frac{1}{\kappa}e^{-\kappa (t - t_0)}]
+\end{equation}
+
+where the first part of the equation says that changes in sizes declines exponentially as a function of age, and as t goes to infinity, Y reaches some asymptote. The inflection point here is only governed by $Y_\infty$ and thus is less flexible, relative to the LVB, which is determined by 2 parameters (the inflection).
+
+
+```r
+Y_inf = 1000 # asymptote
+t_0 = -3 # t0
+k = seq(0.1, 0.3, 0.1) # growth
+t = seq(1, 100, 1) # time
+col = viridis::viridis(n = length(k))
+par(mfrow = c(1,2))
+for(i in 1:length(k)) {
+  Y = Y_inf * exp(-(1/k[i]) * exp(-k[i] * (t - t_0))) # gompertz model
+  if(i == 1) plot(t, Y, type = "l", lwd = 5, 
+                  xlab = "Time", ylab = "Size", main = "Gompertz", col = col[i])
+  else lines(t, Y, type = "l", lwd = 5,col = col[i])
+}
+
+# plotting differential equation form
+lambda = exp(k[1] * t_0) # repameterization of differential equation 
+t = seq(1, 30, 1) # time
+Y = Y_inf * exp(-(1/k[1]) * exp(-k[1] * (t - t_0))) # gompertz model
+diffeq = lambda * exp(-lambda * t) * Y
+plot(Y, diffeq, xlab = "Size", ylab = "Change in Size", main = "Diff Eq of Gompertz", type = "l", lwd = 5)
+```
+
+<img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-28-1.png" width="672" />
+
+#### Other Size-Age Growth Models
+Both the Richards and Schunte Models are able to capture multiple shapes, and can resemble the LVB model, the Gompertz Model, logistic models, isometric models, or allometric models. These models encapsulate more parameters and are more flexible, allowing for a wide range of shapes to take from, with more flexible inflection points in the growth model (see pages 148 - 150 for equations). Schunte's growth model has four solutions, all of which are paramterized differently. The book goes on to show a general algorithim for testing which growth model works/fits the data the best by significance tests (see Fig. 4.8 for representations of the Schunte Growth Model). The Schunte model is generally more stable because two of the parameters are expected value parameterizations and thus, is more stable than the 4 parameter LVB or the Richards model. 
+
+#### Schunte-Richards Growth Model
+This is a five-parameter model that can model growth, maturity, and survival. This model takes the form of:
+
+\begin{equation}
+Y_t = Y_\infty (1 + \delta e^{-\kappa t^\nu})^{1/\gamma}
+\end{equation}
+
+The book doesn't really give any details on the properties of the model, but goes on to note that its a special case of the LVB, Gompertz, and Schunte's original model. 
+
+
+### Mark-Recapture Data
+Two general approaches can be taken for analyzing growth data using mark-recapture data, which includes: 1) growth is related to elapsed time, or 2) age data are availiable.
+
+#### Elapsed Time Models
 
 ## Chapter 5 (Delay Difference Models)
 

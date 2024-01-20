@@ -1,4 +1,4 @@
-# Quinn and Deriso (1999)
+# Quantitative Fish Population Dynaamics Quinn and Deriso (1999)
 
 ## Chapter 1 (Population Growth, Mortality, and the Fishing Process)
 

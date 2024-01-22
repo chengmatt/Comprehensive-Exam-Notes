@@ -87,3 +87,10 @@ assessment-diagnostics
 oceanography
 groundfish-life-history-and-ecology
 fisheries-ecology-and-management-walters-and-martell-2004
+changing-objectives-and-emerging-assessment-methods
+the-role-of-predictive-models
+approaches-to-prediction-of-policy-impact
+experimental-management
+decision-marking-under-uncertainty
+ecological-basis-for-sustainable-harvesting
+trade-offs-in-fisheries-management

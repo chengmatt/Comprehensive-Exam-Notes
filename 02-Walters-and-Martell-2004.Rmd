@@ -33,5 +33,70 @@ Some other notes on simple logistic growth/surplus production models. Although t
 
 Some other notes on the use of instantaneous rates vs. multiplying by constants. We tend to use instataneous rates because changes in fisheries can happen rapidly over a short period (e.g., pulse fishery), which makes using rate changes more convenient ($N_{t+1} = N_te^{-Z}$) than multiplying by some constant ($N_{t+1} = N_tS$). Additionally, instantaneous rates of change allow us to partition mortality into other components (fishing, predation) and allow us to calculate losses in the population due to some specific factor.
 
-## Trade-offs in Fisheries Management
+### Synthesis
+1. Predictive models are needed because management agencies need to understand decisions between policy A and policy B such that we know which option is a better bet for the future,
+1. We need to make decisions under uncertainty, where uncertainty arises given imprecise measurements, assumptions modellers make, uncertainty about future conditions and how stocks will respond to policies. In general, managers are confronted with this idea of decisive action vs. inaction. Nonetheless, despite these uncertainties and not being able to count the precise number of fish out there, we can use simulations and models to figure out what policy option might be the best bet in the future, given a range of uncertainties.
+1. There is an ecological basis for harvesting, which generally revolves around the idea of compensatory responses - wherein we can get gains in production by fishing the population away from its carrying capacity. Harvesting the population at a modest rate can allow for improved survival of juveniles, and less commonly, improved fecundity in species. 
 
+
+## Trade-offs in Fisheries Management
+The key goal of fisheries management is to expose trade-offs within the system and associated conflicting objectives, and to develop ways in which we can successfully work around and within these trade-offs/conflicting objectives. 
+
+Some common tradeoffs in fisheries include:
+1. abundance of target species and fishing effort,
+1. harvest today vs. long term (e.g., current sablefish situation),
+1. harvest of productive and non-productive stocks,
+1. profit versus employment,
+1. expenditure on fisheries resources vs. others,
+1. harvest of valuable versus abundance species, 
+1. fishing practices that are not selective vs. selective,
+1. monitoring vs. basic ecological research,
+1. developing new data monitoring and assessment methods vs. gathering data,
+1. investment in enforcement vs. research, and
+1. interesting research vs. research that seeks to manage a system.
+
+### Tradeoff relationships and policy choices
+Generally, the authors predict that two types of patterns will emerge when comparing traadeoffs between two policy choices.
+1. Convex set, where one value can be increased without impacting the other value that much, 
+1. Concave set, where an increase in one value leads to a disproportionate decrease in another value, and
+1. Linear set, an increase in one value leads to a proportional decrease in another value.
+
+Fisheries that tend to operate with a suboptimal policy occurs because:
+1. something has been left out of the tradeoff calculation,
+1. there are hidden objectives not visible in a 2D graph,
+1. someone isn't doing their job right.
+
+Typically in fisheries, we have arguments that invovle two types of objective functions:
+1. linear - $V = w_1X + w_2Y$ where $V$ is the total value, $X, Y$ are conflicting measures and $w$ are weights placed upon those measures,
+1. logarithmic - $V = X^{w1} + Y^{w_2}$
+
+Typically, linear tradeoffs occur when we are able to freely tradeoff between choices without prejudice about extreme values, while logarithmic tradeoffs occur when extreme values for certain choices are seen as illegal or unfair or destructive. An example given in the book is that small increments in income are seen as favorable, but when your income is large, increases do not necessarily have as much value anymore.
+
+### Short term vs. long term values
+A common short term vs. long term value in fisheries revolves around the value of harvesting now vs. harvesting later. In general, harvesters will want to constrain fishing such as to provide a reasonable harvest this year without reducing the stock below a sustainable level for which will maximize the average surplus production in a given year (i.e., allow for fishing and keep the stock at a sustainable level so its able to produce good surplus in future years). But this decision is much harder when a stock has been overfished and requires some form of rebuilding (closures or little fishing allowed), because some of the benefits reaped from not allowing fishing might not apply to current harvesters and allowing for little fishing will severely compromise/prolong the recovery process.
+
+#### Why and what to do when harvesters oppose rebuilding plans?
+1. Harvesters might oppose rebuilding plans because their short term pain does not necessarily translate to long term gain, and economics show that allowing for some fishing is way more beneficial. To resolve this issue, the authors propose instituting some form of property right so that they can reap the benefits when time comes,
+1. There is no assurance about the increases of catches following a rebuild period because of uncertainty and the precatuionary principle. Harvesters need to see firm decision rules as to how catches will increase in response to surveys, etc.
+1. In a multi-species fishery, rebuilding leads to less of the abundant fish being caught in order to rebuild a depleted stock. Thus, regulators need to identify species that are actually endangered vs. those that are fished less than optimaly on a single-species basis.
+1. The gain in the long term might not be that attractive and gains in the short term are more beneficial. Management plans here should balance expected benefits to costs and if the expected costs are much larger, then harvesters should be provided with financial benefits of some form.
+1. The definition of a depleted stock is incorrect - by allowing harvesters to be part of the process, this situation might be circumvented and allows them to build confidence in the assessment process.
+
+### Trade offs between biodiversity and productivity
+Tradeoffs between biodiversity and production are not simple and can be grossly overestimated in terms of their responses. In particular, allowing for increased harvest of a given species can have several different responses to their predators (increase, decrease, or exponential decrease). Exploring these tradeoffs in an ecosystem model has sometimes even shown that we should cull the predators to maximize profits. Some of the mixed-stock fisheries in salmon face a lot of these problems - whether to protect your weak stocks and minimize catch or to disregard the weak stocks and just allow harvest. Some proposed solutions have been to close fisheries in certain areas or allow for temporal lags in fishing 
+
+### Economic efficiency vs. diversity of employment oppurtunities
+Obviously there are tradeoffs between economic efficiency and diversity. In general, a lot of these tradeoffs have been approached through the lens of an economist, where they noticed that profits were being spread between too many people and recommended that we scale back the fleet size, increase efficiency, and allow for some form of ITQ fishing. However, this is kind of misleading as increasing efficiency can result in overfishing, and the implementation of buyback programs or ITQs have hurt communities and their welfare. When economists say to make something more efficient, its the equivalent of telling us to put all our money into one stock as opposed to having a diversified portfolio.
+
+### Allocation of Mangement Agency Resources
+Given constraining budgets, several tradeoffs are needed when deciding how to allocate resources, which involve: 1) basic monitoring, 2) the development of new methods and tools, and 3) allocation to enforcement. 
+
+### Synthesis
+1. The key goal of fisheries management is to expose tradeoffs and to find a way to successfully manage within the constraints of these tradeoffs.
+1. Some patterns in tradeoffs between policy options exist, which include concave, convex, and linear sets. 
+1. Suboptimal polices occur because: 1) certain tradeoff calculations have been left out, 2) there are some hidden objectives not captured, and 3) someone isn't doing their job right.
+1. Some ways to assess tradeoffs among policy decisions are to create frontier plots as well as form objective functions describing these tradeoffs, which are associated with weights. Maximizing this objective function can help in identifying policy decisions.
+1. Some common trade-offs we commonly deal with are shor term vs. long term values (e.g., rebuilding plans), trade-offs between biodiversity and productivity, allocation to resources within management agencies, and edconomic efficiency vs. diverse employment oppurtunities. 
+
+
+## Strategic Requirements for Sustainable Fisheries

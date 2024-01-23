@@ -79,7 +79,7 @@ chapter-8-catch-age-and-age-structured-assessment-methods
 chapter-9-size-structured-models-and-assessment-methods
 chapter-10-migration-movement-and-other-spatiotemporal-considerations
 chapter-11-optimal-harvesting
-broad-stock-assessment-questions
+broad-comprehensive-exam-questions-outlines
 catch-per-unit-effort-data
 selectivity-1
 data-weighting
@@ -90,6 +90,7 @@ reference-points-w-time-varying-processes
 assessment-diagnostics
 oceanography
 groundfish-life-history-and-ecology
+maturity
 fisheries-ecology-and-management-walters-and-martell-2004
 changing-objectives-and-emerging-assessment-methods
 the-role-of-predictive-models
@@ -97,4 +98,13 @@ approaches-to-prediction-of-policy-impact
 experimental-management
 decision-making-under-uncertainty
 ecological-basis-for-sustainable-harvesting
+synthesis-1
 trade-offs-in-fisheries-management
+tradeoff-relationships-and-policy-choices
+short-term-vs.-long-term-values
+why-and-what-to-do-when-harvesters-oppose-rebuilding-plans
+trade-offs-between-biodiversity-and-productivity
+economic-efficiency-vs.-diversity-of-employment-oppurtunities
+allocation-of-mangement-agency-resources
+synthesis-2
+strategic-requirements-for-sustainable-fisheries

@@ -1,4 +1,4 @@
-# Broad Stock Assessment Questions
+# Broad Comprehensive Exam Questions + Outlines
 
 ## Catch-per-unit effort data
 - Detriments with using CPUE data
@@ -39,6 +39,8 @@
 
 ## Assessment Diagnostics
 
-# Oceanography
+## Oceanography
 
-# Groundfish life-history and ecology
+## Groundfish life-history and ecology
+
+### Maturity 

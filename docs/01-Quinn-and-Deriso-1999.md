@@ -1633,7 +1633,56 @@ The book doesn't really give any details on the properties of the model, but goe
 ### Mark-Recapture Data
 Two general approaches can be taken for analyzing growth data using mark-recapture data, which includes: 1) growth is related to elapsed time, or 2) age data are availiable.
 
-#### Elapsed Time Models
+#### Elapsed Time Models (no aging data)
+If the vonB adequately describes growth processes and with an additive error structure, then we can describe growth with mark and recapture models with the following equation:
+
+\begin{equation}
+\delta Y_i = (Y_\infty - Y_{1i}) (1 - e^{-\kappa \delta t_i}) + \epsilon_i \\
+Y_{2i} = Y_{1i}e^{-\kappa \delta t_i} + (Y_\infty - Y_{1i}) (1 - e^{-\kappa \delta t_i}) + \epsilon_i
+\end{equation}
+
+where $Y_{1i}$ is the length at first capture, and $\delta t_i$ is the time in between recaptures (time elapsed), while $\delta Y_i$ is the change in growth. So here, change in growth is modeled by a change in time in between recaptures. However, only two parameters can be estimated here and $t_0$ needs to be obtained elsewhere, although you can solve for it if you know the length-at-age for some ages. Some other derivations are given in page 156 for Schunte's Growth model. In general, some parameters are not estimable simply because there is no information on absolute ages. Some general assumptions here are that: 1) marking does not impact growth, and 2) growth parameters from age-size data are differently interpreted than for mark-recapture data given individual variation. Thus, caution is needed when comparing estimates from the two. For time-elapsed models in one year, it predicts growth one year later for an individual of a given size. For age-size models, it predicts growth one year later for an individual of a given age. In general, combining the two approaches together circumvents the interpretability problem (see sections below). Additionally, note that for some of the parameterizations of the Schunte Growth model, certain parameters need to be fixed given a lack of explicit information into the model about absolute ages (e.g., youngest age in the data, average length at youngest age, and the oldest age in the data). 
+
+### Models with Aging Data
+One approach would be to fit a size-age model, but the population during the two time periods could be completely different and the model would not be helpful in either case. Another approach would just be to model the marks and recaptured growth separately but you are not fully exploiting the available data - you get more information by using all data simultaneously. When you have age data, a potential approach would be to solve for a linear system of equations:
+
+\begin{equation}
+lnY_{1i} = ln\alpha_i + \beta_ilnt_{1i} \\
+lnY_{2i} = ln\alpha_i + \beta_ilnt_{2i} \\
+lnY_{2i} - lnY_{1i} = ln\alpha_i + \beta_ilnt_{2i} - ln\alpha_i + \beta_ilnt_{1i} \\
+lnY_{2i} - lnY_{1i} = \beta_i(lnt_{2i} + \beta_ilnt_{1i}) \\
+\beta_i = \frac{lnY_{2i} - lnY_{1i}}{lnt_{2i} + \beta_ilnt_{1i}} \\
+ln\alpha_i = lnY_{1i} - \beta_ilnt_{1i}
+\end{equation}
+
+and an overall estiamte of each parameter can be obtained from some function of the individual $\alpha_i, \beta_i$, which can be done by say taking the median. In some cases, you might have two independent sets of information - one from mark-recapture, and the other from size-age data. A paper from Kirkwood combines both data sources and assumes a common constant parameter for all individuals in the population. Kirkwoods approach predicts age from size data, with a mark recapture component and a size-age component. This then combines two likelihood components (one from mark-recapture and one from the size-age data) to jointly estimate model parameters.
+
+Some newer approaches for combining growth data and mark-recapture data is a modified version of the Laslett, Eveson, and Polacheck approach. Here, they use a flexible Richards Growth model for describing and fitting to size-age data, but can be extended to accomodate other functional forms as well:
+
+\begin{equation}
+L_a = L_\infty(1 + \frac{1}{p}e^{-\kappa(a - t_0)})^{-p}
+\end{equation}
+
+where $p$ is the shape parameter that controls the inflexion point of the curve. To fit tagging data, they extend the Richards growth model and fit to tag at release and recapture:
+
+\begin{equation}
+L_{1i} = L_\infty(1 + \frac{1}{p}e^{-\kappa(A_i - t_0)})^{-p} \\
+L_{2i} = L_\infty(1 + \frac{1}{p}e^{-\kappa(A_i +\Delta t - t_0)})^{-p} \\
+log(A_i) \sim N(log(\mu_{log(A_i)}, \sigma))
+\end{equation}
+
+where $L_{2i}$ and $L_{1i}$ are the lengths at recapture and release, respectively, $A_i$ is the age at release, which is unobserved, and $\Delta t$ is the time at liberty $t_2 - t_1$. Although tag data does not have information about $t_0$, this is informed by jointly estimating size-age data. Further, since the age at release is also not observed, we can model this is a latent random effect. Here, separately fitting the release and recapture lengths assumes that these components are independent. However, some other extensions to model this dependency are availiable and does so by allowing correlations between the two points. Given that correlations between two points will be large when the time at liberty is small, we can model correlations as a decreasing function of time at liberty (i.e., less correlation the further apart tag and recaptures are). 
+
+### Comparison of Growth Models
+Generally, two things need to compared for growth models: 1) the choice of the growth model, and 2) the error structure imposed upon the growth model. The other issue you need to take into account is differences in growth among sexes, areas, or other groupings. These considerations might necessitate analyzing the groupings separately. 
+
+#### Choosing the best growth model
+A priori, Schunte's growth model might be the most logical because it assumes linear relative growth acceleration (i.e., growth is linear relative to its given size). Other growth models are likely appropriate and residual diagnostics will probably be sufficient to tell you whether it adequately describes the growth data. Inspecting residuals will generally tell you whether or not the error structure imposed is appropriate. Lastly, parsimonious model structures should be chosen and we can use information criterion statistics to choose among a candidate set of models. Other approaches would be to use cross-validation methods to select models that best predict the data. 
+
+Broadly, one-parameter and multi-parameter (using variance covariance matrices) can be conducted to test whether one should pool data across sexes or combine data. If statistical tests indicate that parameter estimates are significantly different among sexes or areas, then one should disaggregate data and analzye separately. This is helpful for determining if there is sex-structure in your model or if spatially-explicit approaches should be considered.
+
+### Scale and Otolith Measurements
+
 
 ## Chapter 5 (Delay Difference Models)
 

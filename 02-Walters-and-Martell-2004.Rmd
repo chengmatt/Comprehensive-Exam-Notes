@@ -14,7 +14,7 @@ Predictive models are needed because management agencies need to make decisions 
 ### Experimental Management
 The approach for experimental management is to create a wide range of policy options that are robust (maybe via simulation) and then apply these options to the system across some sort of treatment, to understand their relative impact. But generally, people don't like this approach because it's 'risky' and people generally prefer using models to figure out what options we should use.
 
-#### Decision Marking Under Uncertainty
+#### Decision Making Under Uncertainty
 Uncertainty in our predictions are a result of 3 factors. 1) We never measure anything precisely, 2) we don't know the rules of change and how the system will respond, and 3) environmental impacts on predictions are not well known or understood. So even if we can measure things precisely, we never know how the environment will respond, resulting in substantial uncertainty in our predictions. 
 
 In general, making decisions is hard (duh) irrespective of whether you have good predictions or not, just simply given the uncertainty you have in the system. We are often paralyzed by the indecision (or decision) of whether to make a decisive action (e.g., stop fishing) or to 'wait and see'.
@@ -22,13 +22,16 @@ In general, making decisions is hard (duh) irrespective of whether you have good
 ### Ecological Basis for Sustainable Harvesting
 In general, populations can grow at some rate $r$ and are generally mediated by density-dependent effects, rather than only density-independent effects. Given that there is often a compensatory mechanism in many animal populations, harvesting the population at a modest rate allows for an improved survival or fecundity, given a reduction in the population, and forms the ecological basis for sustainable harvesting. 
 
-Some typical responses of populaations have been observed, which include:
+Some typical responses of populations have been observed, which include:
 1. For semelparous species, fecundity remains fairly constant, or declines when there are strong declines in old fish (no compensatory response)
 1. Survival rates for old individuals generally do not show compensatory responses,
 1. Juvenile survival rates show compensatory responses and can be independent of the number of eggs produced.
 
 In terms of a surplus production model, we typically think of growth potentially having a larger effect on production of biomass, with a stronger influence that recruitment and we are generally interested in modifying the harvest rate to see what our total gains in production can be $Y_t = u_tN_tw$. However, its important to note that while increasing harvest rates helps with the compensatory response of the population, it also decreases your average abundance as well as your average weight of the population (because you are truncating your age-structure, and there are less old big fish left in the population). Nonetheless, a truncation in age-structure leads to more younger fast growing fish, which in turn leads to a higher growth rate on a per-capita basis. However, this is misleading, because we still need to account for the total number of individuals, irrespective of what happens to per-capita increases in growth rates.
 
+Some other notes on simple logistic growth/surplus production models. Although these equations are simple $N_t = r_{t-1}N_{t-1}$ they do not necessarily indicate that all individuals in the population are the same. This is because the number of individuals $N_t$ are composed of a mixture of ages and sees, and multiplying this mixture by some rate value gives the average total production of the number of individuals in the following year (i.e., $r$ is a per-capita rate that is applied to the entire mixture).
+
+Some other notes on the use of instantaneous rates vs. multiplying by constants. We tend to use instataneous rates because changes in fisheries can happen rapidly over a short period (e.g., pulse fishery), which makes using rate changes more convenient ($N_{t+1} = N_te^{-Z}$) than multiplying by some constant ($N_{t+1} = N_tS$). Additionally, instantaneous rates of change allow us to partition mortality into other components (fishing, predation) and allow us to calculate losses in the population due to some specific factor.
 
 ## Trade-offs in Fisheries Management
 

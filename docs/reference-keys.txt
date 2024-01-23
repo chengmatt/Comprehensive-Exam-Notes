@@ -67,7 +67,11 @@ gompertz-growth-model
 other-size-age-growth-models
 schunte-richards-growth-model
 mark-recapture-data
-elapsed-time-models
+elapsed-time-models-no-aging-data
+models-with-aging-data
+comparison-of-growth-models
+choosing-the-best-growth-model
+scale-and-otolith-measurements
 chapter-5-delay-difference-models
 chapter-6-per-recruit-and-year-class-models
 chapter-7-renewal-theory
@@ -91,6 +95,6 @@ changing-objectives-and-emerging-assessment-methods
 the-role-of-predictive-models
 approaches-to-prediction-of-policy-impact
 experimental-management
-decision-marking-under-uncertainty
+decision-making-under-uncertainty
 ecological-basis-for-sustainable-harvesting
 trade-offs-in-fisheries-management

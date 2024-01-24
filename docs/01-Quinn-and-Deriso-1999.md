@@ -1679,10 +1679,126 @@ Generally, two things need to compared for growth models: 1) the choice of the g
 #### Choosing the best growth model
 A priori, Schunte's growth model might be the most logical because it assumes linear relative growth acceleration (i.e., growth is linear relative to its given size). Other growth models are likely appropriate and residual diagnostics will probably be sufficient to tell you whether it adequately describes the growth data. Inspecting residuals will generally tell you whether or not the error structure imposed is appropriate. Lastly, parsimonious model structures should be chosen and we can use information criterion statistics to choose among a candidate set of models. Other approaches would be to use cross-validation methods to select models that best predict the data. 
 
-Broadly, one-parameter and multi-parameter (using variance covariance matrices) can be conducted to test whether one should pool data across sexes or combine data. If statistical tests indicate that parameter estimates are significantly different among sexes or areas, then one should disaggregate data and analzye separately. This is helpful for determining if there is sex-structure in your model or if spatially-explicit approaches should be considered.
+Broadly, one-parameter and multi-parameter (using variance covariance matrices) can be conducted to test whether one should pool data across sexes or combine data. If statistical tests indicate that parameter estimates are significantly different among sexes or areas, then one should disaggregate data and analyze separately. This is helpful for determining if there is sex-structure in your model or if spatially-explicit approaches should be considered.
 
 ### Scale and Otolith Measurements
+This section primarily uses annulus growth in any hard part (scale, otoliths, vertebrae) to determine fish growth. In general, these methods seek to use annulus growth and current size to back-calculate growth. One needs to determine the relationship between mean scale size and mean fish size. Francis developed two hypotheses for modelling fish growth with annulus information, which are scale proportional and body proportional. In scale proportional, if a fish has a scale that is larger than the average of a fish of that given size, then the scale would be bigger in general, but the ratio of length and scale size are constant between the two. The other hypothesis is body proportional where if a fish captured is larger than the average fish for a given scale size, then the ratio is constant as well, and its basically just the reverse of the scale proportional relationship (see page 181 and 182 for some equations on this).
 
+### Variation in Growth
+Growth in fish populations can vary greatly due to seasonal effects, environmental conditions, food availability, and subsequent metabolic demands. Other factors include genetic and/or cohort effects - similar to sablefish, and posited by Quinn and Deriso, growth might be slower for stronger-year classes given density dependent effects. 
+
+#### Seasonal Growth
+Broadly, seasonal growth can be incorporated into our traditional growth models with some sort of sinusoidal variation within the model. Age needs to be recorded in a fine scale and requires a lot of data. These models can take the form of:
+
+\begin{equation}
+Y_t = Y_\infty [1 - exp(-\kappa (t - t_0 - (\phi_t - phi_{t0})))] \\
+phi_t = \frac{\delta \omega}{2 \pi} sin[(2\pi / \omega)(t - t_1)]
+\end{equation}
+
+where the $\phi$ function is the modelled sinuisoidal variation - $\frac{\delta \omega}{2 \pi}$ describes the amplitude of the sine curve. Basically, this allows for sinuisoidal variation in a given parametric form for growth. 
+
+
+#### Individual Variation in Growth
+If you have repeated measurements from individuals, then each individual is going to have its own individual-specific parameters describing growth. However, this is difficult to implement because these data are rarely collected, so we might need to fill in the gaps and make sure they are goverend by some statistical distribution (e.g., using random-effects):
+
+\begin{equation}
+Y_\infty \sim (\mu_\infty, \sigma_\infty) \\
+\kappa \sim (\mu_\kappa, \sigma_\kappa) \\
+Y_{t - t_0} = Y_\infty (1 = e^{-\kappa (t - t_0)})
+\end{equation}
+
+Anyways, these models are super complicated... and there are lot of derivations that I prefer to not write. Variations of individual variation in growth models can be extended to incorporate mark-recapture data as well. 
+
+
+#### Stochastic Growth
+The book goes on to describe how stochastic growth processes can be modelled as random effects, and explains how the size of a fish depends on all of its previous random effects. The difference equation it gives is as follows:
+
+\begin{equation}
+Y_t = \alpha + \rho Y_{t-1} + U_t \\
+Y_t = Y_\infty (1 - exp(-\kappa)) + exp(-\kappa) Y_{t-1} + U_t \\
+\end{equation}
+
+which is basically just an AR1 process with expected values written as conditional distributions given the previous point. Some derivations on differential equations are given in page 194 - 197, but are a bit unwieldy to use and type here. 
+
+### Fecundity and Maturity
+Maturity can be modelled as either size or age-based, although they tend to need to be converted to age when using maturity in our typical age-structured stock assessments. This can be done by directly modelling ages or by using a size-age transition matrix and applying it to maturity at length. Nonetheless, maturity is generally thought to be better related to size because changes in growth tends to influence maturity.
+
+
+#### Maturity
+The book gives us a simple model for maturity - denoted as the ramp model, where maturity increases as a ramp - it's 0 at some age or length range, ramps up linearly at some age range, and remains at 1 at some age range. Typically, we use the logistic function to model maturity instead, with the parameters describing the size or age at 50% maturity, and the steepness of that curve. Additionally, given that we are modelling two categories, we typically represent this using a binomial error distribution. 
+
+
+#### Fecundity
+Fecundity is defined as the number of fertilized eggs produced by a female, and is typically a tradeoff between the size of eggs and the number of eggs. Fecunidty can be defined as the number of eggs produced multiplied by the fertilization success rate, which can depend on males and may be sperm limited. Some other considerations in terms of representing fecundity are determinate vs. indeterminate fecundity (batch spanwers vs. annual spawners).
+
+Some initial models for fecunidty are:
+\begin{equation}
+f = \alpha_0V^{\beta_0}_0e^{\epsilon_0}
+\end{equation}
+
+where fecundity is allometrically related to volume of eggs in the ovaries and has some process error associated with it (measurement error or environmental conditions). If $\beta_0 = 1$, this relationship is proportional, however, the allometric constant might be needed because females with the same number of eggs, but eggs are bigger results in more fecundity, and that might not scale linearly. Here, egg viability is when the size of eggs might determine the survival of eggs in later life stages. If we assume body volume is also allometrically related to volume of eggs in the ovaries, then we can rewrite this as:
+
+\begin{equation}
+V_0 = \alpha_1V^{\beta_1}_0e^{\epsilon_1} \\
+f = \alpha_0 \alpha_1 V^{\beta_0\beta_1} e^{\epsilon_0 + \epsilon_1} \\
+f = \alpha_2 V^{\beta_2} e^{\epsilon_2}
+\end{equation}
+
+so if fecundity is allometrically related to volume of eggs in the ovaries, and the volume of eggs in the ovaries are allometrically related to body volume, then fecundity is also allometrically related to body volume. Using the above relationships, we can assume that volume is allometrically related to weight and weight is also allometrically related to length. Therfore, fecundity is also allometrically related to weight and length:
+
+\begin{equation}
+f = \alpha_3 W^{\beta_3} e^{\epsilon_3} \\
+f = \alpha_4 L^{\beta_3} e^{\epsilon_4}
+\end{equation}
+
+Thus, given that we can assume fecunidty is allometrically related to weight and length, we can use models from previous sections to determine the fecundity at age. 
+
+#### Population Statistics and the Egg Production Method
+From a population dynamics sense, we need to make some simplifications and redefine fecundity not as the total number of fertilized eggs produced by a mature female but rather as the average number of eggs produced by a female. So given that, the following equation can take place:
+
+\begin{equation}
+f_a = m_af^*_a
+\end{equation}
+
+where fecundity per mature female is multiplied by the proportion of females mature, which then gives us the total number of fertilized eggs produced per female. As noted in our recruitment module, the survival of eggs and the number of recruits are inversely related:
+
+\begin{equation}
+S_0 = N_r / E \\
+S_0 = N_r / N_0 \\
+N_r = S_0 E 
+\end{equation}
+
+where $S_0$ is the survival of eggs, $N_r = N_{r,f} + N_{r,m}$ are the total number of recruits, and $N_0 = E$ is the total number of eggs produced. So the total number of recruits you see is then the survival of eggs multiplied by the total number of eggs produced. Using the above equation, if we assume that egg production is basically the fecundity (average fertilized eggs produced per female) multiplied by the number of females in the population, then we get the following and can calculate egg survival:
+
+\begin{equation}
+E = \sum f_a N_a = \sum m_a f^*_a N_a = \sum E_a \\
+S_0 = N_r / E
+\end{equation}
+
+where egg production is only a function of females and is the combined multiplication of: 1) the proportion of mature females and a given age, 2) the net number of fertilized egg produced per female of a given age, and 3) the number of females in the population at a given age. Additionally, a sex-ratio can be imposed (which is commonly done in AK) on fecundity to better reflect the production of females on a per-female basis:
+
+\begin{equation}
+f_^._a = m_a f^*_a X \\
+f_^._a = X f_a 
+\end{equation}
+
+where $X$ is just the proportion of fertilized eggs that will result in females (i.e., our sex-ratio at recruitment (kind of)). 
+
+#### Egg Production Method
+The egg production method can be used to help estimate and determine the spawning biomass in the population using egg surveys, and requires the standard theory of sampling (i.e., unbiased). This is a pretty simple method for estimating SSB, where:
+
+\begin{equation}
+E = \alpha \sum m_a W_a N_a = \alpha SSB \\
+SSB = E / \alpha
+\end{equation}
+
+where $\alpha$ is just some arbitrary scalar and fecundity is assumed to be proportional to weight $f^*_a = \alpha W_a$ (that is to say, the number of fertilized eggs produced is proportional to the weight of females). This equation is more akin to what we use, where maturity x weight x numbers gives us our SSB and determines the number of eggs produced. Thus, it assumes that maturity x weight is the same as fecundity x numbers and scales linearly. In math speak this is:
+
+\begin{equation}
+f_a = m_a w_a = m_a f^*a
+\end{equation}
+
+where maturity x weight = maturity x number of fertilized eggs produced per female. I am actually not quite sure how valid this assumption is to be honest. Perhaps some other methods for accounting for egg production might be better? Another interesting idea is whether this relationship changes over time, and if it would be even feasible to model this as process error deviations?
 
 ## Chapter 5 (Delay Difference Models)
 

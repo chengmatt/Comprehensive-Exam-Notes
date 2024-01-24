@@ -1,7 +1,7 @@
 --- 
 title: "Cheng Comprehensive Exam Notes (Spring 2024)"
 author: "Matthew LH. Cheng"
-date: "2024-01-23"
+date: "2024-01-24"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib]

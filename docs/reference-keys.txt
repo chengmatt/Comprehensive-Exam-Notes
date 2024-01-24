@@ -72,6 +72,15 @@ models-with-aging-data
 comparison-of-growth-models
 choosing-the-best-growth-model
 scale-and-otolith-measurements
+variation-in-growth
+seasonal-growth
+individual-variation-in-growth
+stochastic-growth
+fecundity-and-maturity
+maturity
+fecundity
+population-statistics-and-the-egg-production-method
+egg-production-method
 chapter-5-delay-difference-models
 chapter-6-per-recruit-and-year-class-models
 chapter-7-renewal-theory
@@ -90,7 +99,7 @@ reference-points-w-time-varying-processes
 assessment-diagnostics
 oceanography
 groundfish-life-history-and-ecology
-maturity
+maturity-1
 fisheries-ecology-and-management-walters-and-martell-2004
 changing-objectives-and-emerging-assessment-methods
 the-role-of-predictive-models

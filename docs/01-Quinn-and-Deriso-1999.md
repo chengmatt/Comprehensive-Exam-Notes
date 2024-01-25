@@ -1778,8 +1778,8 @@ S_0 = N_r / E
 where egg production is only a function of females and is the combined multiplication of: 1) the proportion of mature females and a given age, 2) the net number of fertilized egg produced per female of a given age, and 3) the number of females in the population at a given age. Additionally, a sex-ratio can be imposed (which is commonly done in AK) on fecundity to better reflect the production of females on a per-female basis:
 
 \begin{equation}
-f_^._a = m_a f^*_a X \\
-f_^._a = X f_a 
+f^._a = m_a f^*_a X \\
+f^._a = X f_a 
 \end{equation}
 
 where $X$ is just the proportion of fertilized eggs that will result in females (i.e., our sex-ratio at recruitment (kind of)). 
@@ -1801,6 +1801,98 @@ f_a = m_a w_a = m_a f^*a
 where maturity x weight = maturity x number of fertilized eggs produced per female. I am actually not quite sure how valid this assumption is to be honest. Perhaps some other methods for accounting for egg production might be better? Another interesting idea is whether this relationship changes over time, and if it would be even feasible to model this as process error deviations?
 
 ## Chapter 5 (Delay Difference Models)
+Delay-difference models are an intermediate between production and age-structured models. They directly account for age-structure although some of the dynamics of the population are simplified. 
+
+### Allen Clark Abundance Models
+The Allen-Clark abundance models are loosely based on a Leslie matrix model, where the population is projected forward for a year using a projection matrix that describes age-specific annual survival or age-specific net fecundity. You can collapse the matrix model into a discrete model for adults only by assuming: 1) fecundity below the age at recruitment is 0, 2) fecundity is age-independent (all ages produce the same number of recruits/eggs), 3) survival is age-independent (i.e., no age-specific M or selectivity), and 4) knife-edged recruitment patterns. Thus, the adults that will survive in the following year are:
+
+\begin{equation}
+N_{t+1} = \sum_{a = r} N_{a,t+1} = \\
+sum_{a = r + 1} l_t N_{a-1,t} + N_{r,t+1} = \\
+l_tN_t + N_{r,t+1}
+\end{equation}
+
+where $l_t$ is the survival fraction and $r$ is the recruitment age (i.e., the total adult abundance is the number of surviving adults in the previous year + recruits this year). We can then make the number of recruits in a given year dependent on the adults in previous years, resulting in:
+
+\begin{equation}
+N_{t+1} = l_tN_t + F(N_{t+1-r})
+\end{equation}
+
+where $F(N_{t+1-r})$ is a spawner recruit function. When the population is at equilibrium, the number of adults in the population is:
+
+\begin{equation}
+N_* = \frac{F(N_*)}{1 - l_*}
+\end{equation}
+
+which is basically just the number of recruits divided by the deaths and recruitment is scaled by that factor to make sure its higher to offset losses due to natural mortality. This models is more reminiscent of the semelparous populations where the SR curve has a replacement line and you can find Nmsy, etc. This model can be linearized to figure out points at which stability occurs as well. Fishing mortality can easily be incoprorated here by asusming that fishing takes place some part of the year and spawning takes place after fishing:
+
+\begin{equation}
+N_{t+1} = l(N_t - C_t) + F(N_{t+1-r} - C_{t+1-r})
+\end{equation}
+
+where we are basically just subtracting the number of individuals removed from the population and projecting this forward. To find MSY, the following equations apply:
+
+\begin{equation}
+MSY = max C \\
+MSY = max N - S \\
+MSY = max lS + F(S) - S
+\end{equation}
+
+where we are basically just maximizing the equilibrium catch here. By setting this to 0 and differentaitng, the optimal escapement is $1 - l$. We can incorporate stochasticity into this via:
+
+\begin{equation}
+N_{t+1} = lS_t + F(S_t)e^{\epislon_{\epsilon_{t+1-r}}} \\
+\epsilon_{t+1-r} \sim N(0,\sigma)
+\end{equation}
+
+where we are basically adding multiplicative process error into the spawner recruit relationship and similar equations for MSY applies from above, but incorporating the process error part into it. The Allen Clark delay difference models are simplest of its kind (I believe) and only really incorporates two age classes: 1) adults, and 2) recruits. Further, it doesn't really take into account that fish get bigger as they grow older and is instead lumped into one term. However, its more complex than our biomass dynamics models because it explicitly incorporates a recruitment function.
+
+### Deriso-Schunte Biomass Models
+The Deriso model here directly incorporates weight dynamics into our calculations, where changes in weight follow the dynamics below:
+
+\begin{equation}
+W_a = (1 + \rho)W_{a-1} - \rho W_{a-2}
+\end{equation}
+
+where $\rho = exp(-\kappa)$ is the ford growth coefficient. The use of this model requires that weight is estimated for any age larger than or equal to recruitment as well as annual survival. So using these relationships, we can track biomass instead of numbers as:
+
+\begin{equation}
+B_{t+1} \sum W_aN_{a,t+1} = \\
+W_rN_{r,t+1} + \sum l_t[(1+\rho)W_{a-1} - \rho W_{a-2}]N_{a-1,t} = \\
+(1 + \rho)l_tB_t - \rho l_t l_{t-1}B_{t-1} + W_rN_{r,t+1} = \\
+(1 + \rho)l_tB_t - \rho l_t l_{t-1}B_{t-1} + F(B_{t+1-r}) 
+\end{equation}
+
+where we are essentially now tracking the biomass from the previous two years and adding in the weight of the new recruits, which can just be written in as a function of biomass in previous years. The equilibrium biomass is similar to previous formulations and is given as:
+
+\begin{equation}
+B_* = \frac{F(B_*)}{(1-\rho l_*)(1 - l_*)}
+\end{equation}
+
+As in previous formulations, fishing can be incorporated via $S_t = B_t - Y_t$ where $Y_t$ is the removals in biomass, and so survival remains a function of only natural causes. Formulas for MSY are then found by simply maximizing Yield $max Y_t = max(B_t-S_t)$ and substituting the equations back in there. Schunte further extended the Deriso model by allowing for more parameters in describing growth processes here:
+
+\begin{equation}
+W_a = W_{r-1} + (W_r - W_{r-1}) \frac{1 - \rho^{1+a-r}}{1-\rho}
+\end{equation}
+
+and we can just substitute this equation back into our equations for tracking biomass. There are many extensions to the delay-difference models and we can generally think of them as time-series forecasting models. See page 221 for a list of useful equations describing these models. In general, you don't really need to know the age-structure of the population as long as you have weight at age data as well as some index of abundance and catch or yield data.
+
+
+### Stock Reduction Analysis
+Stock reduction analysis primarily relies on yield and is assumed to be measured without error. It gives us some idea of how much the stock has been depleted relative to its pristine state and stock condition, only using yield data. If mortality processes occur continuously throughout the year, then $l_t = e^{-Z_t}, Z_t = M_t + F_t$. We can then use Baranov's equation here to predict yield given quantities from the delay-difference models:
+
+\begin{equation}
+Y_t =[B_tF_t(1-l_t)]/ Z_t
+\end{equation}
+
+where we assume at time $t = 1$, biomass is at virgin biomass $B_0$ such that $B_0 = B_1$, and a random value is chosen for $F_t$ to numerically solve these equations, while proposing trial values for $B_0$. $B_t$ is derived from deterministic equations from delay-difference models in page 222. After solving for multiple $B_0$ values, you can compare the ratio of $B_{t+1}/B_0$ and compare it to something like the ratio of CPUEs to see which $B_0$ fits best. Other more objective ways such as using an objective function can be done as well. However, many parameters here (recruitment, growth and natural mortality) are assumed known as the only information is really on yield. 
+
+### Parameter Estimation
+Delay-difference models require time series of catches and some relative or absolute abundance measure to estimate it. Additionally, information on growth, natural mortality, and some spawner recruit relationship is needed. Generally, the following parameters are needed: 1) stock recruitment e.g., $\alpha, \beta$, 2) ford growth parameters e.g., $\rho$, 3) survival e.g., $l$, and 4) initial abundances or biomasses e.g., $N_{1,1}, N_{2,1}...,N_{A,1}$. Estimation is then straightforward if you have an index of absolute abundance since you can just minimize the sum of squares between predicted and observed. However, if you have a relative index of abundance, you would instead reparameterize your equations to have some catchability coefficient and some term to adjust for potential hyperstability or hyperdepletion (or alternatively assume its proportional) $CPUE_t = qB_t^\nu$. However, its pretty difficult to estimate all these parameters with just a single time-series and your ford growth coefficient could just be fixed and estimated outside this model. Additionally, survival or mortality can also be derived elsewhere using empirical relationships, etc. Spawner recruit analysis outside of this delay-difference model could also help if you have independent information about the number of spawners. Lastly, you can also do this in a Bayesian manner and impose priors on parameter estimates to help with stability. 
+
+There are three flavors for error structure in delay-difference models: 1) measurement error only, wherein the index of abundance has some sort of error and you also minimize the differences between observed and predicted biomass, 2) process error only, wherein the index of abundance has no error and only the predicted biomass has process error, and 3) measurement and process error models, wherein
+both the index and the observed and predicted biomass are simultaneously minimized. The specification of the type of error is really important according to the book because your results can greatly differ based on the specification. The measurement and process error model essentially invovles integrating over multi-dimensional space where you have a conditional distribution of your index, conditional on estimated parameters and you minimize your measurements, as well as a conditional distribution of your biomass conditional on all previous states, which is basically your process error model there. 
+
 
 ## Chapter 6 (Per Recruit and Year Class Models)
 

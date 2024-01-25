@@ -82,6 +82,10 @@ fecundity
 population-statistics-and-the-egg-production-method
 egg-production-method
 chapter-5-delay-difference-models
+allen-clark-abundance-models
+deriso-schunte-biomass-models
+stock-reduction-analysis
+parameter-estimation-2
 chapter-6-per-recruit-and-year-class-models
 chapter-7-renewal-theory
 chapter-8-catch-age-and-age-structured-assessment-methods

@@ -1809,6 +1809,86 @@ both the index and the observed and predicted biomass are simultaneously minimiz
 
 
 ## Chapter 6 (Per Recruit and Year Class Models)
+Age-structured models are also called dynamic pool models and generally represent the population with multiple year classes or cohorts. They take into account mortality, growth, and recruitment. By contrast, per-recruit or year-class models only take into account mortality and growth, because this is for a given year class (i.e., only 1 year of recruitment). In year class models, we track the cohort across its fishable life-span. The goal of our per-recruit models is to investigate the effects of fishing mortality and changing length or age-at-capture on an arbitrary year class and subsequent yield. The cohort abundance will be projected forward via:
+
+\begin{equation}
+N_t = N_re^{-M(t-t_r)}
+\end{equation}
+
+where $N_r$ is the initial abundance and $t_r$ is the age at recruitment. Basically this is our typical exponetnial decline equation. If we have some sort of weight-at-age information, we can multiply our numbers at age by our weight at age to get biomass at age across the fishable life-span of the cohort. This is usually some sort of dome-shaped relationship, where the peak is called the critical age $t^*$. There are some analytical solutions for finding the critical age, which is just found by setting the derivative of biomass of the cohort to 0. The critical age is basically a trade off between growth and natural mortality. When we are at this point, the yield of the cohort is maximized.
+
+```{r}
+n_r = 1 # init abundance
+M = 0.1 # natural mortality
+t_r = 1 # age at recruitment
+t = seq(1, 20, 1) # ages
+L_inf = 82 # linf for vonB
+k = 0.15 # brody for vonb
+t0 = -3 # theoretical age at size = 0
+W_inf = 6.2 # winf for vonB
+waa = W_inf * (1 - exp(-k * (t - t0)))^3 # weight at age
+n_t = n_r * exp(-M * (t - t_r)) # second part of this term sequentially modifies the ratio (annual survival fraction)
+b_t = n_t * waa # biomass at time t
+crit_age = t0 + (1/k) * log(1 + (3/(M/k))) # critical age
+plot(t, b_t, type = "l", main = "Cohort Biomass (red) abundance (blue)", ylab = "b_t or n_t", col = "red", lwd = 5, ylim = c(0,1.6))
+lines(t, n_t, type = "l", col = "blue", lwd = 5)
+abline(v = crit_age, lty = 2, lwd = 3)
+```
+
+### Beverton-Holt Models
+For the classic Beverton-Holt models, we assume all members of a cohort reach a fishable size at the same age, which is basically just assuming knife-edged selectivity, although this can easily be extended to other selectivity forms. Here, we assume that fishing mortality is constant across a range of ages, which is seldom practical because of changes in gear efficiency, uncertain stock abundance, variable fishing effort, and selectivity. For the simple yield-per-recruit models here, the change in biomass over time, given that there is a constant age-at-recruitment into capture ($t_c$) is:
+
+\begin{equation}
+\frac{dN}{dt} = -M, t_r < t < t_c \\
+\frac{dN}{dt} = -Z, t >= t_c \\
+N_t = N_re^{-M(t-t_r)}, t <= t_c \\
+N_t = N_re^{-Z(t-t_c)}, t >= t_c 
+\end{equation}
+
+where $Z = F + M$, which are all constant rates for now. The year-class will initially decline exponentially, and then you will see Z increase such that there will be a sharp drop in cohort abundance. The yield of the cohort is then calculated via:
+
+\begin{equation}
+C_t = N_re^{-M(t_c - t_r)} \frac{F}{Z} (1 - e^{-Z(t - t_c)})
+\end{equation}
+
+where $N_re^{-M(t_c - t_r)}$ is our initial start abundance at which fishing can commence. Catch-per-recruit increases linearly as a function of $F/Z$ where increasing the exploitation rate leads to a linear increase in catch, and catch in numbers is maximized when you harvest at $t_r = t_c$ because thats where maximum abundance occurs. However, maximizing catch in yield here is a different story. Increasing the length-at-first-capture (minimum size limits) linearly reduces the catch-per-recruit you get because these individuals will have succumbed to natural mortality. However, in terms of getting the yield-per-recruit, setting a minimum-size-limit will allow young fish to grow to a size wherein growth is maximized, and allow for increased yield. Thus, given that the biomass of the cohort is maximized at $t^*$ (the critical age), applying infinite fishing mortality at this point will allow for maximizing the yield-per-recruit. 
+Some common patterns that we find in yield-per-recruit curves and isopleths is that many combinations of exploitation and minimum size limits result in the same amount of yield per recruit, the global maximum of yield-per-recruit occurs when exploitation is the highest at the critical age, yield-per-recruit is a dome-shaped function of exploitation - i.e., increasing F will quickly remove a bunch of individuals, resulting in diminishing yields, and lastly, yield-per-recruit is also a dome-shaped function of length-at-first-capture. While these methods allow us to explore the effects of fishing on a cohort and resultant yield, a key drawback is that it fails to take into account the impacts of harvest on the spawning population. 
+
+Some extensions of the yield-per-recruit model can incorporate stochasticity of growth processes for a given cohort. Historically, some methods have assumed some distribution on growth parameters and stratified these parameters from its distribution, and then constructed yield-per-recruit for each of these stratified parameters (i.e., each cohort has its own yield-per-recruit curve). Further extensions of these yield-per-recruit models are typically what we use now. Instead of assuming knife-edged recruitment into the fishery, we modify these equations with age-specific selectivity $F_a = s_aF$ and we can also modify mortality to include an additional subscript $M_a$, and finally incorporate these mortality processes into our typical per-recruit calculations $N_a = N_re^{-F_a + M_a}$. Pulse fishing can also easily be incorporated into these models by assuming that natural mortality occurs during the first part of the year, and then both fishing and natural mortality occurs during the latter half of the year (or something like that). 
+
+### Spawning Stock and Egg Production Per Recruit
+As discussed, the YPR models don't really account for the impacts of fishing on spawning biomass, and purely focus on maximizing yield. However, extensions of the YPR model can accommodate metrics of spawning biomass. The book details some of the more deterministic equations, although I will describe the generic approach below. Specifically, we only really need metrics about spawning biomass per recruit:
+
+\begin{equation}
+S^B_a = N_ae^{-M_a + F_a} W_a M_a
+\end{equation}
+
+where fecundity is basically $W_aM_a$ such that the egg production per female scales linearly with proportion mature and weight. Note that these are different from our yield-per-recruit curves because spawning abundance is conditional of maturity - i.e., at the initial stage, there are few mature individuals, and as they continue to progress through the cohort, more and more individuals will recruit into the mature population. This begins to decline when the rate of maturity is surpassed by natural mortality. Note that we often assume that weight is proportional to fecundity of females at age because we don't have fecundity data (number of eggs produced per female). When using these per-recruit methods, it is generally good to extend out the $t$ to encompass the entire reproductive life span of the cohort. Say if our WAA is only for 30 ages, given asymptotic growth conditions, we can just extend the WAA for age 30 into the later $t$. 
+
+```{r}
+n_r = 1 # init abundance
+M = 0.1 # natural mortality
+t_r = 1 # age at recruitment
+t = seq(1, 20, 1) # ages
+L_inf = 82 # linf for vonB
+k = 0.15 # brody for vonb
+t0 = -3 # theoretical age at size = 0
+W_inf = 6.2 # winf for vonB
+waa = W_inf * (1 - exp(-k * (t - t0)))^3 # weight at age
+maa = 1 / (1 + exp(-0.3 * (t - 5))) # maturity at age
+
+
+# population quantities
+sb_n_t = n_r * exp(-M * (t - t_r)) * maa # spawning abundance per recruit
+sb_b_t = n_t * waa * maa # spawning biomass at time t
+
+par(mfrow = c(2,2))
+plot(t, sb_b_t, type = "l", main = "Cohort Spawning Biomass (red) abundance (blue)", ylab = "sb_b_t or sb_n_t", col = "red", lwd = 5, ylim = c(0,1.3))
+lines(t, sb_n_t, type = "l", col = "blue", lwd = 5)
+plot(t, waa, type = "l", main = "WAA", ylab = "WAA", col = "red", lwd = 5)
+plot(t, maa, type = "l", main = "MAA", ylab = "MAA", col = "blue", lwd = 5)
+plot(t, maa * waa, type = "l", main = "Fecundity (egg production)", ylab = "Fecundity", col = "blue", lwd = 5)
+```
 
 ## Chapter 7 (Renewal Theory)
 

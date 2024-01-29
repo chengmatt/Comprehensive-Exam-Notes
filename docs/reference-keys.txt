@@ -89,7 +89,12 @@ parameter-estimation-2
 chapter-6-per-recruit-and-year-class-models
 beverton-holt-models
 spawning-stock-and-egg-production-per-recruit
+effects-of-harvesting
+discard-mortality
+per-recruit-models-by-sex
+per-recruit-models-for-multispecies-or-multiple-fisheries
 chapter-7-renewal-theory
+leslie-matrix-discrete-model
 chapter-8-catch-age-and-age-structured-assessment-methods
 chapter-9-size-structured-models-and-assessment-methods
 chapter-10-migration-movement-and-other-spatiotemporal-considerations

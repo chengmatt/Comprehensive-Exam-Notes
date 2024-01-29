@@ -1721,7 +1721,7 @@ Delay-difference models are an intermediate between production and age-structure
 The Allen-Clark abundance models are loosely based on a Leslie matrix model, where the population is projected forward for a year using a projection matrix that describes age-specific annual survival or age-specific net fecundity. You can collapse the matrix model into a discrete model for adults only by assuming: 1) fecundity below the age at recruitment is 0, 2) fecundity is age-independent (all ages produce the same number of recruits/eggs), 3) survival is age-independent (i.e., no age-specific M or selectivity), and 4) knife-edged recruitment patterns. Thus, the adults that will survive in the following year are:
 
 \begin{equation}
-N_{t+1} = \sum_{a = r} N_{a,t+1} = \\
+N_{t+1} = \sum N_{a,t+1} = \\
 sum_{a = r + 1} l_t N_{a-1,t} + N_{r,t+1} = \\
 l_tN_t + N_{r,t+1}
 \end{equation}
@@ -1755,7 +1755,7 @@ MSY = max lS + F(S) - S
 where we are basically just maximizing the equilibrium catch here. By setting this to 0 and differentaitng, the optimal escapement is $1 - l$. We can incorporate stochasticity into this via:
 
 \begin{equation}
-N_{t+1} = lS_t + F(S_t)e^{\epislon_{\epsilon_{t+1-r}}} \\
+N_{t+1} = lS_t + F(S_t)e^{\epsilon_{\epsilon_{t+1-r}}} \\
 \epsilon_{t+1-r} \sim N(0,\sigma)
 \end{equation}
 
@@ -1880,7 +1880,7 @@ maa = 1 / (1 + exp(-0.3 * (t - 5))) # maturity at age
 
 # population quantities
 sb_n_t = n_r * exp(-M * (t - t_r)) * maa # spawning abundance per recruit
-sb_b_t = n_t * waa * maa # spawning biomass at time t
+sb_b_t = sb_n_t * waa # spawning biomass at time t
 
 par(mfrow = c(2,2))
 plot(t, sb_b_t, type = "l", main = "Cohort Spawning Biomass (red) abundance (blue)", ylab = "sb_b_t or sb_n_t", col = "red", lwd = 5, ylim = c(0,1.3))
@@ -1890,7 +1890,90 @@ plot(t, maa, type = "l", main = "MAA", ylab = "MAA", col = "blue", lwd = 5)
 plot(t, maa * waa, type = "l", main = "Fecundity (egg production)", ylab = "Fecundity", col = "blue", lwd = 5)
 ```
 
+### Effects of harvesting
+The book uses an example of sablefish to illustrate the effects of harvesting and the trade-off between yield, spawning biomass, and exploitation. In general, if fishing occurs before the age-at-maturity, your spawning biomass per recruit will have a much lower scale than when fishing occurs after the age-at-maturity. Furthermore, your yield increases when you harvest before maturation (i.e., trade-off with natural mortality). Thus, a population with later maturation and earlier capture is genearlly considered more vulnerable. 
+
+### Discard Mortality
+Metrics of discard mortality are important to include in our YPR analyses because you get lower YPR when discards are present, vice versa. A simple way to incorporate discards into our YPR analyses is to modify our survival function with some sort of discard mortality fraction. Here, $H$ can represent the probability of dying after being caught:
+
+\begin{equation}
+S = 1 - H(1 - e^{-F}) \\
+\end{equation}
+
+and we can simply just include these fractions back into our YPR calculations. Basically, this equation gives us the survival fraction after experiencing some F, and is able to adjust the survival fraction based on $H$. If we have 100% (full retention) then survival is just $S = e^-F$. However, if we have discards and some are able to survive after being caught, we basically modify the death fraction $1 - e^{-F}$ to allow for some survivors. So in the case where we have some discard mortality, the overall survival rate will increase relative to full retention. I guess, here your F would describe your total catch (so retained + discarded).
+
+```{r}
+f = seq(0.2)
+h = seq(0, 1, 0.01)
+survival = 1 - (h * (1 - exp(-f)))
+par(mfrow = c(1,2))
+plot(h, survival, type = "l", xlab = "Discard Mortality Probability", ylab = "Survival Rate", lwd = 3)
+plot(h, h * (1 - exp(-f)), type = "l", xlab = "Discard Mortality Probability", ylab = "Annual Death Frac", lwd = 3)
+```
+
+### Per-recruit models by sex
+Per recruit models can easily be extended to incorporate sexes. They can be constructed separately, with per recruit = 1, or (I think) constructed to be combine sexes, with per recruit = sex ratio at initial ages, and then summed. For hermaphroditic fishes, this is more complicated/more interesting. In general, for sex-changing fish, you need to incorporate parameters to describe the proportion of fish changing sex-at-age. If we have some estimate of proportion of fish changing sex by age $\theta_a$, then we can incorporate it into our per recruit calculations. For the following equations, we'll describe this process as females changing to males:
+
+\begin{equation}
+N_{a+1,f} = N_{a,f} (1 - \theta_a) e^{-Z+{a,f}} \\
+N_{a+1,m} = [N_{a,m} + (N_{a,f} \theta_a )]e^{-Z+{a,m}} 
+\end{equation}
+
+where $\theta_a$ describes the proportion of females changing to males, so the term $(N_{a,f} \theta_a )$ describes the number of females changing to be males, and $N_{a,f} (1 - \theta_a)$ describes the proportion of females remaining as females. You can then construct our typical objective functions - maximizing combined sex-YPR or some fraction of SSBPR, as well as sex-specific YPR.
+
+### Per-recruit models for multispecies or multiple fisheries
+For per-recruit models that are for multipspecies or multiple species, the theory is similar. However, here the per recruit basis will differ by fishery - i.e., each species will start with a different per recruit proportion (relative abundance for species). You can then loop through your typical per recruit calculations with those starting abundances per recruit basis. Obviously, different objective functions can be constructed - maximizing the per recruit yield for the entire system or maybe keeping the spawning biomass per recruit above some reference level. These all have their respective tradeoffs, with the latter resulting in reduced yield, and the former potentially resulting in some weaker stocks experiencing overfishing. 
+
+For cases where we have multiple fisheries, we simply have to do a weighted-sum of the selectivities by the F estimated for the fishery such that selectivity will look more similar to the fishery with a higher effort expended (i.e., $F_a = \sum_j s_{a,j}F_j$). This is pretty typical in many assessments with multiple fleets and we tend to attempt to maximize yield in these cases. 
+
 ## Chapter 7 (Renewal Theory)
+The previous extensions of age-structured models do not explictly incorporate renewals into the population, and instead, simply consider populations on a per recruit/cohort basis. In this chapter, we further extend these ideas to incorporate renewals/recruitment into an age-structured assessment. One of the simplest forms is a Leslie matrix model, where the first row of the projection matrix describes survival and fecundity and allows us to estimate recruits in the first age conditional on the previous ages present in the population. We'll describe these below.
+
+### Leslie Matrix Discrete Model
+Typically, the Leslie Matrix model only projects the female component of the population forward and assumes that males are not a constraint on the fertility of females. Obviously, we can extend and relax these assumptions by incorporating sex structure into the model. In general the population dynamics are projected forward as such:
+
+\begin{equation}
+\boldsymbol{N_{t+1}} = \boldsymbol{M}\boldsymbol{N_t}
+\end{equation}
+
+where this is just matrix multiplication (rows of matrix x columns and sum). Here $\boldsymbol{M}$ is our projection matrix and is a square matrix dimensioned by ages x ages. I don't really want to spend time writing out the structure of the matrix, but the first row of the projection matrix describes $S_0f_a$ which is mutliplied by the column vector $\boldsymbol{N_t}$ and summed to get our renewals in our population. Here, $S_0f_a$ is the survival of eggs multiplied by the age-specific egg production by females. The diagonals of the matrix (after the first row), then describe the survival of individuals in the previous age/year, and the offdiagonals are all 0s. Furthermore, if the population is in equilibria, we can simply project the population forward in time by doing raising the matrix to a power $\boldsymbol{M}^t\boldsymbol{N_0}$, which is analagous to geometric growth $RN$. As you can see below, the population grows exponentially (similar to geometric growth), although the initial stages are a bit more variable and unstable. The population grows exponentially because the subsequent age classes are also growing in size, which allows for more renewals, assuming that renewals and numbers-at-age scale proportionally. 
+
+```{r}
+a = 1:3
+f_a = c(0,1,2)
+s0 = 0.576
+S_a = c(0.8, 0.8)
+M = matrix(data = 0, ncol = length(a), nrow = length(a))
+M[1,] = f_a * s0 # egg survival to recruit
+# Age-specific survival
+M[2,1] = S_a[1]
+M[3,2] = S_a[2]
+N_0 = c(100, 30, 50) # start age structure
+t = seq(1, 30, 1) # tiime
+N_proj = matrix(0, nrow = length(a), ncol = length(t))
+for(i in 1:length(t)) N_proj[,i] =  matrixcalc::matrix.power(M, t[i]) %*% N_0 # project popn forward
+
+# Exponential growth
+plot(t, N_proj[1, ], type = "l", ylim = c(0, 600), xlab = "Time", ylab = "N")
+lines(t, N_proj[2, ], type = "l")
+lines(t, N_proj[3, ], type = "l")
+
+eigen(M)$values # dominant eignvalue = 1.07 - indicates popn increasing 
+
+```
+
+The population dynamics can then be analyzed by finding the eignvalues $\lamba_a$ using the projection matrix and the corresponding eignvectors (column and row) (size a $k_a$, and size a $h_a$):
+
+\begin{equation}
+\boldsymbol{M}\boldsymbol{k} = \lambda \boldsymbol{k} \\
+det(\boldsymbol{M} - \lambda \boldsymbol{I}) = 0
+\end{equation}
+
+where multiplying the projection matrix by the eigenvectors gives you the eigenvalues x eigenvectors. All we need to do is solve this determinant such that its 0 - the above is the characteristic equations. Finding the eigenvalues of the projection matrix allows us to predict toal abundance simply based on the eignvalues of M. M only has one positive eigenvalue and that the first value is dominant (the largest eignvalue), and all other eigenvalues are negative or complex numbers. Long term abundance is purely determined based off the dominant eigenvalue (i.e., the largest value), which also represents the intrinsic growth fraction of the population. So if the dominant eigenvalue is larger than 1, the population growths, if it is less than 1, it declines, and if it is at 1, it is at an equilibria. However, some matrix models can have all eigenvalues that are negative presumably due to skip spawning or a single fecund age, as described by the book.
+
+In the context of a leslie matrix model, a stable population is when the fraction of the age structure remains constant - so in the figures above, when the ratio of the age-structure is more or less constant, the population is at a stable point. Other useful derived quantities can be found using the dominant eigenvalue here (annual egg production and mean generation length in a stable population, see pages 274 to 275). The model described above assumes that the parameters for survival and net fecundity remain constant over time. However, it is easy to extend this to have time-varying properties and the dynamics of the equations are the same, except that the projection matrix will vary over time. 
+
+Similarly, all of the models described above assume deterministic dynamics - i.e., there is no stochasticity. This can be extneded to allow some stochastic term although it requires the construction of a variance-covariance matrix to govern deviations from the deterministic equation and allow for correaltions among and between ages. 
 
 ## Chapter 8 (Catch age and Age structured Assessment Methods)
 

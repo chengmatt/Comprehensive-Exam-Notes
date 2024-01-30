@@ -96,6 +96,10 @@ per-recruit-models-for-multispecies-or-multiple-fisheries
 chapter-7-renewal-theory
 leslie-matrix-discrete-model
 chapter-8-catch-age-and-age-structured-assessment-methods
+length-frequency-analysis
+sampling-considerations
+simple-random-sampling
+two-stage-random-sampling
 chapter-9-size-structured-models-and-assessment-methods
 chapter-10-migration-movement-and-other-spatiotemporal-considerations
 chapter-11-optimal-harvesting

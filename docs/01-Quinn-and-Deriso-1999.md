@@ -2076,9 +2076,117 @@ where multiplying the projection matrix by the eigenvectors gives you the eigenv
 
 In the context of a leslie matrix model, a stable population is when the fraction of the age structure remains constant - so in the figures above, when the ratio of the age-structure is more or less constant, the population is at a stable point. Other useful derived quantities can be found using the dominant eigenvalue here (annual egg production and mean generation length in a stable population, see pages 274 to 275). The model described above assumes that the parameters for survival and net fecundity remain constant over time. However, it is easy to extend this to have time-varying properties and the dynamics of the equations are the same, except that the projection matrix will vary over time. 
 
-Similarly, all of the models described above assume deterministic dynamics - i.e., there is no stochasticity. This can be extneded to allow some stochastic term although it requires the construction of a variance-covariance matrix to govern deviations from the deterministic equation and allow for correaltions among and between ages. 
+Similarly, all of the models described above assume deterministic dynamics - i.e., there is no stochasticity. This can be extended to allow some stochastic term although it requires the construction of a variance-covariance matrix to govern deviations from the deterministic equation and allow for correlations among and between ages. 
 
 ## Chapter 8 (Catch age and Age structured Assessment Methods)
+### Length Frequency Analysis
+Length is the most common information collected in fisheries just because its easy. Distinct modes in length composition can potentially represent age classes. Length frequencies are typically represented with multinomial likelihood, where the log-liklihood is used to express this, just so we can avoid writing out the constants (constant of integration of sum doesn't matter in MLE):
+
+\begin{equation}
+f(\boldsymbol{L^O}) = C\Pi p_l^{L_l^O} \\
+log f(\boldsymbol{L^{O}}) = C + \sum L_l^O log(p_l)
+\end{equation}
+
+where $C$ is your choose function (your constant) and can simply be dropped, while $L^O$ is a vector of observed length compositions, while $log(p_l)$ is a vector or proportions at each length interval. The probability density of length $P_a(L)$ is usually a normal where the variance is age specific - to get your age-length transition matrix. So to fit your length composition in an assessment, we first need to derive our age-length transition matrix by first fitting a growth model, we then need age-specific estiamtes of the variance of length at age, and then we can integrate (typically sum for computational reasons) across all lengths for a given age to get the marginal distribution of length for a given age:
+
+\begin{equation}
+\psi_{l,a} = \int_l P_a(L)dL \\
+L_l = \psi_{l,a} \theta_a \\
+L_l = P(l), \psi_{l,a} \theta_a  = P(l,a) \\
+P(l) = \sum_a P(l,a)
+\end{equation}
+
+where we are able to convert ages to lengths in order to fit length compositions using a multinomial. Essentially, multiplying the vector of ages by the age-length matrix gives us the joint distribution of the two. To get the probability of length, we simply integrate of sum across all combinations of ages to get the marginal probability of length. However, some complications can arise because growth rates can vary and the age-length transition matrix might not be constant. Fournier and Breen further extended this simple model from above by allowing for more stochasticity in this process, and to admit some variability in the ageing process (I think... although the notation is pretty wonky). Here, let $\theta_a$ be the estimated age proportions (parameter vector) and $\theta_a^*$ be the equilibrium predicted age proportions such that we have some constraint there. Thus, we would first fit a growth model:
+
+\begin{equation}
+\mu_{laa} = f(a) \\
+\end{equation}
+
+where $\mu_{laa}$ is the true mean length-at-age and $f(a)$ is some growth function. We would then minimize the observations  using sum of squares of some other likelihood function (they apply weights as well):
+
+\begin{equation}
+G = \sum (\mu_{laa}^O - \mu_{laa})^2
+\end{equation}
+
+where $\mu_{laa}^O$ are the observed lengths. Then we need to have some model of proportions at age such that it is treated as a random varialbe, and is fit against an exponential mortality equations:
+
+\begin{equation}
+\theta_a^* = c e^{-Za} \\
+log \theta_a^* = logc -Za \\
+M = \sum log(\theta_a - \theta_a^*)^2
+\end{equation}
+
+where we minimize our estimated ages against some equilibrium age structure. This allows our ages to be a random variable - such that it is constrained to be similar to an equilibrium age-structure and has some normal stochasticity there. Note that if our age compositions are highly variable, this method might not work well as it assumes a equilibrium age-structure. Fournier and Breen add an additional constraint to ensure that the proportions sum to one as a penalty - but this can probably be circumvented by estimating these parameters in a multivariate logit space or something like that. You can then construct your age-length transition matrix from above and convert ages to lengths, and minimize length compositions using a multinomial, conditional on the estimated age compositions $\theta_a$. You can then add up all your likelihoods and penalties into an objective function to minimize that. After getting your final solution, you simply just need to put your parameter estimates back into a normal likelihood to describe the pdf of length at a given age (i.e., each age group has some pdf of a length distribution) and overlay these pdfs onto the length frequency plot. Some additional constraints are imposed as well to reduce parameters here - i.e., for the standard deviations for length-at-age, it is commonly either assumed to be constant or is a function of age (function of age allows us to interpolate and from min sd to max sd to get age-specific sds). 
+
+So the end goal here is to track age cohorts using only length-frequency data. If you have some growth model with LAA data, this will work well as you can adequately describe the AL matrix. Additionally, given the equations above, no age composition data are obtained - age comps are estimated using MLE, multiplied by the AL matrix, and is then maximized by maximizing fit to length comps. This can easily be extended to incorporate age composition data by allowing for an additional likelihood fuctnion. Nonetheless, this sets up the theory behind fitting length composition within an age-structured model. This sets up the theory behind fitting length composition within age-structured model. I'll reiterate the general steps from above for clarity and my own understanding:
+
+1. Get some estimate of mean length-at-age and its associated standard deviations at age,
+1. Integrate out a normal likelihood conditional on the mean LAA and sd at age to get an AL transition matrix,
+1. Multiply the age-length transition matrix by some estimated parameter vector of age-composition (our quantiy of interest). This gives us a joint distribution of lengths and ages. To convert this to lengths, we need to integrate or sum out our ages. 
+1. Once we have our conversion to lengths, we can maximize a multinomial likelihood to fit to the observed data. The predicted length compositions are conditional on the parameter vector of age compositions and maximizing the length composition data allows us to derive some quantity of age-composition.
+
+#### Sampling Considerations
+##### Simple Random Sampling
+If aging is possible for all fishes captured, then under simple random sampling, if $A$ fish are taken out of $N$, then define the true proportion of fish as:
+
+\begin{equation}
+\theta_a = N_a / N
+\end{equation}
+
+where $N_a$ is the true number of individuals at age $a$. If sampling is independent and each fish is aged and there is sampling variability in the population (i.e., not sampling the entire population), then the frequency of observed fish is:
+
+\begin{equation}
+\theta_a^{est} = A_a / A \\
+V(\theta_a^{est}) = \theta_a^{est} (1 - \theta_a^{est}) / A
+\end{equation}
+
+where $A$ is the total number of fish caught and sampled in a given tow. Thus, the expected values and variance will follow a multinomial distribution and the marginals are based on a binomial as shown above. Some methods for obtaining population age-structure and associated uncertainty is given in page 302 (pretty standard expected value variance stuff).
+
+From the above equations, we have some estimate of proportions at age $\theta_a^{est}$. If we want catch at age, we first need to know the catch in terms of the number of individuals. As we commonly have yield data, we can use the weight and catch in numbers relationship to relate that back to yield and derive catch in numbers:
+
+\begin{equation}
+Y = CW \\
+C^{est} = Y/W
+\end{equation}
+
+where $W$ is mean weight and is a random variable, $Y$ is the yield and $C$ is catch in numbers. This relationship gives us the average number of individuals that were caught. If we want to know the catch-at-age, we could just multiply this by the catch proportions derived from above:
+
+\begin{equation}
+C_a^{est} = C^{est}\theta_a^{est}
+\end{equation}
+
+which gives us our estimated proportions at age. Note that this estimator can be biased especially if mean weight is poorly sampled. Furthermore, this assumes simple random sampling. Nonetheless, this gives us a genearl theory for estimating catch-at-age using age-composition data and yield. Variance estimates can be found using the standard delta method for derived quantities. 
+
+##### Two-Stage Random Sampling
+Under two-stage resampling, two assumptions are made:
+1. A simple random sample of size $L$ is taken from catch of individuals $C$. This sample can be of length frequencies, or other size measurements. Let us classify this into $l$ strate, 
+1. Within this simple random sample of size $L$, another sub-sample of size $A$ is taken to age fish in the second stage. Here $A_l$ is randomly taken from $L_l$. For the second-stage resampling, there are some common allocation strategies for selecting $A_l$, which is fixed (constant across length bins), or proportional (proportional to the length bins defined) allocation. Proportional is usually best as it allows for self-weighitng of composition among strata. 
+
+From the above, we can construct an age-length key using paired age-length samples $A_{la}$. If $C_{la}$ is the true number of fish of length $l$ that are of age $a$ in the catch, then you can sum across the ages to get the total lengths and its associated proportions:
+
+\begin{equation}
+\alpha_l = \sum_a C_{la} / C \\
+\alpha_l = C_{l} / C
+\end{equation}
+
+To get the proportion at each length and age then, this would be:
+\begin{equation}
+\theta_{la} = C_{la} / C_l
+\end{equation}
+
+where we are basically just normalizing the rows of the catch of length and age to get an age-length key. Given that we have an age-length key (P(L|A)), then we can go from lengths to ages and ages to lengths. The following goes from lengths to ages:
+\begin{equation}
+\theta_{a} = \sum_l \alpha_l \theta_{al} = \sum_l C_{la} / C
+\end{equation}
+
+where we can convert our proportions at length to proportions at age. So in the context of an estimator, we can construct the variances for all of these quantities for a two-stage resampling process. For the proportions at age $\theta_a$, the variance is composed of a within length and a between length component in terms of the variability (see page 305) - within length variability = variability of ages in a given length, and between length variability = the overall variability of lengths. Extending the equations above, if we have weight samples for every length (can ignore ages), then we can convert this weight-length relationship to a weight-at-age relationship using our age-length key:
+
+\begin{equation}
+W_a = \sum_l W_l \theta_{al} 
+\end{equation}
+
+where the variances of weight-at-age are derived using the delta method, based on the variances of proportions at age and the variance of the age-length key.
+
 
 ## Chapter 9 (Size structured Models and Assessment Methods)
 

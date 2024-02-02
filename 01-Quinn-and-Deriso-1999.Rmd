@@ -1980,7 +1980,7 @@ Similarly, all of the models described above assume deterministic dynamics - i.e
 Length is the most common information collected in fisheries just because its easy. Distinct modes in length composition can potentially represent age classes. Length frequencies are typically represented with multinomial likelihood, where the log-liklihood is used to express this, just so we can avoid writing out the constants (constant of integration of sum doesn't matter in MLE):
 
 \begin{equation}
-f(\boldsymbol{L^O}) = C\Pi p_l^{L_l^O} \\
+f(\boldsymbol{L^O}) = C \Pi p_l^{L_l^O} \\
 log f(\boldsymbol{L^{O}}) = C + \sum L_l^O log(p_l)
 \end{equation}
 
@@ -1988,8 +1988,7 @@ where $C$ is your choose function (your constant) and can simply be dropped, whi
 
 \begin{equation}
 \psi_{l,a} = \int_l P_a(L)dL \\
-L_l = \psi_{l,a} \theta_a \\
-L_l = P(l), \psi_{l,a} \theta_a  = P(l,a) \\
+L_l = \sum_a \psi_{l,a} \theta_a \\
 P(l) = \sum_a P(l,a)
 \end{equation}
 
@@ -2073,16 +2072,289 @@ To get the proportion at each length and age then, this would be:
 
 where we are basically just normalizing the rows of the catch of length and age to get an age-length key. Given that we have an age-length key (P(L|A)), then we can go from lengths to ages and ages to lengths. The following goes from lengths to ages:
 \begin{equation}
-\theta_{a} = \sum_l \alpha_l \theta_{al} = \sum_l C_{la} / C
+\theta_{a} = \sum_l \alpha_l \theta_{la} = \sum_l C_{la} / C
 \end{equation}
 
 where we can convert our proportions at length to proportions at age. So in the context of an estimator, we can construct the variances for all of these quantities for a two-stage resampling process. For the proportions at age $\theta_a$, the variance is composed of a within length and a between length component in terms of the variability (see page 305) - within length variability = variability of ages in a given length, and between length variability = the overall variability of lengths. Extending the equations above, if we have weight samples for every length (can ignore ages), then we can convert this weight-length relationship to a weight-at-age relationship using our age-length key:
 
 \begin{equation}
-W_a = \sum_l W_l \theta_{al} 
+W_a = \sum_l W_l \theta_{la} 
 \end{equation}
 
-where the variances of weight-at-age are derived using the delta method, based on the variances of proportions at age and the variance of the age-length key.
+where the variances of weight-at-age are derived using the delta method, based on the variances of proportions at age and the variance of the age-length key. Essentially, in all of these equations, we are just taking the weighted average of proportions at age or length using the age-length key to convert between length and age.
+
+##### Considerations of using age-length keys to other samples
+In pages 311 to 316, the book gives an example where an age-length key is constructed using pair age and length samples. It shows that the age-length key is a function of the obtained age composition, so if you were to say apply it to another sample, you would obtain results that were most similar to the age-composition from the age-length key (i.e., applying length samples to the AL key to convert to ages would produce ages more similar to the AL key, even if they are different). However, if you can assume that the age-length key is the same between different populations and is constant over time, and you take a random sample of lengths, then you can convert your lengths back to age compositions to solve for your expected age compositions. I think the general sentiment here is that as long as the ALK can be assumed to be the same between populations or years, then you can use it to estimate ages. However, if it is not, then the age-compositions you produce from length frequencies will look more like the age-compositions collected for constructing that ALK. The book then goes on to give least squares solutions for solving for age-composition data using general linear model theory $A = (X^TX)^{-1}X^TL$.
+
+### Estimation of Abundance and Population Parameters
+The value of having age-structured data is that you can trace cohorts through their lives and what they experienced as long as you can separate out the confounding factors of fishing, death, migration, and catchability. In the following examples, we will build this to track a single year class. To track the cohort through ages, we just use a simple exponential mortality model:
+
+\begin{equation}
+N_a = N_{a-1}e^{-Z_{a-1}} \\
+N_a = N_{a-1}S_{a-1} \\
+N_a = N_r exp(- \sum_r^{a-1} -Z_a)
+\end{equation}
+
+where recall that survival is multiplicative and total mortality is cumulative. To derive the catch-at-age for this cohort, simply use Baranov's catch equation:
+
+\begin{equation}
+C_a = \frac{F_a}{Z_a} N_a(1-e^{-Z_a}) \\
+C_a = \mu_a N_a
+\end{equation}
+
+where $\mu_a$ is the exploitation fraction. However, there is some parameter confounding we need to deal with. The book gives an example of attempting to estimate catch ratios between successive years:
+
+\begin{equation}
+\frac{C_{a+1}}{C_a} = \frac{(F_{a+1}/Z_{a+1}(1-exp(-Z_{a+1})))}{(F_{a}/Z_{a}(1-exp(-Z_{a})))} e^{-Z_a} = \\
+\mu_{a+1} / \mu_a S_a
+\end{equation}
+
+so here, if you have one observation of the catch ratio, there is still 4 parameters that needs to be estimated (fishing mortality and natural mortality for the two years). Even if natural mortality is known, you still only have one observation to estimate two parameters. So some simplifications are necessary here for analyzing a single cohort, where we need to assume $F_{a+1} = F_a$ and $M_{a+1} = M_a$, resulting in the exploitation fraction being the same throughout the year class $\mu_{a+1} = \mu_a = S_a$ and the only parameter left you need to estimate is by combining fishing mortality and natural mortality into a single term (e.g., $S_a = e^{-Z_a}$), where we only need to estimate $Z$. So if natural mortality and fishing mortality are both constant, the ratio of successive catches estimates the total survival of the year class, as well as total mortality. If we have some estimate of $M$, we can treat it as known or fixed, estimate what $Z$ is and back calculate what the fishing mortality at age should have been $F_a = Z_a - M$. In general however, these methods are not reliable because mortality processes vary across age-classes and are not constant, which can give unrealistic results of mortality processes as well as survival. Thus, these approximations e.g., assuming the successive Fs and Ms are constant should not be used to back-calculate what fishing mortality was. 
+
+#### Catch Curve Analysis
+If we can assume that survival is constant beyond a given age $f$, then we can calculate the theoretical mortality and survival processes by projecting survival forward in time:
+
+\begin{equation}
+N_{f + x} = N_f S^x
+\end{equation}
+
+note that because survival is multiplicative, we can just raise it to the power of $x$. If we assume that the exploitation fraction is lognormally distributed such that the expected value of catch and the median can be calculated as such:
+
+\begin{equation}
+med(C_{f+x}) = \mu N_{f+x} = \mu N_fS^x \\
+E(ln(C_{f+x})) = ln(\mu N_{f+x}) = ln(\mu N_{f}) + x ln(S) 
+\end{equation}
+
+If we substitute in the following, we can get a regresison relationship that is more apparent ($Z = -lnS$, $x = a-f$):
+
+\begin{equation}
+E(ln(C_{a})) = ln(\mu N_{f+x}) = ln(\mu N_{f}) - (a-f)Z \\
+E(ln(C_{a})) = ln(\mu N_{f} +fZ) - aZ \\
+\end{equation}
+
+where the slope is $Z$ and the intercept is $ln(\mu N_{f} +fZ)$, so that way, we can get some sort of estimate of total mortality. Here, we are simply predicted the catch of a cohort across its life-span (e.g., ln(C) ~ Age), which forms what we know as our catch curves. In general, we will see some sort of increasing dome shaped trend for younger ages because of selectivity effects (e.g., survival is not constant until a given age). From the slope, if we have some true known value of natural mortality, we could then calculate the average fishing mortality for that cohort. Note that often, we apply catch curves to a single year of data instead of a single cohort. Thus, we have to make the assumption that recruitment and mortality/survival is constant - such that the Z is constant for every cohort. If recruitment isn't constant, then the $Z$ might decline more steeply at those initial ages, or it might ramp up, which could cause bias if applied to other cohorts.
+
+To further reiterate the points above of using a catch curve and assuming constant survival, non-constant survival is actually pretty common, which can show up as variation in the slope as well as some curvlinearity. This can be due to age-specific M or selectivity effects, as well as spatial effects. If recruitment is either exponentially increasing or decreasing over time, the mortality process will actually become $Z+\nu$, where $N_{r,t} = N_re^{Z+\nu}$. Given that, if you assume constant recruitment you will probably over or underestimate the total mortality, if only one year of a synthetic cohort of data is used (i.e., each age-class has a different recruitment if you only look at one year, and that can bias your results). 
+
+The example the book gives uses exponentially declining recruitment to show that the mortality between successive age classes is unbiased but by using a single year of data of a synthetic cohort, the estimate of mortality is going to be negatively biased, but the slope will look constant and indicate nothing is wrong. Hence, why catch-curves should not be based off of one year of data. The example is coded below. Essentially, when recruitment is decreasing and you only use one year of data, even if you survival in a cohort is the same, the lowered recruitment from previous years is going to propagate through to the current synthetic year such that it seems like you have a higher survival rate.
+
+This happens because say if your recruitment was declining over time and you only track one year of fish, then previous year cohorts will have more abundance - as they end up in the current synthetic year, and the subsequent cohorts are declining exponentially in terms of total recruitment, it will appear as if you have more individuals surviving in that synthetic cohort - just because each successive cohort from previous years actually has more individuals in the population (so more individuals surviving from previous cohorts because the initial years have higher recruitment = synthetic population appears to have higher survival). 
+
+```{r}
+S_4 = 0.5 # survival of age 4
+S5_8 = 0.67 # survival of age 5-8
+nu = -0.1 # declining recruitment
+N_r = 2000 # start recruitment
+y = 0:5 # years
+rec_num = 2000 * exp(nu * y) # recruitment numbers that are declining over time
+
+# storage 
+n_at = matrix(0, nrow = 6, ncol = 6)
+log_n_at = matrix(0, nrow = 6, ncol = 6) 
+n_at[1,] = rec_num
+log_n_at[1,] = log(rec_num)
+
+# run through catch curve popn here
+for(a in 2:nrow(n_at)) {
+  for(y in 2:ncol(n_at)) {
+    if(a == 2) n_at[a,y] = n_at[a-1,y-1] * S_4
+    else n_at[a,y] = n_at[a-1,y-1] * S5_8
+    log_n_at[a,y] = log(n_at[a,y] )
+  } # y
+} # a
+
+# Visualize tracking a cohort over time
+par(mfrow = c(1,2))
+plot(diag(log_n_at), type = 'l', col = "red", lwd = 3, lty = 2,xlab = "time", ylab = 'logN (decln rec)', main = "Red = actual, black = snythetic")
+lines(log_n_at[,5], type = 'l')
+log_n_at[,5][2] - log_n_at[,5][3] # slope of a synthetic cohort with varying recruitment
+
+# storage 
+n_at = matrix(0, nrow = 6, ncol = 6)
+log_n_at = matrix(0, nrow = 6, ncol = 6) 
+n_at[1,] = 2e3
+log_n_at[1,] = log(2e3)
+
+# run through catch curve popn here
+for(a in 2:nrow(n_at)) {
+  for(y in 2:ncol(n_at)) {
+    if(a == 2) n_at[a,y] = n_at[a-1,y-1] * S_4
+    else n_at[a,y] = n_at[a-1,y-1] * S5_8
+    log_n_at[a,y] = log(n_at[a,y] )
+  } # y
+} # a
+
+plot(diag(log_n_at), type = 'l', col = "red", lwd = 3, lty = 2,xlab = "time", ylab = 'logN (constant rec)', main = "Red = actual, black = snythetic")
+lines(diag(log_n_at[,-1]), type = 'l')
+diag(log_n_at[,-1])[2] - diag(log_n_at[,-1])[3] # slope of a synthetic cohort with constant recruitment
+```
+
+Thus, given the above, catch curves should only be used to track cohorts and not synthetic populations and the linearity of the slope does not necessarily mean that all assumptions have been made (constant survival and constant recruitment). 
+
+### Virtual Population Analysis and Cohort Analaysis
+A virtual population is a population that does not experience natural mortality. If catch is measured without error, the virtual population can be obtained by subtracting your previous ages virtual population by the catch at that age and you can back-calculate your minimize population size using just catch data, where you need to assume some conditions, which is $V_A = C_A$, where the terminal abundance is the final catch:
+
+\begin{equation}
+V_{a+1} = V_a - C_a \\
+V_a = V_{a+1} + C_a \\
+V_a = \sum_a = C_a
+\end{equation}
+
+This gives us the minimum population size without accounting for natural mortality. Further extending this, natural mortality can readily be incorporated using Baranov's catch equation, by assuming known M and $F_a$:
+
+\begin{equation}
+C_a = N_A(1 - e^{-Z_A}) \frac{F_a}{Z_a} \\
+\frac{C_a}{(1 - e^{-Z_A})} = N_A\frac{F_a}{Z_a} \\
+\frac{C_a}{(\frac{F_a}{Z_a} 1 - e^{-Z_A})} = N_A
+\end{equation}
+
+where we are just re-arranging Baranov's equation and this is to calculate terminal abundance. To calculate previous ages, we can just project forward:
+
+\begin{equation}
+C_a = N_a(1 - e^{-Z_a}) \frac{F_a}{Z_a} \\
+N_{a+1} = N_ae^{-Z_a} \\
+\frac{C_a}{N_{a+1}} = \frac{F_a}{Z_a}(e^{-Z_a} - 1)
+\end{equation}
+
+where the third equation is here just computed by substituting equation 2 into equation 1. Then if we know what $C_a$, $M_a$, and $N_a$ is, then we can easily solve for $F_a$ numerically. This is what we commonly term as sequential population analysis where if we have these known quantities, we can sequentially and recursively solve these equations to get $F_a$, although it was hard back in the dark ages because of lack of computational power and the nonlinearity. 
+
+In terms of cohort analysis, which approximates VPA and was popularized by Pope (1972) to deal with the non-linearities in Gulland's equations, it uses the following approximation:
+\begin{equation}
+\frac{1 - e^{-x}}{x} \sim=e^{-x/2}
+\end{equation}
+
+presuambly to make calculating exponential and nonlinear functions much easier back in the day. The approximation by rewriting:
+
+\begin{equation}
+N_{a+1} = N_ae^{-Z_a} = N_ae^{-(M_a+F_a)}\\
+N_{a+1}e^{M_a} = N_ae^{-(M_a+F_a)}e^{M_a} = N_ae^{-F_a} \\
+N_{a+1}e^{M_a} = N_ae^{-F_a} = N_a - N_a(1 - e^{-F_a}) \\
+\end{equation}
+
+Recall the Baranov equation can be rearrange as such:
+
+\begin{equation}
+C_a = \frac{F_a}{Z_a} N_a(1 - e^{-Z_a}) \\
+\frac{C_a}{(1 - e^{-Z_a})} \frac{Z_a}{F_a} = N_a \\
+\end{equation}
+
+and we can substitute this into:
+
+\begin{equation}
+N_{a+1}e^{M_a} = N_ae^{-F_a} = N_a - N_a(1 - e^{-F_a}) = \\
+N_a - C_a\frac{(1 - e^{-F_a})}{(1 - e^{-Z_a})} \frac{Z_a}{F_a}
+\end{equation}
+
+and using the approximation $1-e^{-x}/x \sim= e^{-x/2}$, we can substitute that into our previous equation where:
+
+\begin{equation}
+\frac{(1 - e^{-F_a})}{F_a} \sim= e^{-F_a} \\
+\frac{(1 - e^{-Z_a})}{Z_a} \sim= e^{-Z_a} \\
+N_a - C_a\frac{e^{-F_a/2}}{e^{-Z_a/2}} = \\
+N_a - C_ae^{-F_a/2 + (M+F)/2} = N_a - C_ae^{M_a/2}
+\end{equation}
+
+which is a good approximation only when $M_a$ is less than 0.3, and $F_a$ is less than 1.2. Given that we are dividing the exponent by 2, it assumes that all fishing takes place in the middle of the year. Rewriting the above equation, we can essentially get a forward equation:
+
+\begin{equation}
+N_{a+1}e^{M_a} = N_a - C_ae^{M_a/2} \\
+N_{a+1}e^{M_a}e^{-M_a} = (N_a - C_ae^{M_a/2})e^{-M_a} \\
+N_{a+1} = (N_ae^{-M_a} - C_ae^{-M_a/2}) = (N_ae^{-M_a/2} - C_a)e^{-M_a/2} \\
+\end{equation}
+
+and a backward equation:
+\begin{equation}
+N_{a+1}e^{M_a} = N_a - C_ae^{M_a/2} \\
+N_a = N_{a+1}e^{M_a} + C_ae^{M_a/2} \\ 
+\end{equation}
+
+which gives us a way to project either forward or backward. If catch is taken halfway through the year as the equations assume, then we can perfectly fit to catch, but if not, then thats not the case - there are slight differences. Nonetheless, using these equations, we will first solve for the abundance of the oldest age: 
+
+\begin{equation}
+C_a = N_a(1 - e^{-Z_a}) \frac{F_a}{Z_a} 
+\end{equation}
+
+then project backwards using this initial age estimate:
+\begin{equation}
+N_a = N_{a+1}e^{M_a} + C_ae^{M_a/2} \\ 
+\end{equation}
+
+and then solve for catch again using:
+\begin{equation}
+C_a = N_a(1 - e^{-Z_a}) \frac{F_a}{Z_a} 
+\end{equation}
+
+where, we then solve for $F_a$ here if we know what the true $M_a$ is:
+
+\begin{equation}
+N_{a+1} N_ae^{-Z_a} = \\
+ln(N_{a+1}/N_a) = -M_a - F_a \\
+F_a = -ln(N_{a+1}/N_a) - M_a
+\end{equation}
+
+We can use some alternative equations to calculate the terminal abundance and then back-calculate the virtual population. The first formulation uses a plus group where all ages $A+$ are grouped into one age class:
+
+\begin{equation}
+C_{A+} = N_{A+}\frac{F_{A+}}{Z_{A+}}(1-e^{-Z_{A+}\tau})
+\end{equation}
+
+where $\tau$ is the number of years represented by the plus group. Rearranging this equation, we get to the terminal year abundance:
+
+\begin{equation}
+N_{A+} = \frac{C_{A+}Z_{A+}}{F_{A+}(1-e^{-Z_{A+}\tau})}
+\end{equation}
+
+and if $\tau => \infty$, then it reverts to $N_{A+} = \frac{C_{A+}Z_{A+}}{F_{A+}}$ where $(1 - e^{-Z})$ goes to 0. But this is of limited use because it requires us to determine the oldest ages at a long period to track it to its final dissolution. Another variation from Ricker is denoted in the book (page 325). 
+
+For VPA, it is not possible to obtain variance estimates because there are more parameters than there are observations. But if you have auxiallry variance estimates of catch, terminal fishing mortality, and natural mortality, as well as their covariances, it is possible to get some variance estimates here. The book further provides some equations in page 325 - 326. In general VPA and cohort analysis was popular because your estimates of $F$ was less sensitive as you continue to peel back and back-calculate years, which gave us a robust procedure to look at historical trends in abundance and fishing mortality. Errors become small (as a rule of thumb) when the cumulative estimated F is larger than 1 (kind of weird tbh, but probably some cutoff for the number of total years fished).
+In general, these methods (VPA and cohort analysis) are tracking a single cohort over time, although you can easily extend this to incorporate multiple cohorts. You probably poorly estimate F if you don't observe the cohort for a long enough time series. While this is all well and good, cohort analysis suffers from the fact that there is no error admitted (catch-at-age, natural mortaliy is assumed known), and can be sensitive if there is immigration or emigration. Foward projection equations can be used starting from the youngest ages, but its more sensitive (i.e., F is more sensitive projecting forward than backward, because you have less data to project forwards).
+
+Below is an example of cohort analysis using Pope's approximation, which uses the following equations derived from above. First we calculate the abundance for the oldest age class, with some value of $F_a, M_a$:
+
+\begin{equation}
+N_A = \frac{C_a}{(\frac{F_a}{Z_a} 1 - e^{-Z_A})}
+\end{equation}
+
+from this starting point, we can then back-calculate what our $F_a$ should have been given some observed value of $C_a$:
+
+\begin{equation}
+N_a = N_{a+1}e^{M_a} + C_ae^{M_a/2} \\ 
+F_a = -ln(N_{a+1}/N_a) - M_a
+\end{equation}
+
+The example below illustrates this implementation for EBS pollock for a single year class from ages 2-9. Obviously here, we have some estimate of natural mortality. however, if we just simply take out the $M_a$ term, we can go back to the dark ages and get some estimate of minimum population size. In the book, they give an example of what happens when you change the value of terminal F, but in general, the effect of different $F$ values lessens as you go further back in time. I presume that with catch-at-age data, you can basically just tune the $F$ such that you arrive at the solution with the closest fit. You can do the same analysis using forward projections, although the book shows that the $F$ for the initial age and model sensitivity is not as robust as backwards-calculations, but you have the benefit of being able to project forwards.
+
+```{r}
+C = c(25241, 13306, 21178, 74749, 228463, 682467, 1097360, 1073816) # catch series by age 9 - age 2
+M = c(rep(0.3, 8), 0.4) # nmort (age 9 - 2) 
+N = vector() # numbers at age 9 - 2
+f = vector() # fishing mortality
+f[1] = 0.12 # terminal F
+z = vector() # total mortality
+z[1] = M[1] + f[1] # initial mortality
+for(i in 1:length(C)) {
+  if(i == 1) N[i] = C[i] / ((f[i]/(f[i]+M[i])) * (1 - exp(- (f[i]+M[i])))) # abundance of oldest age class
+  else {
+    N[i] = N[i-1] * exp(M[i]) + C[i] * exp(M[i]/2) # project back to get starting abundance of cohort
+    f[i] = -log(N[i-1]/N[i]) - M[i] # calculate F
+    z[i] = f[i] + M[i]
+  } # end else
+} # end catch series (t)
+
+par(mfrow = c(1,2))
+plot(rev(N), type = "l", lwd = 3, main = "1975 EBS pollock cohort")
+plot(rev(z), ylim = c(0, 0.66), type = "l", col = "red", lwd = 3, ylab = "Z (red), M (blue), or F (green)")
+lines(rev(f), ylim = c(0, 0.66), type = "l", col = "green", lwd = 3, ylab = "Z (red), M (blue), or F (green)")
+lines(rev(M), ylim = c(0, 0.66), type = "l", col = "blue", lwd = 3, ylab = "Z (red), M (blue), or F (green)")
+```
+
+In pages 328 to 330, you can find equations for specifying fishing or pulse mortality for VPA-like calculations occuring at different times of the year. 
+
+
+### Relative Abundance Analysis
+Instead of using absolute catch-at-age data, here we can use proportions of catch-at-age to determin relative abundance over time. 
+
+
 
 
 ## Chapter 9 (Size structured Models and Assessment Methods)

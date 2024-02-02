@@ -100,6 +100,11 @@ length-frequency-analysis
 sampling-considerations
 simple-random-sampling
 two-stage-random-sampling
+considerations-of-using-age-length-keys-to-other-samples
+estimation-of-abundance-and-population-parameters
+catch-curve-analysis
+virtual-population-analysis-and-cohort-analaysis
+relative-abundance-analysis
 chapter-9-size-structured-models-and-assessment-methods
 chapter-10-migration-movement-and-other-spatiotemporal-considerations
 chapter-11-optimal-harvesting

@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew LH. Cheng" />
 
 
-<meta name="date" content="2024-01-30" />
+<meta name="date" content="2024-02-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -221,6 +221,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.8" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#chapter-8-catch-age-and-age-structured-assessment-methods"><i class="fa fa-check"></i><b>1.8</b> Chapter 8 (Catch age and Age structured Assessment Methods)</a>
 <ul>
 <li class="chapter" data-level="1.8.1" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#length-frequency-analysis"><i class="fa fa-check"></i><b>1.8.1</b> Length Frequency Analysis</a></li>
+<li class="chapter" data-level="1.8.2" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#estimation-of-abundance-and-population-parameters"><i class="fa fa-check"></i><b>1.8.2</b> Estimation of Abundance and Population Parameters</a></li>
+<li class="chapter" data-level="1.8.3" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#virtual-population-analysis-and-cohort-analaysis"><i class="fa fa-check"></i><b>1.8.3</b> Virtual Population Analysis and Cohort Analaysis</a></li>
+<li class="chapter" data-level="1.8.4" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#relative-abundance-analysis"><i class="fa fa-check"></i><b>1.8.4</b> Relative Abundance Analysis</a></li>
 </ul></li>
 <li class="chapter" data-level="1.9" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#chapter-9-size-structured-models-and-assessment-methods"><i class="fa fa-check"></i><b>1.9</b> Chapter 9 (Size structured Models and Assessment Methods)</a></li>
 <li class="chapter" data-level="1.10" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#chapter-10-migration-movement-and-other-spatiotemporal-considerations"><i class="fa fa-check"></i><b>1.10</b> Chapter 10 (Migration Movement and Other Spatiotemporal Considerations)</a></li>
@@ -1966,14 +1969,13 @@ det(\boldsymbol{M} - \lambda \boldsymbol{I}) = 0
 <h3><span class="header-section-number">1.8.1</span> Length Frequency Analysis<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#length-frequency-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Length is the most common information collected in fisheries just because its easy. Distinct modes in length composition can potentially represent age classes. Length frequencies are typically represented with multinomial likelihood, where the log-liklihood is used to express this, just so we can avoid writing out the constants (constant of integration of sum doesn’t matter in MLE):</p>
 <p><span class="math display">\[\begin{equation}
-f(\boldsymbol{L^O}) = C\Pi p_l^{L_l^O} \\
+f(\boldsymbol{L^O}) = C \Pi p_l^{L_l^O} \\
 log f(\boldsymbol{L^{O}}) = C + \sum L_l^O log(p_l)
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(C\)</span> is your choose function (your constant) and can simply be dropped, while <span class="math inline">\(L^O\)</span> is a vector of observed length compositions, while <span class="math inline">\(log(p_l)\)</span> is a vector or proportions at each length interval. The probability density of length <span class="math inline">\(P_a(L)\)</span> is usually a normal where the variance is age specific - to get your age-length transition matrix. So to fit your length composition in an assessment, we first need to derive our age-length transition matrix by first fitting a growth model, we then need age-specific estiamtes of the variance of length at age, and then we can integrate (typically sum for computational reasons) across all lengths for a given age to get the marginal distribution of length for a given age:</p>
 <p><span class="math display">\[\begin{equation}
 \psi_{l,a} = \int_l P_a(L)dL \\
-L_l = \psi_{l,a} \theta_a \\
-L_l = P(l), \psi_{l,a} \theta_a  = P(l,a) \\
+L_l = \sum_a \psi_{l,a} \theta_a \\
 P(l) = \sum_a P(l,a)
 \end{equation}\]</span></p>
 <p>where we are able to convert ages to lengths in order to fit length compositions using a multinomial. Essentially, multiplying the vector of ages by the age-length matrix gives us the joint distribution of the two. To get the probability of length, we simply integrate of sum across all combinations of ages to get the marginal probability of length. However, some complications can arise because growth rates can vary and the age-length transition matrix might not be constant. Fournier and Breen further extended this simple model from above by allowing for more stochasticity in this process, and to admit some variability in the ageing process (I think… although the notation is pretty wonky). Here, let <span class="math inline">\(\theta_a\)</span> be the estimated age proportions (parameter vector) and <span class="math inline">\(\theta_a^*\)</span> be the equilibrium predicted age proportions such that we have some constraint there. Thus, we would first fit a growth model:</p>
@@ -2039,15 +2041,235 @@ C_a^{est} = C^{est}\theta_a^{est}
 \end{equation}\]</span></p>
 <p>where we are basically just normalizing the rows of the catch of length and age to get an age-length key. Given that we have an age-length key (P(L|A)), then we can go from lengths to ages and ages to lengths. The following goes from lengths to ages:
 <span class="math display">\[\begin{equation}
-\theta_{a} = \sum_l \alpha_l \theta_{al} = \sum_l C_{la} / C
+\theta_{a} = \sum_l \alpha_l \theta_{la} = \sum_l C_{la} / C
 \end{equation}\]</span></p>
 <p>where we can convert our proportions at length to proportions at age. So in the context of an estimator, we can construct the variances for all of these quantities for a two-stage resampling process. For the proportions at age <span class="math inline">\(\theta_a\)</span>, the variance is composed of a within length and a between length component in terms of the variability (see page 305) - within length variability = variability of ages in a given length, and between length variability = the overall variability of lengths. Extending the equations above, if we have weight samples for every length (can ignore ages), then we can convert this weight-length relationship to a weight-at-age relationship using our age-length key:</p>
 <p><span class="math display">\[\begin{equation}
-W_a = \sum_l W_l \theta_{al}
+W_a = \sum_l W_l \theta_{la}
 \end{equation}\]</span></p>
-<p>where the variances of weight-at-age are derived using the delta method, based on the variances of proportions at age and the variance of the age-length key.</p>
+<p>where the variances of weight-at-age are derived using the delta method, based on the variances of proportions at age and the variance of the age-length key. Essentially, in all of these equations, we are just taking the weighted average of proportions at age or length using the age-length key to convert between length and age.</p>
+</div>
+<div id="considerations-of-using-age-length-keys-to-other-samples" class="section level5 hasAnchor" number="1.8.1.1.3">
+<h5><span class="header-section-number">1.8.1.1.3</span> Considerations of using age-length keys to other samples<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#considerations-of-using-age-length-keys-to-other-samples" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>In pages 311 to 316, the book gives an example where an age-length key is constructed using pair age and length samples. It shows that the age-length key is a function of the obtained age composition, so if you were to say apply it to another sample, you would obtain results that were most similar to the age-composition from the age-length key (i.e., applying length samples to the AL key to convert to ages would produce ages more similar to the AL key, even if they are different). However, if you can assume that the age-length key is the same between different populations and is constant over time, and you take a random sample of lengths, then you can convert your lengths back to age compositions to solve for your expected age compositions. I think the general sentiment here is that as long as the ALK can be assumed to be the same between populations or years, then you can use it to estimate ages. However, if it is not, then the age-compositions you produce from length frequencies will look more like the age-compositions collected for constructing that ALK. The book then goes on to give least squares solutions for solving for age-composition data using general linear model theory <span class="math inline">\(A = (X^TX)^{-1}X^TL\)</span>.</p>
 </div>
 </div>
+</div>
+<div id="estimation-of-abundance-and-population-parameters" class="section level3 hasAnchor" number="1.8.2">
+<h3><span class="header-section-number">1.8.2</span> Estimation of Abundance and Population Parameters<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#estimation-of-abundance-and-population-parameters" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The value of having age-structured data is that you can trace cohorts through their lives and what they experienced as long as you can separate out the confounding factors of fishing, death, migration, and catchability. In the following examples, we will build this to track a single year class. To track the cohort through ages, we just use a simple exponential mortality model:</p>
+<p><span class="math display">\[\begin{equation}
+N_a = N_{a-1}e^{-Z_{a-1}} \\
+N_a = N_{a-1}S_{a-1} \\
+N_a = N_r exp(- \sum_r^{a-1} -Z_a)
+\end{equation}\]</span></p>
+<p>where recall that survival is multiplicative and total mortality is cumulative. To derive the catch-at-age for this cohort, simply use Baranov’s catch equation:</p>
+<p><span class="math display">\[\begin{equation}
+C_a = \frac{F_a}{Z_a} N_a(1-e^{-Z_a}) \\
+C_a = \mu_a N_a
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\mu_a\)</span> is the exploitation fraction. However, there is some parameter confounding we need to deal with. The book gives an example of attempting to estimate catch ratios between successive years:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{C_{a+1}}{C_a} = \frac{(F_{a+1}/Z_{a+1}(1-exp(-Z_{a+1})))}{(F_{a}/Z_{a}(1-exp(-Z_{a})))} e^{-Z_a} = \\
+\mu_{a+1} / \mu_a S_a
+\end{equation}\]</span></p>
+<p>so here, if you have one observation of the catch ratio, there is still 4 parameters that needs to be estimated (fishing mortality and natural mortality for the two years). Even if natural mortality is known, you still only have one observation to estimate two parameters. So some simplifications are necessary here for analyzing a single cohort, where we need to assume <span class="math inline">\(F_{a+1} = F_a\)</span> and <span class="math inline">\(M_{a+1} = M_a\)</span>, resulting in the exploitation fraction being the same throughout the year class <span class="math inline">\(\mu_{a+1} = \mu_a = S_a\)</span> and the only parameter left you need to estimate is by combining fishing mortality and natural mortality into a single term (e.g., <span class="math inline">\(S_a = e^{-Z_a}\)</span>), where we only need to estimate <span class="math inline">\(Z\)</span>. So if natural mortality and fishing mortality are both constant, the ratio of successive catches estimates the total survival of the year class, as well as total mortality. If we have some estimate of <span class="math inline">\(M\)</span>, we can treat it as known or fixed, estimate what <span class="math inline">\(Z\)</span> is and back calculate what the fishing mortality at age should have been <span class="math inline">\(F_a = Z_a - M\)</span>. In general however, these methods are not reliable because mortality processes vary across age-classes and are not constant, which can give unrealistic results of mortality processes as well as survival. Thus, these approximations e.g., assuming the successive Fs and Ms are constant should not be used to back-calculate what fishing mortality was.</p>
+<div id="catch-curve-analysis" class="section level4 hasAnchor" number="1.8.2.1">
+<h4><span class="header-section-number">1.8.2.1</span> Catch Curve Analysis<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#catch-curve-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>If we can assume that survival is constant beyond a given age <span class="math inline">\(f\)</span>, then we can calculate the theoretical mortality and survival processes by projecting survival forward in time:</p>
+<p><span class="math display">\[\begin{equation}
+N_{f + x} = N_f S^x
+\end{equation}\]</span></p>
+<p>note that because survival is multiplicative, we can just raise it to the power of <span class="math inline">\(x\)</span>. If we assume that the exploitation fraction is lognormally distributed such that the expected value of catch and the median can be calculated as such:</p>
+<p><span class="math display">\[\begin{equation}
+med(C_{f+x}) = \mu N_{f+x} = \mu N_fS^x \\
+E(ln(C_{f+x})) = ln(\mu N_{f+x}) = ln(\mu N_{f}) + x ln(S)
+\end{equation}\]</span></p>
+<p>If we substitute in the following, we can get a regresison relationship that is more apparent (<span class="math inline">\(Z = -lnS\)</span>, <span class="math inline">\(x = a-f\)</span>):</p>
+<p><span class="math display">\[\begin{equation}
+E(ln(C_{a})) = ln(\mu N_{f+x}) = ln(\mu N_{f}) - (a-f)Z \\
+E(ln(C_{a})) = ln(\mu N_{f} +fZ) - aZ \\
+\end{equation}\]</span></p>
+<p>where the slope is <span class="math inline">\(Z\)</span> and the intercept is <span class="math inline">\(ln(\mu N_{f} +fZ)\)</span>, so that way, we can get some sort of estimate of total mortality. Here, we are simply predicted the catch of a cohort across its life-span (e.g., ln(C) ~ Age), which forms what we know as our catch curves. In general, we will see some sort of increasing dome shaped trend for younger ages because of selectivity effects (e.g., survival is not constant until a given age). From the slope, if we have some true known value of natural mortality, we could then calculate the average fishing mortality for that cohort. Note that often, we apply catch curves to a single year of data instead of a single cohort. Thus, we have to make the assumption that recruitment and mortality/survival is constant - such that the Z is constant for every cohort. If recruitment isn’t constant, then the <span class="math inline">\(Z\)</span> might decline more steeply at those initial ages, or it might ramp up, which could cause bias if applied to other cohorts.</p>
+<p>To further reiterate the points above of using a catch curve and assuming constant survival, non-constant survival is actually pretty common, which can show up as variation in the slope as well as some curvlinearity. This can be due to age-specific M or selectivity effects, as well as spatial effects. If recruitment is either exponentially increasing or decreasing over time, the mortality process will actually become <span class="math inline">\(Z+\nu\)</span>, where <span class="math inline">\(N_{r,t} = N_re^{Z+\nu}\)</span>. Given that, if you assume constant recruitment you will probably over or underestimate the total mortality, if only one year of a synthetic cohort of data is used (i.e., each age-class has a different recruitment if you only look at one year, and that can bias your results).</p>
+<p>The example the book gives uses exponentially declining recruitment to show that the mortality between successive age classes is unbiased but by using a single year of data of a synthetic cohort, the estimate of mortality is going to be negatively biased, but the slope will look constant and indicate nothing is wrong. Hence, why catch-curves should not be based off of one year of data. The example is coded below. Essentially, when recruitment is decreasing and you only use one year of data, even if you survival in a cohort is the same, the lowered recruitment from previous years is going to propagate through to the current synthetic year such that it seems like you have a higher survival rate.</p>
+<p>This happens because say if your recruitment was declining over time and you only track one year of fish, then previous year cohorts will have more abundance - as they end up in the current synthetic year, and the subsequent cohorts are declining exponentially in terms of total recruitment, it will appear as if you have more individuals surviving in that synthetic cohort - just because each successive cohort from previous years actually has more individuals in the population (so more individuals surviving from previous cohorts because the initial years have higher recruitment = synthetic population appears to have higher survival).</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-1" aria-hidden="true" tabindex="-1"></a>S_4 <span class="ot">=</span> <span class="fl">0.5</span> <span class="co"># survival of age 4</span></span>
+<span id="cb36-2"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-2" aria-hidden="true" tabindex="-1"></a>S5_8 <span class="ot">=</span> <span class="fl">0.67</span> <span class="co"># survival of age 5-8</span></span>
+<span id="cb36-3"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-3" aria-hidden="true" tabindex="-1"></a>nu <span class="ot">=</span> <span class="sc">-</span><span class="fl">0.1</span> <span class="co"># declining recruitment</span></span>
+<span id="cb36-4"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-4" aria-hidden="true" tabindex="-1"></a>N_r <span class="ot">=</span> <span class="dv">2000</span> <span class="co"># start recruitment</span></span>
+<span id="cb36-5"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">5</span> <span class="co"># years</span></span>
+<span id="cb36-6"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-6" aria-hidden="true" tabindex="-1"></a>rec_num <span class="ot">=</span> <span class="dv">2000</span> <span class="sc">*</span> <span class="fu">exp</span>(nu <span class="sc">*</span> y) <span class="co"># recruitment numbers that are declining over time</span></span>
+<span id="cb36-7"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="co"># storage </span></span>
+<span id="cb36-9"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-9" aria-hidden="true" tabindex="-1"></a>n_at <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">6</span>, <span class="at">ncol =</span> <span class="dv">6</span>)</span>
+<span id="cb36-10"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-10" aria-hidden="true" tabindex="-1"></a>log_n_at <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">6</span>, <span class="at">ncol =</span> <span class="dv">6</span>) </span>
+<span id="cb36-11"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-11" aria-hidden="true" tabindex="-1"></a>n_at[<span class="dv">1</span>,] <span class="ot">=</span> rec_num</span>
+<span id="cb36-12"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-12" aria-hidden="true" tabindex="-1"></a>log_n_at[<span class="dv">1</span>,] <span class="ot">=</span> <span class="fu">log</span>(rec_num)</span>
+<span id="cb36-13"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-14"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="co"># run through catch curve popn here</span></span>
+<span id="cb36-15"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(a <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">nrow</span>(n_at)) {</span>
+<span id="cb36-16"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(y <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(n_at)) {</span>
+<span id="cb36-17"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(a <span class="sc">==</span> <span class="dv">2</span>) n_at[a,y] <span class="ot">=</span> n_at[a<span class="dv">-1</span>,y<span class="dv">-1</span>] <span class="sc">*</span> S_4</span>
+<span id="cb36-18"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> n_at[a,y] <span class="ot">=</span> n_at[a<span class="dv">-1</span>,y<span class="dv">-1</span>] <span class="sc">*</span> S5_8</span>
+<span id="cb36-19"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-19" aria-hidden="true" tabindex="-1"></a>    log_n_at[a,y] <span class="ot">=</span> <span class="fu">log</span>(n_at[a,y] )</span>
+<span id="cb36-20"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-20" aria-hidden="true" tabindex="-1"></a>  } <span class="co"># y</span></span>
+<span id="cb36-21"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-21" aria-hidden="true" tabindex="-1"></a>} <span class="co"># a</span></span>
+<span id="cb36-22"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-23"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize tracking a cohort over time</span></span>
+<span id="cb36-24"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-24" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb36-25"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-25" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">diag</span>(log_n_at), <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">lty =</span> <span class="dv">2</span>,<span class="at">xlab =</span> <span class="st">&quot;time&quot;</span>, <span class="at">ylab =</span> <span class="st">&#39;logN (decln rec)&#39;</span>, <span class="at">main =</span> <span class="st">&quot;Red = actual, black = snythetic&quot;</span>)</span>
+<span id="cb36-26"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-26" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(log_n_at[,<span class="dv">5</span>], <span class="at">type =</span> <span class="st">&#39;l&#39;</span>)</span>
+<span id="cb36-27"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb36-27" aria-hidden="true" tabindex="-1"></a>log_n_at[,<span class="dv">5</span>][<span class="dv">2</span>] <span class="sc">-</span> log_n_at[,<span class="dv">5</span>][<span class="dv">3</span>] <span class="co"># slope of a synthetic cohort with varying recruitment</span></span></code></pre></div>
+<pre><code>## [1] 0.3004776</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># storage </span></span>
+<span id="cb38-2"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb38-2" aria-hidden="true" tabindex="-1"></a>n_at <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">6</span>, <span class="at">ncol =</span> <span class="dv">6</span>)</span>
+<span id="cb38-3"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb38-3" aria-hidden="true" tabindex="-1"></a>log_n_at <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">6</span>, <span class="at">ncol =</span> <span class="dv">6</span>) </span>
+<span id="cb38-4"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb38-4" aria-hidden="true" tabindex="-1"></a>n_at[<span class="dv">1</span>,] <span class="ot">=</span> <span class="fl">2e3</span></span>
+<span id="cb38-5"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb38-5" aria-hidden="true" tabindex="-1"></a>log_n_at[<span class="dv">1</span>,] <span class="ot">=</span> <span class="fu">log</span>(<span class="fl">2e3</span>)</span>
+<span id="cb38-6"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="co"># run through catch curve popn here</span></span>
+<span id="cb38-8"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(a <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">nrow</span>(n_at)) {</span>
+<span id="cb38-9"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(y <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(n_at)) {</span>
+<span id="cb38-10"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb38-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(a <span class="sc">==</span> <span class="dv">2</span>) n_at[a,y] <span class="ot">=</span> n_at[a<span class="dv">-1</span>,y<span class="dv">-1</span>] <span class="sc">*</span> S_4</span>
+<span id="cb38-11"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb38-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> n_at[a,y] <span class="ot">=</span> n_at[a<span class="dv">-1</span>,y<span class="dv">-1</span>] <span class="sc">*</span> S5_8</span>
+<span id="cb38-12"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb38-12" aria-hidden="true" tabindex="-1"></a>    log_n_at[a,y] <span class="ot">=</span> <span class="fu">log</span>(n_at[a,y] )</span>
+<span id="cb38-13"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb38-13" aria-hidden="true" tabindex="-1"></a>  } <span class="co"># y</span></span>
+<span id="cb38-14"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb38-14" aria-hidden="true" tabindex="-1"></a>} <span class="co"># a</span></span>
+<span id="cb38-15"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb38-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-16"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">diag</span>(log_n_at), <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">lty =</span> <span class="dv">2</span>,<span class="at">xlab =</span> <span class="st">&quot;time&quot;</span>, <span class="at">ylab =</span> <span class="st">&#39;logN (constant rec)&#39;</span>, <span class="at">main =</span> <span class="st">&quot;Red = actual, black = snythetic&quot;</span>)</span>
+<span id="cb38-17"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb38-17" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">diag</span>(log_n_at[,<span class="sc">-</span><span class="dv">1</span>]), <span class="at">type =</span> <span class="st">&#39;l&#39;</span>)</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(log_n_at[,<span class="sc">-</span><span class="dv">1</span>])[<span class="dv">2</span>] <span class="sc">-</span> <span class="fu">diag</span>(log_n_at[,<span class="sc">-</span><span class="dv">1</span>])[<span class="dv">3</span>] <span class="co"># slope of a synthetic cohort with constant recruitment</span></span></code></pre></div>
+<pre><code>## [1] 0.4004776</code></pre>
+<p>Thus, given the above, catch curves should only be used to track cohorts and not synthetic populations and the linearity of the slope does not necessarily mean that all assumptions have been made (constant survival and constant recruitment).</p>
+</div>
+</div>
+<div id="virtual-population-analysis-and-cohort-analaysis" class="section level3 hasAnchor" number="1.8.3">
+<h3><span class="header-section-number">1.8.3</span> Virtual Population Analysis and Cohort Analaysis<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#virtual-population-analysis-and-cohort-analaysis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A virtual population is a population that does not experience natural mortality. If catch is measured without error, the virtual population can be obtained by subtracting your previous ages virtual population by the catch at that age and you can back-calculate your minimize population size using just catch data, where you need to assume some conditions, which is <span class="math inline">\(V_A = C_A\)</span>, where the terminal abundance is the final catch:</p>
+<p><span class="math display">\[\begin{equation}
+V_{a+1} = V_a - C_a \\
+V_a = V_{a+1} + C_a \\
+V_a = \sum_a = C_a
+\end{equation}\]</span></p>
+<p>This gives us the minimum population size without accounting for natural mortality. Further extending this, natural mortality can readily be incorporated using Baranov’s catch equation, by assuming known M and <span class="math inline">\(F_a\)</span>:</p>
+<p><span class="math display">\[\begin{equation}
+C_a = N_A(1 - e^{-Z_A}) \frac{F_a}{Z_a} \\
+\frac{C_a}{(1 - e^{-Z_A})} = N_A\frac{F_a}{Z_a} \\
+\frac{C_a}{(\frac{F_a}{Z_a} 1 - e^{-Z_A})} = N_A
+\end{equation}\]</span></p>
+<p>where we are just re-arranging Baranov’s equation and this is to calculate terminal abundance. To calculate previous ages, we can just project forward:</p>
+<p><span class="math display">\[\begin{equation}
+C_a = N_a(1 - e^{-Z_a}) \frac{F_a}{Z_a} \\
+N_{a+1} = N_ae^{-Z_a} \\
+\frac{C_a}{N_{a+1}} = \frac{F_a}{Z_a}(e^{-Z_a} - 1)
+\end{equation}\]</span></p>
+<p>where the third equation is here just computed by substituting equation 2 into equation 1. Then if we know what <span class="math inline">\(C_a\)</span>, <span class="math inline">\(M_a\)</span>, and <span class="math inline">\(N_a\)</span> is, then we can easily solve for <span class="math inline">\(F_a\)</span> numerically. This is what we commonly term as sequential population analysis where if we have these known quantities, we can sequentially and recursively solve these equations to get <span class="math inline">\(F_a\)</span>, although it was hard back in the dark ages because of lack of computational power and the nonlinearity.</p>
+<p>In terms of cohort analysis, which approximates VPA and was popularized by Pope (1972) to deal with the non-linearities in Gulland’s equations, it uses the following approximation:
+<span class="math display">\[\begin{equation}
+\frac{1 - e^{-x}}{x} \sim=e^{-x/2}
+\end{equation}\]</span></p>
+<p>presuambly to make calculating exponential and nonlinear functions much easier back in the day. The approximation by rewriting:</p>
+<p><span class="math display">\[\begin{equation}
+N_{a+1} = N_ae^{-Z_a} = N_ae^{-(M_a+F_a)}\\
+N_{a+1}e^{M_a} = N_ae^{-(M_a+F_a)}e^{M_a} = N_ae^{-F_a} \\
+N_{a+1}e^{M_a} = N_ae^{-F_a} = N_a - N_a(1 - e^{-F_a}) \\
+\end{equation}\]</span></p>
+<p>Recall the Baranov equation can be rearrange as such:</p>
+<p><span class="math display">\[\begin{equation}
+C_a = \frac{F_a}{Z_a} N_a(1 - e^{-Z_a}) \\
+\frac{C_a}{(1 - e^{-Z_a})} \frac{Z_a}{F_a} = N_a \\
+\end{equation}\]</span></p>
+<p>and we can substitute this into:</p>
+<p><span class="math display">\[\begin{equation}
+N_{a+1}e^{M_a} = N_ae^{-F_a} = N_a - N_a(1 - e^{-F_a}) = \\
+N_a - C_a\frac{(1 - e^{-F_a})}{(1 - e^{-Z_a})} \frac{Z_a}{F_a}
+\end{equation}\]</span></p>
+<p>and using the approximation <span class="math inline">\(1-e^{-x}/x \sim= e^{-x/2}\)</span>, we can substitute that into our previous equation where:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{(1 - e^{-F_a})}{F_a} \sim= e^{-F_a} \\
+\frac{(1 - e^{-Z_a})}{Z_a} \sim= e^{-Z_a} \\
+N_a - C_a\frac{e^{-F_a/2}}{e^{-Z_a/2}} = \\
+N_a - C_ae^{-F_a/2 + (M+F)/2} = N_a - C_ae^{M_a/2}
+\end{equation}\]</span></p>
+<p>which is a good approximation only when <span class="math inline">\(M_a\)</span> is less than 0.3, and <span class="math inline">\(F_a\)</span> is less than 1.2. Given that we are dividing the exponent by 2, it assumes that all fishing takes place in the middle of the year. Rewriting the above equation, we can essentially get a forward equation:</p>
+<p><span class="math display">\[\begin{equation}
+N_{a+1}e^{M_a} = N_a - C_ae^{M_a/2} \\
+N_{a+1}e^{M_a}e^{-M_a} = (N_a - C_ae^{M_a/2})e^{-M_a} \\
+N_{a+1} = (N_ae^{-M_a} - C_ae^{-M_a/2}) = (N_ae^{-M_a/2} - C_a)e^{-M_a/2} \\
+\end{equation}\]</span></p>
+<p>and a backward equation:
+<span class="math display">\[\begin{equation}
+N_{a+1}e^{M_a} = N_a - C_ae^{M_a/2} \\
+N_a = N_{a+1}e^{M_a} + C_ae^{M_a/2} \\
+\end{equation}\]</span></p>
+<p>which gives us a way to project either forward or backward. If catch is taken halfway through the year as the equations assume, then we can perfectly fit to catch, but if not, then thats not the case - there are slight differences. Nonetheless, using these equations, we will first solve for the abundance of the oldest age:</p>
+<p><span class="math display">\[\begin{equation}
+C_a = N_a(1 - e^{-Z_a}) \frac{F_a}{Z_a}
+\end{equation}\]</span></p>
+<p>then project backwards using this initial age estimate:
+<span class="math display">\[\begin{equation}
+N_a = N_{a+1}e^{M_a} + C_ae^{M_a/2} \\
+\end{equation}\]</span></p>
+<p>and then solve for catch again using:
+<span class="math display">\[\begin{equation}
+C_a = N_a(1 - e^{-Z_a}) \frac{F_a}{Z_a}
+\end{equation}\]</span></p>
+<p>where, we then solve for <span class="math inline">\(F_a\)</span> here if we know what the true <span class="math inline">\(M_a\)</span> is:</p>
+<p><span class="math display">\[\begin{equation}
+N_{a+1} N_ae^{-Z_a} = \\
+ln(N_{a+1}/N_a) = -M_a - F_a \\
+F_a = -ln(N_{a+1}/N_a) - M_a
+\end{equation}\]</span></p>
+<p>We can use some alternative equations to calculate the terminal abundance and then back-calculate the virtual population. The first formulation uses a plus group where all ages <span class="math inline">\(A+\)</span> are grouped into one age class:</p>
+<p><span class="math display">\[\begin{equation}
+C_{A+} = N_{A+}\frac{F_{A+}}{Z_{A+}}(1-e^{-Z_{A+}\tau})
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\tau\)</span> is the number of years represented by the plus group. Rearranging this equation, we get to the terminal year abundance:</p>
+<p><span class="math display">\[\begin{equation}
+N_{A+} = \frac{C_{A+}Z_{A+}}{F_{A+}(1-e^{-Z_{A+}\tau})}
+\end{equation}\]</span></p>
+<p>and if <span class="math inline">\(\tau =&gt; \infty\)</span>, then it reverts to <span class="math inline">\(N_{A+} = \frac{C_{A+}Z_{A+}}{F_{A+}}\)</span> where <span class="math inline">\((1 - e^{-Z})\)</span> goes to 0. But this is of limited use because it requires us to determine the oldest ages at a long period to track it to its final dissolution. Another variation from Ricker is denoted in the book (page 325).</p>
+<p>For VPA, it is not possible to obtain variance estimates because there are more parameters than there are observations. But if you have auxiallry variance estimates of catch, terminal fishing mortality, and natural mortality, as well as their covariances, it is possible to get some variance estimates here. The book further provides some equations in page 325 - 326. In general VPA and cohort analysis was popular because your estimates of <span class="math inline">\(F\)</span> was less sensitive as you continue to peel back and back-calculate years, which gave us a robust procedure to look at historical trends in abundance and fishing mortality. Errors become small (as a rule of thumb) when the cumulative estimated F is larger than 1 (kind of weird tbh, but probably some cutoff for the number of total years fished).
+In general, these methods (VPA and cohort analysis) are tracking a single cohort over time, although you can easily extend this to incorporate multiple cohorts. You probably poorly estimate F if you don’t observe the cohort for a long enough time series. While this is all well and good, cohort analysis suffers from the fact that there is no error admitted (catch-at-age, natural mortaliy is assumed known), and can be sensitive if there is immigration or emigration. Foward projection equations can be used starting from the youngest ages, but its more sensitive (i.e., F is more sensitive projecting forward than backward, because you have less data to project forwards).</p>
+<p>Below is an example of cohort analysis using Pope’s approximation, which uses the following equations derived from above. First we calculate the abundance for the oldest age class, with some value of <span class="math inline">\(F_a, M_a\)</span>:</p>
+<p><span class="math display">\[\begin{equation}
+N_A = \frac{C_a}{(\frac{F_a}{Z_a} 1 - e^{-Z_A})}
+\end{equation}\]</span></p>
+<p>from this starting point, we can then back-calculate what our <span class="math inline">\(F_a\)</span> should have been given some observed value of <span class="math inline">\(C_a\)</span>:</p>
+<p><span class="math display">\[\begin{equation}
+N_a = N_{a+1}e^{M_a} + C_ae^{M_a/2} \\
+F_a = -ln(N_{a+1}/N_a) - M_a
+\end{equation}\]</span></p>
+<p>The example below illustrates this implementation for EBS pollock for a single year class from ages 2-9. Obviously here, we have some estimate of natural mortality. however, if we just simply take out the <span class="math inline">\(M_a\)</span> term, we can go back to the dark ages and get some estimate of minimum population size. In the book, they give an example of what happens when you change the value of terminal F, but in general, the effect of different <span class="math inline">\(F\)</span> values lessens as you go further back in time. I presume that with catch-at-age data, you can basically just tune the <span class="math inline">\(F\)</span> such that you arrive at the solution with the closest fit. You can do the same analysis using forward projections, although the book shows that the <span class="math inline">\(F\)</span> for the initial age and model sensitivity is not as robust as backwards-calculations, but you have the benefit of being able to project forwards.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-1" aria-hidden="true" tabindex="-1"></a>C <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">25241</span>, <span class="dv">13306</span>, <span class="dv">21178</span>, <span class="dv">74749</span>, <span class="dv">228463</span>, <span class="dv">682467</span>, <span class="dv">1097360</span>, <span class="dv">1073816</span>) <span class="co"># catch series by age 9 - age 2</span></span>
+<span id="cb41-2"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-2" aria-hidden="true" tabindex="-1"></a>M <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="fl">0.3</span>, <span class="dv">8</span>), <span class="fl">0.4</span>) <span class="co"># nmort (age 9 - 2) </span></span>
+<span id="cb41-3"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="fu">vector</span>() <span class="co"># numbers at age 9 - 2</span></span>
+<span id="cb41-4"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-4" aria-hidden="true" tabindex="-1"></a>f <span class="ot">=</span> <span class="fu">vector</span>() <span class="co"># fishing mortality</span></span>
+<span id="cb41-5"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-5" aria-hidden="true" tabindex="-1"></a>f[<span class="dv">1</span>] <span class="ot">=</span> <span class="fl">0.12</span> <span class="co"># terminal F</span></span>
+<span id="cb41-6"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-6" aria-hidden="true" tabindex="-1"></a>z <span class="ot">=</span> <span class="fu">vector</span>() <span class="co"># total mortality</span></span>
+<span id="cb41-7"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-7" aria-hidden="true" tabindex="-1"></a>z[<span class="dv">1</span>] <span class="ot">=</span> M[<span class="dv">1</span>] <span class="sc">+</span> f[<span class="dv">1</span>] <span class="co"># initial mortality</span></span>
+<span id="cb41-8"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(C)) {</span>
+<span id="cb41-9"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">==</span> <span class="dv">1</span>) N[i] <span class="ot">=</span> C[i] <span class="sc">/</span> ((f[i]<span class="sc">/</span>(f[i]<span class="sc">+</span>M[i])) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span> (f[i]<span class="sc">+</span>M[i])))) <span class="co"># abundance of oldest age class</span></span>
+<span id="cb41-10"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> {</span>
+<span id="cb41-11"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-11" aria-hidden="true" tabindex="-1"></a>    N[i] <span class="ot">=</span> N[i<span class="dv">-1</span>] <span class="sc">*</span> <span class="fu">exp</span>(M[i]) <span class="sc">+</span> C[i] <span class="sc">*</span> <span class="fu">exp</span>(M[i]<span class="sc">/</span><span class="dv">2</span>) <span class="co"># project back to get starting abundance of cohort</span></span>
+<span id="cb41-12"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-12" aria-hidden="true" tabindex="-1"></a>    f[i] <span class="ot">=</span> <span class="sc">-</span><span class="fu">log</span>(N[i<span class="dv">-1</span>]<span class="sc">/</span>N[i]) <span class="sc">-</span> M[i] <span class="co"># calculate F</span></span>
+<span id="cb41-13"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-13" aria-hidden="true" tabindex="-1"></a>    z[i] <span class="ot">=</span> f[i] <span class="sc">+</span> M[i]</span>
+<span id="cb41-14"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-14" aria-hidden="true" tabindex="-1"></a>  } <span class="co"># end else</span></span>
+<span id="cb41-15"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-15" aria-hidden="true" tabindex="-1"></a>} <span class="co"># end catch series (t)</span></span>
+<span id="cb41-16"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-17"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-17" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb41-18"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">rev</span>(N), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">main =</span> <span class="st">&quot;1975 EBS pollock cohort&quot;</span>)</span>
+<span id="cb41-19"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">rev</span>(z), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.66</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">ylab =</span> <span class="st">&quot;Z (red), M (blue), or F (green)&quot;</span>)</span>
+<span id="cb41-20"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-20" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">rev</span>(f), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.66</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">ylab =</span> <span class="st">&quot;Z (red), M (blue), or F (green)&quot;</span>)</span>
+<span id="cb41-21"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb41-21" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">rev</span>(M), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.66</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">ylab =</span> <span class="st">&quot;Z (red), M (blue), or F (green)&quot;</span>)</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p>In pages 328 to 330, you can find equations for specifying fishing or pulse mortality for VPA-like calculations occuring at different times of the year.</p>
+</div>
+<div id="relative-abundance-analysis" class="section level3 hasAnchor" number="1.8.4">
+<h3><span class="header-section-number">1.8.4</span> Relative Abundance Analysis<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#relative-abundance-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Instead of using absolute catch-at-age data, here we can use proportions of catch-at-age to determin relative abundance over time.</p>
 </div>
 </div>
 <div id="chapter-9-size-structured-models-and-assessment-methods" class="section level2 hasAnchor" number="1.9">

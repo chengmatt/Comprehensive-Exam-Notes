@@ -2352,10 +2352,287 @@ In pages 328 to 330, you can find equations for specifying fishing or pulse mort
 
 
 ### Relative Abundance Analysis
-Instead of using absolute catch-at-age data, here we can use proportions of catch-at-age to determin relative abundance over time. 
+Instead of using absolute catch-at-age data, here we can use proportions of catch-at-age to determine relative abundance over time. This forms some of our integrated catch-at-age models when we only have catch and survey abundance-at-age data. In general, we need to make some simplifying assumptions to free up some degrees of freedom. In an normal context where we have $a$ ages and $t$ time periods to model, we would have $a*t$ parameters to model. We will first discuss the model structure and then dive into where these simplifying assumptions are necessary. As in the previous models, we have an exponential mortality model where total mortality is assumed to be constant across all ages and years:
 
+\begin{equation}
+N_{a,t} = N_{r,t-a+r}e^{-Z(a-r)} 
+\end{equation}
 
+where $r$ is the age at recruitment. In each year, a survey is conducted and some sample of the population is aged, which gives us some idea of the catch-at-age for that survey:
 
+\begin{equation}
+\mu_{a,t} = C_{a,t} / N_{a,t}
+\end{equation}
+
+where $\mu_at$ is the exploitation fraction at each age and time for the survey, which is simply a proportion of the catch obtained in the survey and the total abundance (i.e., fraction caught by the survey). However, note that we know have $a * t$ parameters to estimate for the exploitation fraction of the survey $\mu_{a,t}$, which does not give us enough degrees of freedom. To free up this constraint, we can impose the separability assumption wherein the exploitation fraction is:
+
+\begin{equation}
+\mu_{a,t} = s_a \mu_t
+\end{equation}
+
+reducing the number of parameters to $a$ parameters and $t$ parameters. We can further simplify the number of selectivity parameters estimated by imposing some parametric form. Using the following equations described above, we can then calculate the catch-at-age using the separability assumption:
+
+\begin{equation}
+\mu_{a,t} = C_{a,t}/N_{a,t} \\
+C_{a,t} = \mu_{a,t} N_{a,t} \\
+C_{a,t} = s_a \mu_t N_{r,t-a+r}e^{-Z(a-r)} 
+\end{equation}
+
+However, note that because $s_a \mu_t$ are confounded, we don't really have enough information to estimate the abundance. However, if we treat the following as a proportion, we can get rid of the exploitation rate term:
+
+\begin{equation}
+C_{a,t} = s_a \mu_t N_{r,t-a+r}e^{-Z(a-r)} \\
+p_{a,t} = \frac{s_a \mu_t N_{r,t-a+r}e^{-Z(a-r)}}{\sum_a s_a \mu_t N_{r,t-a+r}e^{-Z(a-r)} }
+\end{equation}
+
+which gives us some idea of how changes in the population occur in a relative sense. This further reduces the number of parameters to one $Z$ term, $A+T-1$ recruitment terms, and selectivity parameters. Writing the denominator from above as a constant, we can rearrange to get relative abundance:
+
+\begin{equation}
+p_{a,t} = \frac{s_a \mu_t N_{r,t-a+r}e^{-Z(a-r)}}{C} } \\
+p_{a,t}C = s_a \mu_t N_{r,t-a+r}e^{-Z(a-r)}\\
+\frac{p_{a,t}Ce^{Z(a-r)}}{s_a} = N_{r,t-a+r}
+\end{equation}
+
+Note that changes in abundance are in a relative sense, despite be being denoted as $N$, because we don't know what the exploitation rate is since we normalized it out (akin to our $q$). We can then fit these values using some objective function - typically we use a multinomial:
+
+\begin{equation}
+ln L_1 = \sum_t \sum_a C^O_{a,t} ln p_{a,t}
+ln L_1 = \sum_t \sum_a n_{a,t} ln p_{a,t}
+\end{equation}
+
+where the first equation in the likelihood assumes that all fish are aged. However, this is often not the case, and we need to adjust the likelihood term to instead by the number of fish aged $n_{a,t}$. However, we still want to make sure we keep track of the catches because the change in numbers of fish aged could differ from year to year and do not necessarily entirely reflect changes in relative abundance. So if not all fish that are captured are aged, we need to add another likelihood to fit to the total catch data:
+
+\begin{equation}
+ln L2 = \sum_t (C^O_t - C_t)^2
+\end{equation}
+ 
+which is in log space - contrary to the book because you can't have negative catches. Some other likelihoods involve just using the raw observed proportions as opposed to numbers because the numbers implicitly weights the multinomial likelihood and the number of ages aged do not necessraily reflect the variance in those data accurately. The book proposes another way to fit the composition data, which I believe to be an additive logistic normal likelihood, which allows for controlling the variance of the composition data, and uses a multivariate logit transformation. I won't dive too deeply into this, since there are now a whole family of self-weighting likelihoods and perhaps a bit beyond the scope of my studies right now. 
+
+A crucial assumption here is that fishing mortality $Z = F + M$ is age and time-invariant because we don't have any data to estimate those parameters. This is unrealisitic and more realism can be built in with age-and time-varying fishing mortality parameters in the next section if we have some sort of catch data. 
+
+#### Catch-Age Analysis with Auxillary Information 
+In the previous examples, we have assumed that $Z$ is constant. However, if we have data outside of a survey and want to treat the total mortality process as age-and time-varying, we need some sort of auxiallary data (catch outside of the survey). The genearl relationships follow from above. Let us first redefine total mortality as:
+
+\begin{equation}
+Z_{a,t} = F_{a,t} + M_{a,t} 
+\end{equation}
+
+then, our catch-at-age relationship (really the exploitation fraction) follows Baranov's catch equation:
+
+\begin{equation}
+\mu_{a,t} = \frac{F_{a,t}}{Z_{a,t}} (1 - e^{-Z_{a,t}}) \\
+C_{a,t} = \mu_{a,t} N_{a,t} 
+\end{equation}
+
+and our abundance relationship is just:
+
+\begin{equation}
+N_{a+1,t+1} = N_{a,t}e^{-Z_{a,t}} 
+\end{equation}
+
+Similar to the survey section where we have not enough degrees of freedom to estimate fishing mortality at age and year $F_{a,t}$, we need to impose a separability assumption here again:
+
+\begin{equation}
+F_{a,t} = s_a F_t 
+\end{equation}
+
+to free up some degrees of freedom. While we might attempt to estimate natural mortality, this parameter is often hard to estimate with only catch data, because it can be confounded with selectivity and the fishing mortality. The likelihood surface for this parameter is often very flat. The book gives some extensions and likelihoods of fitting these data. In general, catch data are estimated using a lognormal likelihood, and a multinomial likelihood is used for composition data, although requires some assumptions there. A process error model can also be incorporated to the exploitation fraction to model deviations from this from (i.e., deviations in selectivity from this "parametric form"), and is akin to the approach used by SAM:
+
+\begin{equation}
+\mu_{a,t} = \frac{s_aF_t}{(s_aF_t + M_{a,t})} (1 - e^{-(s_aF_t + M_{a,t})})e^{\epsilon_{a,t}} \\
+\epsilon_{a,t} \sim N(0,\sigma_\mu)
+\end{equation}
+
+although this is probably pretty hard to estimate and parameterize. 
+
+#### Other Auxillary Data
+In addition to catch-at-age data from the fishery, other auxillary data sources can also be included. This can include fishing effort data to estimate fishing mortality. Recall that $F = qE$ from Chapter 1, and assume that catchability here is constant. Then, we can estimate fishing mortality using this relationship:
+
+\begin{equation}
+F_t = qEe^{\epsilon_t} \\
+\epislon_t \sim N(0,\sigma)
+\end{equation}
+
+which adds one parameter to the estimation problem $q$. We still have to estimate the $F_t$ but we now have $T$ additional observations to help information the estimation process. This can be emplotyed using a SSQ framework:
+
+\begin{equation}
+RSS(E) = \sum_t [ln F_t - (ln q +ln E_t)]^2
+\end{equation}
+
+If hyperstability occurs, we can extend this to incorporate some sort of power relationship from our CPUE equations in Chapter 1. The book talks about data-weighting issues and note that weights are not estimable in a penalized likelihood framework. Under this, they suggest analyzing the variance outside of the assessment model and then fixing it at those values. They also suggest choosing the weighting parameter based on the SSQ of catch or those with a lower SE for some population parameter. 
+
+To incorporate a SR relationship to estimate the abundance in the initial age, we can use a spawner recruit model with process variation:
+
+\begin{equation}
+S_t = \sum_a f_a N_a,t
+\end{equation}
+
+where $S_t$ is the number of spawners, $f_a$ is the fecundity, where $f_a = m_a g$ such that $m_a$ is maturity-at-age and $g$ is the eggs produced per mature female. We can then use a SR relationship, in this case, a Ricker to estimate numbers during the initial age-at-recruitment:
+
+\begin{equation}
+N_{r, t+r} = \alpha S_t e^{-\beta S_t} e^{\epsilon_r} \\
+\epsilon_r \sim N(0,\sigma^2)
+\end{equation}
+
+this adds $\alpha,\beta$ into the number of parameters needed to be estimated. We can penalize this to be estimable by imposing some sort of SSQ or lognormal likelihood. Note that the following equations are essentially equivalent:
+
+\begin{equation}
+RSS(R) = \sum_t [ln N_{r, t+r} - (ln \alpha  + ln S_t - \beta S_t)]^2
+RSS(R) = \sum_t [\epsilon_r - 0]^2
+\end{equation}
+
+where we are just penalized the deviations to be towards zero. 
+
+An additional source of information could be abundance indices or estimates obtained from a survey or other approaches (mark-recapture, etc.), which can be used to provide additional information. If say the survey indexes $N^*_x$ fish, where this denotes the total number of fish caught by the survey, then we can use this to estimate the trends in abundance:
+
+\begin{equation}
+N^*_x = (qs \sum_a N_a,x) e^{\epsilon_x} \\
+\epsilon_x \sim N(0,\sigma^2)
+\end{equation}
+
+where $qs$ is a calibration coeffficient for the survey. If the survey provides units in absolute abundance, then $qs$ can be set to 1. We can then minimize these observations via SSQ or lognormal:
+
+\begin{equation}
+RSS(S) = \sum_x [ln N^*_x - ln(qs \sum_a N_a,x)]^2
+\end{equation}
+
+The book notes that $qs$ is a calibration coefficient which is confusing because we are not calibrating the survey index to anything (e.g., another survey), but rather its just a catchability coefficient. If the survey is measured in biomass, we need to multiply the numbers at age indexed and caught by some metric of average weight-at-age. Further if the survey is selective of ages, all we need to do is estimate $s_a$ using composition data from the survey (i.e., from the section on relative abundance analysis). 
+
+Some key things the book notes of is that we should ensure parameter values are insensitive to initial starting values, different weighting values should be used to ensure the results are robust, and to use different values to natural mortality to see what turns up. Selectivity should be estimated not as knife-edged and F-tests should be conducted to compare growth models.
+
+After your assessment is done, we can take out some parameter estimates to derive our management quantities:
+\begin{equation}
+\mu_{a,t} ~= s_aF_t \\
+C_t ~= F_tEN_t \\
+Y_t ~= F_tEB_t 
+\end{equation}
+
+The book gives some useful derived quantities to output. 
+
+Of interest are exploitation rate or fraction at a given year, which is:
+\begin{equation}
+\mu_t = \frac{\sum_a s_a {N_a,t}}{\sum_a N_{a,t}}
+\end{equation}
+
+and the annual surplus production (recall $dP = dB - dY$):
+\begin{equation}
+ASP_t = Y_t + B_{t+1} - B_t
+\end{equation}
+
+I think the above would be useful quantities to comptue out, which we seldom do. The following section describes some methods for obtaining variance estimates of parameters, which can be obtained via the delta method from inverting the Hessian, as well as bootstrap methods (resampling residuals, adding to predictions, and applying model to these new "datasets"). 
+
+#### Stratified Catch-Age Analysis
+For models with multiple fleets, catch data can be pooled over a gear type and total effort should be weighted by the predominant gear type - we want to do a weighted average of age-compositions to make sure that selectivity is a weighted avearge of the different gears (more dominant - selex looks more like the dominant fleet). If changes in the catch ratio occur, this would then potentially manifest into time-varying selectivity, which would invalidate the separability assumption. The other approach is to have a multi-fleet model with multiple selectivities for each gear type. This method is pretty much the same as previous methods although adding in a new gear subscript for the fishing mortality processes, where catch-at-age and time would be:
+
+\begin{equation}
+\mu_{a,t,g} = \frac{F_{a,t,g}}{Z_{a,t}} N_{a,t} (1 - e^{-Z_{a,t}}) \\
+C_{a,t,g} = \mu_{a,t,g} N_{a,t}
+\end{equation}
+
+and fishing mortality still has a separability assumption, although with a new $g$ subscript:
+\begin{equation}
+F_{a,t,g} = s_{a,g} F_{t,g}
+\end{equation}
+
+and our standard model fitting procedures will similarly add a new gear subscript. While this method better captures the complexities of the selection process and results in "more data", you data are broken up into smaller pieces, which can result in more variability than when you pool your data together.    
+
+### Estimation of Natural Mortality
+Natural mortality is one of the most difficult to estimate parameters because of confounding with recruitment and fishing mortality. Furthermore, it is hard to collect specific data to tease out the effect of M, because it is hard to directly observe. Some methods have been proposed to estimate $M$, which are generally based on the relationship of $Z = F + M$. Using effort data, some folks have tried to estimate $M$ using the following relationship:
+\begin{equation}
+Z_i = M + qE_i
+\end{equation}
+but it does not usually provide good estimates of M because this relationship is so variable and the contrast in effort might be too small. Some other methods include: 1) catch-curves, 2) length-frequency analyses, 3) mark-recapture, 4) life-history analyses.
+
+#### Catch Curves
+For catch-curves, if you have data for an early part of the fishery history where F is negligible, then your negative slope of the cohort is going to be approximately your natural mortality rate. With high fishing mortality, and without data at the start of the fishery, its really hard to tease our whether changes in the cohort are due to recruitment and fishery selectivity, or due to natural mortality, which is why we often need data at the start of the fishery to estimate M adequately. 
+
+#### Length Frequency analysis
+Using LFA, you can potentially get an estimate of $M$ when you are trying to track age-cohorts as an estimated parameter over time, using the $Z_i = M + qE_i$ relationship, or some other relationship that would relate the two. However, if fishing mortality varies a bunch over time, its going to lead to pretty inaccurate estimates - although the LFA methods assume constant recruitment and prerecruit mortality. Another method is to use the LVB relationship to derive an estimate of $Z$, which forms some of our empiricla methods:
+
+\begin{equation}
+Z = \kappa \frac{L_\infty - L^{bar}}{L^{bar} - L_c}
+\end{equation}
+
+where length at capture is assumed to be knife edged. 
+
+#### Mark-recapture Experiments
+Mark-recapture is one of the better methods for estimating $M$, because released fish can either only die or emigrate. The Jolly-Seber method is more commonly used for single and multiple releases and can be generalized to closed or open populations. If you have the number of fish marked as $N_0$, $F_i = qe_i$, $E = \sum_i e_i$ (cumulative effort) describing the fishery process, and time period $t_i$, then you can derive the marked fish per unit effort:
+
+\begin{equation}
+ln \frac{m_i}{e_i} = ln(qN_0) - M \frac{t_{i-1} - t_i}{2} - q \frac{E_{i-1}+E_i}{2} + \epsilon_i
+\end{equation}
+
+which is basically just a linear regression model. So here, the intercept is $ln(qN_0)$ your exploitable or capturable individuals from the marked population, which is decremented by $M$ in between those time points, and is also decremented by fishing mortality, which gives you your mark per unit effort. This is basically just a depletion estimator from DeLury!
+
+An extension of this is given by Treble et al. (1993). Let $N_t$ by the number of individuals left at a given time after the population has been tagged with $N_0$ individuals, $\alpha$ be deaths due to tag loss or mortality right after tagging, and $X(t)$ be due to tag loss from tag loss, mortality (natural and fishing), resulting in:
+
+\begin{equation}
+N_t = \alpha N_0  exp[-\int_{t_0}^t X(t)dt] \\
+N_t = \alpha N_0 exp[-X^{bar}_t (t - t_0)] \\
+log(N_t) = log(\alpha N_0) -X^{bar}_t (t - t_0) \\
+log(N_t / N_0) = log(\alpha) -X^{bar}_t (t - t_0) \\
+log(p_t) = log(\alpha) -X^{bar}_t (t - t_0)
+\end{equation}
+
+where $log(p_t)$ is the log proportion of marked individuals found at time $t$ (probability of finding an individual), which is governed by initial tag losses, as well as average tag loss due to fishing and natural mortality as well as bad tagging efforts over time. Similarly, this is just a linear equation and can be estimated using regression methods. Another method described invovles using tag data within a VPA, and applying the following equation, while recursively solving those nasty VPA equations:
+
+\begin{equation}
+N_0 = \sum_t C_t exp[M(t-1/2)]
+\end{equation}
+
+where $N_0$ is the number of individuals released and $C_t$ are the recaptures. So here you are basically summing all the recaptures while adjusting it to add in natural mortality to make sure you match the initial number of recaptures, which allows you to solve for $M$. Another similar method is:
+
+\begin{equation}
+N_0 = \sum_i exp[M(t_i - t_0)]
+\end{equation}
+
+which allows you to use exact times, but requires you to run the experiment until all marked fish are dead (basically just summing all the mortalities until you get back to $N_0$). 
+
+#### Multi-species VPA
+Multi-species VPA can also be used to estimate $M$, wherein you need data of gut contents from different species. If you have an index of consumption $m_{i,j}$ where that denotes consumption of $i$ by $j$, we can estimate this as some linear model:
+
+\begin{equation}
+M_i = \beta_0 + \sum \beta_j m_{i,j}
+\end{equation}
+
+which basically says the natural mortality of species $i$ is equivalent to some average mortality $\beta_0$ plus all species $j$ consuming species $i$ ($\beta_j m_{i,j}$, where $\beta_j$ scales the index of consumption to a total consumption rate). 
+
+#### Life-History or Meta-Analysis
+Using predictive regressions and life-history parameters, we can potentially figure out what natural mortality might be. For example, species that are $r$ selected experience high mortality and generally have large GSI, high fecundity, fast growth rates, and small asymptotic size. Using the LVB model, we can derive what $M$ might be using the critical age $t^*$, which is when an unfished cohort reaches its maximum size:
+
+\begin{equation}
+t^* = 1/\kappa ln((M + 3\kappa)/M) \\
+M = 3\kappa / ((expt^*\kappa) - 1)
+\end{equation}
+
+Some approxmiations are given, for example if $M ~= \kappa$ then $t^* ~= 0.25t_m$, which is the maximum observed age although some studies have verified that it should be $t^* ~= 0.38t_m$. Another relationship was from from Hoenig, where mortality is inversely related to longevity wherein $M = -ln(0.01)/t_m$, where $t_m$ is the maximum age observed. Hoenig's method assumes that the proportion of individuals that reach the maximum age is 1% here, and rearranged the exponential decline equation for an unfished population. Some authors prefer to use 5% instead. Nonetheless, this is shown below, assume we are doing this on a per-recruit basis, then:
+
+\begin{equation}
+0.01 = N_0 e^{-M(t_m)} \\
+0.01 = e^{-M(t_m)} \\
+log(0.01) = -M t_m \\
+-M = log(0.01) / t_m \\
+M = -log(0.01) / t_m
+\end{equation}
+
+```{r}
+t_m = seq(10, 100) # max age
+m = -log(0.01)/t_m # empirical mortality relationship 
+plot(t_m ,m, xlab = "Maximum Age Observed", ylab = "Mortality")
+```
+
+Pauly also found some empirical relationships between $M$ and their temperatures experienced which also brings in growth data (LVB LAA and WAA as well as temperature). See code below for an example for sablefish
+
+```{r}
+temp = 0.5:30 # temp range
+ln_M1 = -0.4852 - (0.0824 * log(5.87)) + (0.6757 * log(0.17)) + 0.4627 * log(temp) # based on winfinty
+ln_M2 = -0.0152 - (0.279 * log(81.2)) + (0.6543 * log(0.17)) + 0.4634 * log(temp) # based on linfinty
+
+plot(temp, exp(ln_M1), xlab = "Temp", ylab = "M", type = "l", lwd = 3, col = "red", main = "Red - Winf, Blue = Linf")
+lines(temp, exp(ln_M2), xlab = "Temp", ylab = "M", type = "l", lwd = 3, col = "blue")
+```
+
+Some other methods use a gonadosomatic index to estimate $M$ - if you have a relatively large gonad compared to your body size, your M is likely to be much higher. 
 
 ## Chapter 9 (Size structured Models and Assessment Methods)
 

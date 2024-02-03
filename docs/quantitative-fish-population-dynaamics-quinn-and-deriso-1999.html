@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew LH. Cheng" />
 
 
-<meta name="date" content="2024-02-01" />
+<meta name="date" content="2024-02-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -224,6 +224,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.8.2" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#estimation-of-abundance-and-population-parameters"><i class="fa fa-check"></i><b>1.8.2</b> Estimation of Abundance and Population Parameters</a></li>
 <li class="chapter" data-level="1.8.3" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#virtual-population-analysis-and-cohort-analaysis"><i class="fa fa-check"></i><b>1.8.3</b> Virtual Population Analysis and Cohort Analaysis</a></li>
 <li class="chapter" data-level="1.8.4" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#relative-abundance-analysis"><i class="fa fa-check"></i><b>1.8.4</b> Relative Abundance Analysis</a></li>
+<li class="chapter" data-level="1.8.5" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#estimation-of-natural-mortality"><i class="fa fa-check"></i><b>1.8.5</b> Estimation of Natural Mortality</a></li>
 </ul></li>
 <li class="chapter" data-level="1.9" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#chapter-9-size-structured-models-and-assessment-methods"><i class="fa fa-check"></i><b>1.9</b> Chapter 9 (Size structured Models and Assessment Methods)</a></li>
 <li class="chapter" data-level="1.10" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#chapter-10-migration-movement-and-other-spatiotemporal-considerations"><i class="fa fa-check"></i><b>1.10</b> Chapter 10 (Migration Movement and Other Spatiotemporal Considerations)</a></li>
@@ -2269,7 +2270,222 @@ F_a = -ln(N_{a+1}/N_a) - M_a
 </div>
 <div id="relative-abundance-analysis" class="section level3 hasAnchor" number="1.8.4">
 <h3><span class="header-section-number">1.8.4</span> Relative Abundance Analysis<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#relative-abundance-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Instead of using absolute catch-at-age data, here we can use proportions of catch-at-age to determin relative abundance over time.</p>
+<p>Instead of using absolute catch-at-age data, here we can use proportions of catch-at-age to determine relative abundance over time. This forms some of our integrated catch-at-age models when we only have catch and survey abundance-at-age data. In general, we need to make some simplifying assumptions to free up some degrees of freedom. In an normal context where we have <span class="math inline">\(a\)</span> ages and <span class="math inline">\(t\)</span> time periods to model, we would have <span class="math inline">\(a*t\)</span> parameters to model. We will first discuss the model structure and then dive into where these simplifying assumptions are necessary. As in the previous models, we have an exponential mortality model where total mortality is assumed to be constant across all ages and years:</p>
+<p><span class="math display">\[\begin{equation}
+N_{a,t} = N_{r,t-a+r}e^{-Z(a-r)}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(r\)</span> is the age at recruitment. In each year, a survey is conducted and some sample of the population is aged, which gives us some idea of the catch-at-age for that survey:</p>
+<p><span class="math display">\[\begin{equation}
+\mu_{a,t} = C_{a,t} / N_{a,t}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\mu_at\)</span> is the exploitation fraction at each age and time for the survey, which is simply a proportion of the catch obtained in the survey and the total abundance (i.e., fraction caught by the survey). However, note that we know have <span class="math inline">\(a * t\)</span> parameters to estimate for the exploitation fraction of the survey <span class="math inline">\(\mu_{a,t}\)</span>, which does not give us enough degrees of freedom. To free up this constraint, we can impose the separability assumption wherein the exploitation fraction is:</p>
+<p><span class="math display">\[\begin{equation}
+\mu_{a,t} = s_a \mu_t
+\end{equation}\]</span></p>
+<p>reducing the number of parameters to <span class="math inline">\(a\)</span> parameters and <span class="math inline">\(t\)</span> parameters. We can further simplify the number of selectivity parameters estimated by imposing some parametric form. Using the following equations described above, we can then calculate the catch-at-age using the separability assumption:</p>
+<p><span class="math display">\[\begin{equation}
+\mu_{a,t} = C_{a,t}/N_{a,t} \\
+C_{a,t} = \mu_{a,t} N_{a,t} \\
+C_{a,t} = s_a \mu_t N_{r,t-a+r}e^{-Z(a-r)}
+\end{equation}\]</span></p>
+<p>However, note that because <span class="math inline">\(s_a \mu_t\)</span> are confounded, we don’t really have enough information to estimate the abundance. However, if we treat the following as a proportion, we can get rid of the exploitation rate term:</p>
+<p><span class="math display">\[\begin{equation}
+C_{a,t} = s_a \mu_t N_{r,t-a+r}e^{-Z(a-r)} \\
+p_{a,t} = \frac{s_a \mu_t N_{r,t-a+r}e^{-Z(a-r)}}{\sum_a s_a \mu_t N_{r,t-a+r}e^{-Z(a-r)} }
+\end{equation}\]</span></p>
+<p>which gives us some idea of how changes in the population occur in a relative sense. This further reduces the number of parameters to one <span class="math inline">\(Z\)</span> term, <span class="math inline">\(A+T-1\)</span> recruitment terms, and selectivity parameters. Writing the denominator from above as a constant, we can rearrange to get relative abundance:</p>
+<p><span class="math display">\[\begin{equation}
+p_{a,t} = \frac{s_a \mu_t N_{r,t-a+r}e^{-Z(a-r)}}{C} } \\
+p_{a,t}C = s_a \mu_t N_{r,t-a+r}e^{-Z(a-r)}\\
+\frac{p_{a,t}Ce^{Z(a-r)}}{s_a} = N_{r,t-a+r}
+\end{equation}\]</span></p>
+<p>Note that changes in abundance are in a relative sense, despite be being denoted as <span class="math inline">\(N\)</span>, because we don’t know what the exploitation rate is since we normalized it out (akin to our <span class="math inline">\(q\)</span>). We can then fit these values using some objective function - typically we use a multinomial:</p>
+<p><span class="math display">\[\begin{equation}
+ln L_1 = \sum_t \sum_a C^O_{a,t} ln p_{a,t}
+ln L_1 = \sum_t \sum_a n_{a,t} ln p_{a,t}
+\end{equation}\]</span></p>
+<p>where the first equation in the likelihood assumes that all fish are aged. However, this is often not the case, and we need to adjust the likelihood term to instead by the number of fish aged <span class="math inline">\(n_{a,t}\)</span>. However, we still want to make sure we keep track of the catches because the change in numbers of fish aged could differ from year to year and do not necessarily entirely reflect changes in relative abundance. So if not all fish that are captured are aged, we need to add another likelihood to fit to the total catch data:</p>
+<p><span class="math display">\[\begin{equation}
+ln L2 = \sum_t (C^O_t - C_t)^2
+\end{equation}\]</span></p>
+<p>which is in log space - contrary to the book because you can’t have negative catches. Some other likelihoods involve just using the raw observed proportions as opposed to numbers because the numbers implicitly weights the multinomial likelihood and the number of ages aged do not necessraily reflect the variance in those data accurately. The book proposes another way to fit the composition data, which I believe to be an additive logistic normal likelihood, which allows for controlling the variance of the composition data, and uses a multivariate logit transformation. I won’t dive too deeply into this, since there are now a whole family of self-weighting likelihoods and perhaps a bit beyond the scope of my studies right now.</p>
+<p>A crucial assumption here is that fishing mortality <span class="math inline">\(Z = F + M\)</span> is age and time-invariant because we don’t have any data to estimate those parameters. This is unrealisitic and more realism can be built in with age-and time-varying fishing mortality parameters in the next section if we have some sort of catch data.</p>
+<div id="catch-age-analysis-with-auxillary-information" class="section level4 hasAnchor" number="1.8.4.1">
+<h4><span class="header-section-number">1.8.4.1</span> Catch-Age Analysis with Auxillary Information<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#catch-age-analysis-with-auxillary-information" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>In the previous examples, we have assumed that <span class="math inline">\(Z\)</span> is constant. However, if we have data outside of a survey and want to treat the total mortality process as age-and time-varying, we need some sort of auxiallary data (catch outside of the survey). The genearl relationships follow from above. Let us first redefine total mortality as:</p>
+<p><span class="math display">\[\begin{equation}
+Z_{a,t} = F_{a,t} + M_{a,t}
+\end{equation}\]</span></p>
+<p>then, our catch-at-age relationship (really the exploitation fraction) follows Baranov’s catch equation:</p>
+<p><span class="math display">\[\begin{equation}
+\mu_{a,t} = \frac{F_{a,t}}{Z_{a,t}} (1 - e^{-Z_{a,t}}) \\
+C_{a,t} = \mu_{a,t} N_{a,t}
+\end{equation}\]</span></p>
+<p>and our abundance relationship is just:</p>
+<p><span class="math display">\[\begin{equation}
+N_{a+1,t+1} = N_{a,t}e^{-Z_{a,t}}
+\end{equation}\]</span></p>
+<p>Similar to the survey section where we have not enough degrees of freedom to estimate fishing mortality at age and year <span class="math inline">\(F_{a,t}\)</span>, we need to impose a separability assumption here again:</p>
+<p><span class="math display">\[\begin{equation}
+F_{a,t} = s_a F_t
+\end{equation}\]</span></p>
+<p>to free up some degrees of freedom. While we might attempt to estimate natural mortality, this parameter is often hard to estimate with only catch data, because it can be confounded with selectivity and the fishing mortality. The likelihood surface for this parameter is often very flat. The book gives some extensions and likelihoods of fitting these data. In general, catch data are estimated using a lognormal likelihood, and a multinomial likelihood is used for composition data, although requires some assumptions there. A process error model can also be incorporated to the exploitation fraction to model deviations from this from (i.e., deviations in selectivity from this “parametric form”), and is akin to the approach used by SAM:</p>
+<p><span class="math display">\[\begin{equation}
+\mu_{a,t} = \frac{s_aF_t}{(s_aF_t + M_{a,t})} (1 - e^{-(s_aF_t + M_{a,t})})e^{\epsilon_{a,t}} \\
+\epsilon_{a,t} \sim N(0,\sigma_\mu)
+\end{equation}\]</span></p>
+<p>although this is probably pretty hard to estimate and parameterize.</p>
+</div>
+<div id="other-auxillary-data" class="section level4 hasAnchor" number="1.8.4.2">
+<h4><span class="header-section-number">1.8.4.2</span> Other Auxillary Data<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#other-auxillary-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>In addition to catch-at-age data from the fishery, other auxillary data sources can also be included. This can include fishing effort data to estimate fishing mortality. Recall that <span class="math inline">\(F = qE\)</span> from Chapter 1, and assume that catchability here is constant. Then, we can estimate fishing mortality using this relationship:</p>
+<p><span class="math display">\[\begin{equation}
+F_t = qEe^{\epsilon_t} \\
+\epislon_t \sim N(0,\sigma)
+\end{equation}\]</span></p>
+<p>which adds one parameter to the estimation problem <span class="math inline">\(q\)</span>. We still have to estimate the <span class="math inline">\(F_t\)</span> but we now have <span class="math inline">\(T\)</span> additional observations to help information the estimation process. This can be emplotyed using a SSQ framework:</p>
+<p><span class="math display">\[\begin{equation}
+RSS(E) = \sum_t [ln F_t - (ln q +ln E_t)]^2
+\end{equation}\]</span></p>
+<p>If hyperstability occurs, we can extend this to incorporate some sort of power relationship from our CPUE equations in Chapter 1. The book talks about data-weighting issues and note that weights are not estimable in a penalized likelihood framework. Under this, they suggest analyzing the variance outside of the assessment model and then fixing it at those values. They also suggest choosing the weighting parameter based on the SSQ of catch or those with a lower SE for some population parameter.</p>
+<p>To incorporate a SR relationship to estimate the abundance in the initial age, we can use a spawner recruit model with process variation:</p>
+<p><span class="math display">\[\begin{equation}
+S_t = \sum_a f_a N_a,t
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(S_t\)</span> is the number of spawners, <span class="math inline">\(f_a\)</span> is the fecundity, where <span class="math inline">\(f_a = m_a g\)</span> such that <span class="math inline">\(m_a\)</span> is maturity-at-age and <span class="math inline">\(g\)</span> is the eggs produced per mature female. We can then use a SR relationship, in this case, a Ricker to estimate numbers during the initial age-at-recruitment:</p>
+<p><span class="math display">\[\begin{equation}
+N_{r, t+r} = \alpha S_t e^{-\beta S_t} e^{\epsilon_r} \\
+\epsilon_r \sim N(0,\sigma^2)
+\end{equation}\]</span></p>
+<p>this adds <span class="math inline">\(\alpha,\beta\)</span> into the number of parameters needed to be estimated. We can penalize this to be estimable by imposing some sort of SSQ or lognormal likelihood. Note that the following equations are essentially equivalent:</p>
+<p><span class="math display">\[\begin{equation}
+RSS(R) = \sum_t [ln N_{r, t+r} - (ln \alpha  + ln S_t - \beta S_t)]^2
+RSS(R) = \sum_t [\epsilon_r - 0]^2
+\end{equation}\]</span></p>
+<p>where we are just penalized the deviations to be towards zero.</p>
+<p>An additional source of information could be abundance indices or estimates obtained from a survey or other approaches (mark-recapture, etc.), which can be used to provide additional information. If say the survey indexes <span class="math inline">\(N^*_x\)</span> fish, where this denotes the total number of fish caught by the survey, then we can use this to estimate the trends in abundance:</p>
+<p><span class="math display">\[\begin{equation}
+N^*_x = (qs \sum_a N_a,x) e^{\epsilon_x} \\
+\epsilon_x \sim N(0,\sigma^2)
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(qs\)</span> is a calibration coeffficient for the survey. If the survey provides units in absolute abundance, then <span class="math inline">\(qs\)</span> can be set to 1. We can then minimize these observations via SSQ or lognormal:</p>
+<p><span class="math display">\[\begin{equation}
+RSS(S) = \sum_x [ln N^*_x - ln(qs \sum_a N_a,x)]^2
+\end{equation}\]</span></p>
+<p>The book notes that <span class="math inline">\(qs\)</span> is a calibration coefficient which is confusing because we are not calibrating the survey index to anything (e.g., another survey), but rather its just a catchability coefficient. If the survey is measured in biomass, we need to multiply the numbers at age indexed and caught by some metric of average weight-at-age. Further if the survey is selective of ages, all we need to do is estimate <span class="math inline">\(s_a\)</span> using composition data from the survey (i.e., from the section on relative abundance analysis).</p>
+<p>Some key things the book notes of is that we should ensure parameter values are insensitive to initial starting values, different weighting values should be used to ensure the results are robust, and to use different values to natural mortality to see what turns up. Selectivity should be estimated not as knife-edged and F-tests should be conducted to compare growth models.</p>
+<p>After your assessment is done, we can take out some parameter estimates to derive our management quantities:
+<span class="math display">\[\begin{equation}
+\mu_{a,t} ~= s_aF_t \\
+C_t ~= F_tEN_t \\
+Y_t ~= F_tEB_t
+\end{equation}\]</span></p>
+<p>The book gives some useful derived quantities to output.</p>
+<p>Of interest are exploitation rate or fraction at a given year, which is:
+<span class="math display">\[\begin{equation}
+\mu_t = \frac{\sum_a s_a {N_a,t}}{\sum_a N_{a,t}}
+\end{equation}\]</span></p>
+<p>and the annual surplus production (recall <span class="math inline">\(dP = dB - dY\)</span>):
+<span class="math display">\[\begin{equation}
+ASP_t = Y_t + B_{t+1} - B_t
+\end{equation}\]</span></p>
+<p>I think the above would be useful quantities to comptue out, which we seldom do. The following section describes some methods for obtaining variance estimates of parameters, which can be obtained via the delta method from inverting the Hessian, as well as bootstrap methods (resampling residuals, adding to predictions, and applying model to these new “datasets”).</p>
+</div>
+<div id="stratified-catch-age-analysis" class="section level4 hasAnchor" number="1.8.4.3">
+<h4><span class="header-section-number">1.8.4.3</span> Stratified Catch-Age Analysis<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#stratified-catch-age-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>For models with multiple fleets, catch data can be pooled over a gear type and total effort should be weighted by the predominant gear type - we want to do a weighted average of age-compositions to make sure that selectivity is a weighted avearge of the different gears (more dominant - selex looks more like the dominant fleet). If changes in the catch ratio occur, this would then potentially manifest into time-varying selectivity, which would invalidate the separability assumption. The other approach is to have a multi-fleet model with multiple selectivities for each gear type. This method is pretty much the same as previous methods although adding in a new gear subscript for the fishing mortality processes, where catch-at-age and time would be:</p>
+<p><span class="math display">\[\begin{equation}
+\mu_{a,t,g} = \frac{F_{a,t,g}}{Z_{a,t}} N_{a,t} (1 - e^{-Z_{a,t}}) \\
+C_{a,t,g} = \mu_{a,t,g} N_{a,t}
+\end{equation}\]</span></p>
+<p>and fishing mortality still has a separability assumption, although with a new <span class="math inline">\(g\)</span> subscript:
+<span class="math display">\[\begin{equation}
+F_{a,t,g} = s_{a,g} F_{t,g}
+\end{equation}\]</span></p>
+<p>and our standard model fitting procedures will similarly add a new gear subscript. While this method better captures the complexities of the selection process and results in “more data”, you data are broken up into smaller pieces, which can result in more variability than when you pool your data together.</p>
+</div>
+</div>
+<div id="estimation-of-natural-mortality" class="section level3 hasAnchor" number="1.8.5">
+<h3><span class="header-section-number">1.8.5</span> Estimation of Natural Mortality<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#estimation-of-natural-mortality" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Natural mortality is one of the most difficult to estimate parameters because of confounding with recruitment and fishing mortality. Furthermore, it is hard to collect specific data to tease out the effect of M, because it is hard to directly observe. Some methods have been proposed to estimate <span class="math inline">\(M\)</span>, which are generally based on the relationship of <span class="math inline">\(Z = F + M\)</span>. Using effort data, some folks have tried to estimate <span class="math inline">\(M\)</span> using the following relationship:
+<span class="math display">\[\begin{equation}
+Z_i = M + qE_i
+\end{equation}\]</span>
+but it does not usually provide good estimates of M because this relationship is so variable and the contrast in effort might be too small. Some other methods include: 1) catch-curves, 2) length-frequency analyses, 3) mark-recapture, 4) life-history analyses.</p>
+<div id="catch-curves" class="section level4 hasAnchor" number="1.8.5.1">
+<h4><span class="header-section-number">1.8.5.1</span> Catch Curves<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#catch-curves" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>For catch-curves, if you have data for an early part of the fishery history where F is negligible, then your negative slope of the cohort is going to be approximately your natural mortality rate. With high fishing mortality, and without data at the start of the fishery, its really hard to tease our whether changes in the cohort are due to recruitment and fishery selectivity, or due to natural mortality, which is why we often need data at the start of the fishery to estimate M adequately.</p>
+</div>
+<div id="length-frequency-analysis-1" class="section level4 hasAnchor" number="1.8.5.2">
+<h4><span class="header-section-number">1.8.5.2</span> Length Frequency analysis<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#length-frequency-analysis-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Using LFA, you can potentially get an estimate of <span class="math inline">\(M\)</span> when you are trying to track age-cohorts as an estimated parameter over time, using the <span class="math inline">\(Z_i = M + qE_i\)</span> relationship, or some other relationship that would relate the two. However, if fishing mortality varies a bunch over time, its going to lead to pretty inaccurate estimates - although the LFA methods assume constant recruitment and prerecruit mortality. Another method is to use the LVB relationship to derive an estimate of <span class="math inline">\(Z\)</span>, which forms some of our empiricla methods:</p>
+<p><span class="math display">\[\begin{equation}
+Z = \kappa \frac{L_\infty - L^{bar}}{L^{bar} - L_c}
+\end{equation}\]</span></p>
+<p>where length at capture is assumed to be knife edged.</p>
+</div>
+<div id="mark-recapture-experiments" class="section level4 hasAnchor" number="1.8.5.3">
+<h4><span class="header-section-number">1.8.5.3</span> Mark-recapture Experiments<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#mark-recapture-experiments" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Mark-recapture is one of the better methods for estimating <span class="math inline">\(M\)</span>, because released fish can either only die or emigrate. The Jolly-Seber method is more commonly used for single and multiple releases and can be generalized to closed or open populations. If you have the number of fish marked as <span class="math inline">\(N_0\)</span>, <span class="math inline">\(F_i = qe_i\)</span>, <span class="math inline">\(E = \sum_i e_i\)</span> (cumulative effort) describing the fishery process, and time period <span class="math inline">\(t_i\)</span>, then you can derive the marked fish per unit effort:</p>
+<p><span class="math display">\[\begin{equation}
+ln \frac{m_i}{e_i} = ln(qN_0) - M \frac{t_{i-1} - t_i}{2} - q \frac{E_{i-1}+E_i}{2} + \epsilon_i
+\end{equation}\]</span></p>
+<p>which is basically just a linear regression model. So here, the intercept is <span class="math inline">\(ln(qN_0)\)</span> your exploitable or capturable individuals from the marked population, which is decremented by <span class="math inline">\(M\)</span> in between those time points, and is also decremented by fishing mortality, which gives you your mark per unit effort. This is basically just a depletion estimator from DeLury!</p>
+<p>An extension of this is given by Treble et al. (1993). Let <span class="math inline">\(N_t\)</span> by the number of individuals left at a given time after the population has been tagged with <span class="math inline">\(N_0\)</span> individuals, <span class="math inline">\(\alpha\)</span> be deaths due to tag loss or mortality right after tagging, and <span class="math inline">\(X(t)\)</span> be due to tag loss from tag loss, mortality (natural and fishing), resulting in:</p>
+<p><span class="math display">\[\begin{equation}
+N_t = \alpha N_0  exp[-\int_{t_0}^t X(t)dt] \\
+N_t = \alpha N_0 exp[-X^{bar}_t (t - t_0)] \\
+log(N_t) = log(\alpha N_0) -X^{bar}_t (t - t_0) \\
+log(N_t / N_0) = log(\alpha) -X^{bar}_t (t - t_0) \\
+log(p_t) = log(\alpha) -X^{bar}_t (t - t_0)
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(log(p_t)\)</span> is the log proportion of marked individuals found at time <span class="math inline">\(t\)</span> (probability of finding an individual), which is governed by initial tag losses, as well as average tag loss due to fishing and natural mortality as well as bad tagging efforts over time. Similarly, this is just a linear equation and can be estimated using regression methods. Another method described invovles using tag data within a VPA, and applying the following equation, while recursively solving those nasty VPA equations:</p>
+<p><span class="math display">\[\begin{equation}
+N_0 = \sum_t C_t exp[M(t-1/2)]
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(N_0\)</span> is the number of individuals released and <span class="math inline">\(C_t\)</span> are the recaptures. So here you are basically summing all the recaptures while adjusting it to add in natural mortality to make sure you match the initial number of recaptures, which allows you to solve for <span class="math inline">\(M\)</span>. Another similar method is:</p>
+<p><span class="math display">\[\begin{equation}
+N_0 = \sum_i exp[M(t_i - t_0)]
+\end{equation}\]</span></p>
+<p>which allows you to use exact times, but requires you to run the experiment until all marked fish are dead (basically just summing all the mortalities until you get back to <span class="math inline">\(N_0\)</span>).</p>
+</div>
+<div id="multi-species-vpa" class="section level4 hasAnchor" number="1.8.5.4">
+<h4><span class="header-section-number">1.8.5.4</span> Multi-species VPA<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#multi-species-vpa" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Multi-species VPA can also be used to estimate <span class="math inline">\(M\)</span>, wherein you need data of gut contents from different species. If you have an index of consumption <span class="math inline">\(m_{i,j}\)</span> where that denotes consumption of <span class="math inline">\(i\)</span> by <span class="math inline">\(j\)</span>, we can estimate this as some linear model:</p>
+<p><span class="math display">\[\begin{equation}
+M_i = \beta_0 + \sum \beta_j m_{i,j}
+\end{equation}\]</span></p>
+<p>which basically says the natural mortality of species <span class="math inline">\(i\)</span> is equivalent to some average mortality <span class="math inline">\(\beta_0\)</span> plus all species <span class="math inline">\(j\)</span> consuming species <span class="math inline">\(i\)</span> (<span class="math inline">\(\beta_j m_{i,j}\)</span>, where <span class="math inline">\(\beta_j\)</span> scales the index of consumption to a total consumption rate).</p>
+</div>
+<div id="life-history-or-meta-analysis" class="section level4 hasAnchor" number="1.8.5.5">
+<h4><span class="header-section-number">1.8.5.5</span> Life-History or Meta-Analysis<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#life-history-or-meta-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Using predictive regressions and life-history parameters, we can potentially figure out what natural mortality might be. For example, species that are <span class="math inline">\(r\)</span> selected experience high mortality and generally have large GSI, high fecundity, fast growth rates, and small asymptotic size. Using the LVB model, we can derive what <span class="math inline">\(M\)</span> might be using the critical age <span class="math inline">\(t^*\)</span>, which is when an unfished cohort reaches its maximum size:</p>
+<p><span class="math display">\[\begin{equation}
+t^* = 1/\kappa ln((M + 3\kappa)/M) \\
+M = 3\kappa / ((expt^*\kappa) - 1)
+\end{equation}\]</span></p>
+<p>Some approxmiations are given, for example if <span class="math inline">\(M ~= \kappa\)</span> then <span class="math inline">\(t^* ~= 0.25t_m\)</span>, which is the maximum observed age although some studies have verified that it should be <span class="math inline">\(t^* ~= 0.38t_m\)</span>. Another relationship was from from Hoenig, where mortality is inversely related to longevity wherein <span class="math inline">\(M = -ln(0.01)/t_m\)</span>, where <span class="math inline">\(t_m\)</span> is the maximum age observed. Hoenig’s method assumes that the proportion of individuals that reach the maximum age is 1% here, and rearranged the exponential decline equation for an unfished population. Some authors prefer to use 5% instead. Nonetheless, this is shown below, assume we are doing this on a per-recruit basis, then:</p>
+<p><span class="math display">\[\begin{equation}
+0.01 = N_0 e^{-M(t_m)} \\
+0.01 = e^{-M(t_m)} \\
+log(0.01) = -M t_m \\
+-M = log(0.01) / t_m \\
+M = -log(0.01) / t_m
+\end{equation}\]</span></p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb42-1" aria-hidden="true" tabindex="-1"></a>t_m <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">100</span>) <span class="co"># max age</span></span>
+<span id="cb42-2"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb42-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">=</span> <span class="sc">-</span><span class="fu">log</span>(<span class="fl">0.01</span>)<span class="sc">/</span>t_m <span class="co"># empirical mortality relationship </span></span>
+<span id="cb42-3"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(t_m ,m, <span class="at">xlab =</span> <span class="st">&quot;Maximum Age Observed&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Mortality&quot;</span>)</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p>Pauly also found some empirical relationships between <span class="math inline">\(M\)</span> and their temperatures experienced which also brings in growth data (LVB LAA and WAA as well as temperature). See code below for an example for sablefish</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb43-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">=</span> <span class="fl">0.5</span><span class="sc">:</span><span class="dv">30</span> <span class="co"># temp range</span></span>
+<span id="cb43-2"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb43-2" aria-hidden="true" tabindex="-1"></a>ln_M1 <span class="ot">=</span> <span class="sc">-</span><span class="fl">0.4852</span> <span class="sc">-</span> (<span class="fl">0.0824</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">5.87</span>)) <span class="sc">+</span> (<span class="fl">0.6757</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.17</span>)) <span class="sc">+</span> <span class="fl">0.4627</span> <span class="sc">*</span> <span class="fu">log</span>(temp) <span class="co"># based on winfinty</span></span>
+<span id="cb43-3"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb43-3" aria-hidden="true" tabindex="-1"></a>ln_M2 <span class="ot">=</span> <span class="sc">-</span><span class="fl">0.0152</span> <span class="sc">-</span> (<span class="fl">0.279</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">81.2</span>)) <span class="sc">+</span> (<span class="fl">0.6543</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="fl">0.17</span>)) <span class="sc">+</span> <span class="fl">0.4634</span> <span class="sc">*</span> <span class="fu">log</span>(temp) <span class="co"># based on linfinty</span></span>
+<span id="cb43-4"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-5"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(temp, <span class="fu">exp</span>(ln_M1), <span class="at">xlab =</span> <span class="st">&quot;Temp&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;M&quot;</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Red - Winf, Blue = Linf&quot;</span>)</span>
+<span id="cb43-6"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(temp, <span class="fu">exp</span>(ln_M2), <span class="at">xlab =</span> <span class="st">&quot;Temp&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;M&quot;</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p>Some other methods use a gonadosomatic index to estimate <span class="math inline">\(M\)</span> - if you have a relatively large gonad compared to your body size, your M is likely to be much higher.</p>
+</div>
 </div>
 </div>
 <div id="chapter-9-size-structured-models-and-assessment-methods" class="section level2 hasAnchor" number="1.9">

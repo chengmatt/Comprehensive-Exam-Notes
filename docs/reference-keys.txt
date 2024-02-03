@@ -105,6 +105,15 @@ estimation-of-abundance-and-population-parameters
 catch-curve-analysis
 virtual-population-analysis-and-cohort-analaysis
 relative-abundance-analysis
+catch-age-analysis-with-auxillary-information
+other-auxillary-data
+stratified-catch-age-analysis
+estimation-of-natural-mortality
+catch-curves
+length-frequency-analysis-1
+mark-recapture-experiments
+multi-species-vpa
+life-history-or-meta-analysis
 chapter-9-size-structured-models-and-assessment-methods
 chapter-10-migration-movement-and-other-spatiotemporal-considerations
 chapter-11-optimal-harvesting

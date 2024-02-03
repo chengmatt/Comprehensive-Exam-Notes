@@ -2708,7 +2708,22 @@ where $N_0$ is the number of individuals released and $C_t$ are the recaptures. 
 N_0 = \sum_i exp[M(t_i - t_0)]
 \end{equation}
 
-which allows you to use exact times, but requires you to run the experiment until all marked fish are dead (basically just summing all the mortalities until you get back to $N_0$). 
+which allows you to use exact times, but requires you to run the experiment until all marked fish are dead (basically just summing all the mortalities until you get back to $N_0$). Let's rearrange this equation to get some intuition as to how this works. Suppose we have 3 individuals recaptured at this time point:
+
+\begin{equation}
+N_0 = \sum_i^3 exp[M(t_i - t_0)] \\
+log(N_0) = M(t_1 - t_0) + M(t_2 - t_0) + M(t_3 - t_0) \\
+log(N_0) = M((t_1 - t_0) + (t_2 - t_0) + (t_3 - t_0)) \\
+M = \frac{log(N_0)}{(t_1 - t_0) + (t_2 - t_0) + (t_3 - t_0)}
+\end{equation}
+
+so if individuals end up getting recaptured a long ways out your $M$ is going to be lower. However if you only recapture 3 individuals, it doesn't matter how long they live, because your summation in the denominator is small. If you recapture a bunch of individuals in subsequent times, then you will add onto that denominator:
+
+\begin{equation}
+M = \frac{log(N_0)}{(t_1 - t_0) + (t_2 - t_0) + (t_3 - t_0) ... (t_\infty - t_0)}
+\end{equation}
+
+which will make the natural mortality rate much smaller if you recapture a bunch of fish. However, I think the sensitivity of this model will greatly depend on how we sample as well as the size of the population. In all, it's also being weighted by the number of fish you initially mark $N_0$. In the first example where you only have 3 individuals caught but you have a large $N_0$, that suggests that the mortality rate is actually fairly high. 
 
 #### Multi-species VPA
 Multi-species VPA can also be used to estimate $M$, wherein you need data of gut contents from different species. If you have an index of consumption $m_{i,j}$ where that denotes consumption of $i$ by $j$, we can estimate this as some linear model:

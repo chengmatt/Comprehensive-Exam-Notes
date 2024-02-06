@@ -2572,7 +2572,7 @@ In addition to catch-at-age data from the fishery, other auxillary data sources 
 
 \begin{equation}
 F_t = qEe^{\epsilon_t} \\
-\epislon_t \sim N(0,\sigma)
+\epsilon_t \sim N(0,\sigma)
 \end{equation}
 
 which adds one parameter to the estimation problem $q$. We still have to estimate the $F_t$ but we now have $T$ additional observations to help information the estimation process. This can be emplotyed using a SSQ framework:
@@ -2778,6 +2778,147 @@ lines(temp, exp(ln_M2), xlab = "Temp", ylab = "M", type = "l", lwd = 3, col = "b
 Some other methods use a gonadosomatic index to estimate $M$ - if you have a relatively large gonad compared to your body size, your M is likely to be much higher. 
 
 ## Chapter 9 (Size structured Models and Assessment Methods)
+Often, size-structured models are needed because we only have length data and because the stock of interest is hard to age (think our crusty crustaeceans). In most of these size-structured models, it is not possible to determine what exactly a year class is and growth is often more difficult to model. 
+
+### Beverton-Holt Approach
+The book first presents how we can use average size of the catch to infer mortality using the approach developed by fathers Beverton and Holt. Herein, the approach is a per-recruit model which uses assumes that LVB growth can be applied to length, and mortality is constant beyond the age at recruitment. The average length is then defined as:
+
+\begin{equation}
+\overline{L} = \frac{\int_{t_c}^{t_\infty}L(t)N(t)dt}{\int_{t_c}^{t_\infty}N(t)dt} 
+\end{equation}
+
+Recall that:
+
+\begin{equation}
+\frac{dN}{dt} = -ZN \\
+\frac{dN}{N} = -Zdt\\
+log(N) = -Z^t \\
+N = e^{-Zt} \\ 
+\int_{t_c}^{t_\infty}N(t)dt = e^{-Z(t-t_c)}
+\end{equation}
+
+Thus, the first equation defined here is written as:
+\begin{equation}
+\overline{L} = \frac{\int_{t_c}^{t_\infty}L(t)e^{-Z(t-t_c)}dt}{e^{-Z(t-t_c)}dt} 
+\end{equation}
+
+Note that the abundance term of the cohort appears here, because the average length of the population or catch is depend on the population abundance at that time in point, as well as the length-at-age relationship. If our $L(t)$ is a vonB, then we can rearrange this equation and write it as the following:
+
+\begin{equation}
+L(t) = L_\infty - (L_\infty-L_c)e^{-\kappa (t-t_c)} \\ 
+\int_{t_c}^{t_\infty}L(t)e^{-Z(t-t_c)} dt \\
+\int_{t_c}^{t_\infty} [L_\infty - (L_\infty-L_c)e^{-\kappa (t-t_c)}]e^{-Z(t-t_c)}dt\\
+\int_{t_c}^{t_\infty} L_\infty e^{-Z(t-t_c)} - (L_\infty-L_c)e^{-(\kappa + Z)(t-t_c)}dt\\
+\int_{t_c}^{t_\infty} L_\infty e^{-Z(t-t_c)}dt - \int_{t_c}^{t_\infty} (L_\infty-L_c)e^{-(\kappa + Z)(t-t_c)}dt
+\end{equation}
+
+For $\int_{t_c}^{t_\infty} L_\infty e^{-Z(t-t_c)}dt$ this becomes:
+\begin{equation}
+int_{t_c}^{t_\infty} L_\infty e^{-Z(t-t_c)}dt = \\
+u = Z(t-t_c) \\
+\frac{L_\infty}{Z} int_{t_c-t_c}^{t_\infty-t_c}e^{-u}du\\
+\frac{L_\infty}{Z} (1 - e^{-Z(t_\infty - t_c)}) 
+\end{equation}
+
+and for $\int_{t_c}^{t_\infty} (L_\infty-L_c)e^{-(\kappa + Z)(t-t_c)}dt$, this becomes:
+
+\begin{equation}
+\frac{(L_\infty - L_c)}{\kappa+Z} (1 - e^{-(\kappa + Z)(t-t_c)}) \\
+\end{equation}
+
+where the resulting closed form solution is:
+\begin{equation}
+\overline{L} = L_\infty - \frac{Z(L_\infty - L_c)}{\kappa+Z} [\frac{(1 - e^{-(\kappa + Z)(t_\infty-t_c)})}{(1 - e^{-Z(t_\infty-t_c)})}]
+\end{equation}
+
+and as $t => \infty$, the resulting equation collapses to:
+\begin{equation}
+\overline{L} = L_\infty - \frac{Z(L_\infty - L_c)}{\kappa+Z}
+\end{equation}
+
+Thus, this gives us a way to estimate the total mortality simply based on the average length of the catch:
+\begin{equation}
+\overline{L} = L_\infty - \frac{Z(L_\infty - L_c)}{\kappa+Z} \\
+\overline{L}(\kappa+Z) = L_\infty(\kappa+Z) - Z(L_\infty - L_c) \\
+\overline{L}\kappa+\overline{L}Z = L_\infty \kappa + ZL_c \\
+\overline{L}Z - ZL_c = L_\infty \kappa - \overline{L}\kappa \\
+Z(\overline{L} - L_c) = \kappa(L_\infty - \overline{L}) \\
+Z = \frac{\kappa(L_\infty - \overline{L})}{(\overline{L} - L_c)}
+\end{equation}
+
+Some other extensions of this exist, but invovle writing it as a non-linear equation and estimating $Z$ using numerical methods - see page 365. We will leave it as such as it's a bit tedious. Obvious extensions of this include extending $Z$ to be length-specific and including a selectivity term $s(L)$. This is generally done as such:
+
+\begin{equation}
+\overline{L} = \frac{\int_{t_c}^{t_\infty}L(t)s(L)e^{-Z(L)(t-t_c)}dt}{s(L)e^{-Z(L)(t-t_c)}dt} \\
+Z(L) = s(L) F + M
+\end{equation}
+
+where $s(L)e^{-Z(L)(t-t_c)}$ is basically the exploitable abundance and we would just be taking the average exploitable abundance as well as the average total mortality by integrating across $t_\infty,t_c$. Note that the Beverton-Holt method can have substantial bias compared to the non-linear method (Erhardy-Ault), and really should not be used nowadays. Further, for both methods, we need to assume stationary in recruitment. If there is indeed a trend in recruitment, we can similarly get biased estimates of $Z$. From these simple models, we can estimate $Z$ simply by using some vonB growth function and knowning what the average length of catch was. The degree to which this method is reliable is dubious.
+
+### Basic Size-based Models
+We can extend our age-based models to size-based - denote $y$ as size. For a simple cohort of abundance, size-specific mortality is then:
+\begin{equation}
+\frac{dN}{dt} = -Z(y)N
+\end{equation}
+
+where $Z(y) = Z[y(t)]$ is the instantaneous mortality at size $y$. If size and age are related by a growth model $dy/dt = g(y)$ (aka change in size over time), then the chain rule defines the following:
+
+\begin{equation}
+\frac{dN}{dt} = \frac{dN}{dy} \frac{dy}{dt} \\
+-Z(y)N = \frac{dN}{dy} \frac{dy}{dt} \\
+-Z(y)N = \frac{dN}{dy} g(y) \\
+\frac{dN}{dy} = \frac{dN}{dt} / \frac{dy}{dt} = -\frac{Z(y)}{g(y)} N
+\end{equation}
+
+wherein the change in abundance by a small change in size is the negative ratio of mortality and growth, which forms the decrement fraction for abundance. Basically, this tracks the abundance of size-classes - i.e., as the size changes incrementally, how much does the abundance change, for which is determined by the mortality and growth of those size-classes. This results in the following equation if $N_r$ is the abundance at recruitment size $y(t_r) = y_r$:
+
+\begin{equation}
+N(y) = N_r exp[-\int_{y_r}^y \frac{Z(y)}{g(y)} dy]
+\end{equation}
+
+which gives us a way to track abundance at size over time. For catch and yield, we can do something similar. Recall that catch is:
+\begin{equation}
+\frac{dC}{dt} = FN 
+\end{equation}
+
+so in the size-structured world, this becomes:
+\begin{equation}
+\frac{dC}{dt} = F(y) N \\
+\frac{dC}{dt} = \frac{dC}{dy} \frac{dy}{dt} \\
+F(y)N = \frac{dC}{dy} g(y) \\ 
+\frac{dC}{dy} = \frac{F(y)}{g(y)} N \\
+C = \int_{y_1}^{y_2} \frac{F(y)}{g(y)} N(y) dy
+\end{equation}
+
+and yield would just be incorporating the weight-at-size:
+so in the size-structured world, this becomes:
+\begin{equation}
+Y = \int_{y_1}^{y_2} \frac{F(y)}{g(y)} N(y) W(y) dy
+\end{equation}
+
+### Stage Structured Matrix Models
+Similar to our Leslie Age Matrix Models, we here instead represent ages as stages (our lengths) to describe our population, which can be dependent on development, sex, or region. For a given year, individuals in a given size-class can stay in the same size-class or move onto some larger size class due to growth. If we let $P_{x,y}$ be the proportion of individuals that survive and move from size class $x$ to $y$, and $P_{y,y}$ be the proportion of individuals in size class $y$ that stay in $y$. Then, the number of individuals in the first size class will be the proportion of individuals that stay in that size class plus the recruitment into that size class from fecundity:
+
+\begin{equation}
+N_{1,t+1} = S_1 P_{1,1} N_{1,t} + S_0 \sum_{x=1}^Y f_x N_{x,t}
+\end{equation}
+
+where $S$ is survival and $f_x,Y$ are fecundity and the total number of size classes. For other size-classes, this becomes:
+
+\begin{equation}
+N_{x,t+1} = \sum_{x=1}^Y S_x P_{x,y} N_{x,t}
+\end{equation}
+
+and the last term of that summation represents non-growing individuals (i.e, $P_{Y,Y} = 1$), such that they stop growing and are only decremented by survival. See page 370 for a nice representation of the projection matrix. In matrix form however, we can write the above equation as:
+
+\begin{equation}
+\boldsymbol{N_{t+1}} = (\boldsymbol{PS+R})\boldsymbol{N_t}
+\end{equation}
+
+where $P$ is a lower triangular matrix of proportions of moving from size $x$ to $y$, $S$ is a diagonal matrix of survival rates, and $R$ describes the recruitment at age 1 (one row in matrix) as a function of other size-classes. These models have similar properties to the Leslie matrix models discussed previously (i.e., dominant eignvalue if > 1 indicates exponential growth). 
+
+### Stochastic Models
+
 
 ## Chapter 10 (Migration Movement and Other Spatiotemporal Considerations)
 

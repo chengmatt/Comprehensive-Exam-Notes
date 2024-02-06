@@ -115,6 +115,10 @@ mark-recapture-experiments
 multi-species-vpa
 life-history-or-meta-analysis
 chapter-9-size-structured-models-and-assessment-methods
+beverton-holt-approach
+basic-size-based-models
+stage-structured-matrix-models
+stochastic-models
 chapter-10-migration-movement-and-other-spatiotemporal-considerations
 chapter-11-optimal-harvesting
 broad-comprehensive-exam-questions-outlines

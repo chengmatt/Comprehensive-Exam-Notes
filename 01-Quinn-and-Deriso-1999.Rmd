@@ -2787,10 +2787,276 @@ and the last term of that summation represents non-growing individuals (i.e, $P_
 \boldsymbol{N_{t+1}} = (\boldsymbol{PS+R})\boldsymbol{N_t}
 \end{equation}
 
-where $P$ is a lower triangular matrix of proportions of moving from size $x$ to $y$, $S$ is a diagonal matrix of survival rates, and $R$ describes the recruitment at age 1 (one row in matrix) as a function of other size-classes. These models have similar properties to the Leslie matrix models discussed previously (i.e., dominant eignvalue if > 1 indicates exponential growth). 
-
 ### Stochastic Models
+By making some assumptions about stochastic growth, survival, and size-selectivity fishing mortality, we can write equations to propagate the probability density function of size of individuals in the population through some by recursively updating parameters. Here, we will sue a Bayesian updating approach and assume a normal prior with a normal likelihood to allow for conjugacy. Growth in size of an individual is as follows:
 
+\begin{equation}
+x_{a+1} = \alpha + \rho x_a + \epsilon \\
+\epsilon \sim N(0,V_\epsilon)
+\end{equation}
+
+where growth in size of an individual is a function of the previous age with some intercept and $\rho$ coefficient. Here, $x$ is a Box-Cox transformation of length $x = (L^\gamma - 1)/\gamma$. Apparently, transforming the above as a log transformation turns this equation into a Gompertz growth model. Additionally, growth variability can be done by replacing the constant variance term to model variance by age ($V_\epsilon (a) = V_\epsilon \rho^a$, variation decreases with age), and individual cohort variation can be modeled by allowing the intercept to have an index $i$. The distribution of sizes within a given cohort $a$ follows a normal distribution:
+
+\begin{equation}
+x_a \sim N(E_x(a), V_x(a))
+\end{equation}
+
+where the expected values and variacnes of the distribution of size-at-age are given as recursive equations in page 376. Because fishing gear is typically size-selective, a length separability assumption here is modelled - separable size-specific selectivity and fully-selected fishing mortality. The probability of a fish being captured for size $x$ and year $t$ is:
+
+\begin{equation}
+P(captured|x) = 1 - e^{-F(t,x)}\\
+F(t,x) = F_t S(x)
+\end{equation}
+
+where $F(t,x)$ is the fishing mortality at time $t$ and size class $x$. The probability of surviving is our standard equation:
+
+\begin{equation}
+P(survive|x) = e^{-F(t,x)}\\
+\end{equation}
+
+In this model, fishing takes place in one part of the year and growth takes places in other part. Additionally, the size distribution of individuals in the youngest age follows a normal distribution, size-selectivity mortality is separable, growth follows a Cohen-Fishman stochastic growth model, weight is allometric with length, and annual survival is probabilistic. Additionally size-selectivity is modeled as a polynomial in each year (time-varying). The dynamics are as follows:
+
+\begin{equation}
+f(x|a,t) = f(x|survive) \propto P(survive|x)\psi(x|a,t)
+\end{equation}
+
+where $\psi(x|a,t)$ is the sioze distribution of fish of age $a$ prior to fishing and is determined by the mean and variance of $E_x(a,t),V_x(a,t)$. To make these equations equal, it is integrated across all possible outcomes (e.g., integrating across all sizes in the denominator). Essentially, the above equation gives us the probability of size-classes given that the fish survives. The probability of the size distribution of the catch here is then the complement $f^c(x|a,t) = 1-f(x|a,t)$ (see page 377). Expected abundance is calculated recursively using expected abundance in the previous year and the annual survival probability. This method estiamtes parameters using a maximum likelihood framework, but estaimtes parameters using forms of Bayesian updating? I don't really get how it works... Nonetheless, I belive its an integrated model wherein, 3 general likelihood components are used: 1) the size frequency of catch, 2) the size-frequency of catch given that fish are aged and are transformed to fit size-bins, and 3) the yield express in biomass units. 
+
+### Length-Based Assessment Methods
+#### Length Cohort Analysis
+The goal of this method is to use length frequency data of catches to back-calculate and estimate abundance and fishing mortality. This assumes that catches are measured without error and that growth can be modeled as a vonB, From the backwards equations:
+
+\begin{equation}
+N_a = N_{a+1}e^M + C_a e^{M/2}
+\end{equation}
+
+which can be generalized for any arbitrary age:
+\begin{equation}
+N_a = N_{a+\tau}e^{M\tau} + C_a e^{M\tau/2}
+\end{equation}
+
+Thinking of ages in lengths, we can think of $a$ as a lower bound $l_l$ and $a+\tau$ as an upper bound $l_u$. If we can think of time increment $\tau$ as $\tau_l$, we can write our time increments as:
+\begin{equation}
+\tau_l = \frac{1}{\kappa}ln(\frac{L_\infty - l_l}{L_\infty - l_u})
+\end{equation}
+
+which this equation tells us on average, how much time it would be needed to go from $l_l$ to $l_u$. So as you reach older sizes and towards the asymptpotic limit, the time needed to grow from $l_l$ to $l_u$ is going to be a lot more. See example below.
+
+```{r}
+kappa = 0.3 # kappa
+linf = 103 # inf
+ll = seq(1,100) # lower len
+lu = seq(2,101) # upper len
+plot(1 / kappa * log((linf - ll)/(linf - lu)), type = "l", xlab = "ll to lu", ylab = "Time from ll to lu", lwd = 5)
+```
+
+So replacing this equation into our backwards recursive equations, we are going to get:
+\begin{equation}
+N_l = (N_{l+1}X_l + C_l)X_l \\
+X_l = exp(M\tau) \\
+X_l = (\frac{L_\infty - l_l}{L_\infty - l_u})^{M/2\kappa}
+\end{equation}
+
+where $N_l$ is the abundance at length class $l$. To do these back-calculations, we have to start at the last length bin $L$, using the equations from defining the abundance of the plus group in our cohort analysis:
+\begin{equation}
+N_L = C_L / (F_L/Z_L)
+\end{equation}
+
+and following that, we can back calculate the abundance at the start of the other length-classes:
+\begin{equation}
+N_l = (N_LX_l + C_)X_l \\
+N_l = (N_{l+1}X_l + C_l)X_l
+\end{equation}
+
+where $N_{l+1}X_l$ essentially tells us the time it would take for $N_l$ to grow to $N_L$ with some natural mortality baked into it. Fishing mortality and resultant population averages can then be calculated as:
+\begin{equation}
+F_l/Z_l = C_l/(N_l-N_{l+1}) \\
+Z_l\tau_l = log(N_l-N_{l+1}) \\
+F_l\tau_l = (F_l/Z_l)(Z_l\tau_l) \\
+\overline{N_l} = (N_l - N_{l+1}) /  (Z_l\tau_l)
+\end{equation}
+
+Unfortunately, for length-based cohort analysis, several assumptions need to be made in that we are isolating the catch-length data from a year-class over its life-span, but that requires us knowing the ages, which defeats the whole purpose. The alternative requires the assumption of the length composition in a given year being representative of the catch of a year-class over its lifespan, but this can only occur if growth and recruitment are constant - which is never the case. Furthermore, the LVB model is assumed to be constant in this case - deterministic with no stochasticity. Lai and Gallucci did some simulations and found that errors due to incorrect specification of $M$ and other input parameters led to large errors in abundance - and that these length cohort methods are highly reliant on steady-state conditions (constant growth, mortality, recruitment) and are not as reliable as cohort-age analyses. For a length-cohort analysis, the input parameters needed are $L_\infty,M/\kappa,F_L/Z_L, C_L$. An example is given below to put this into practice. This is generally similar to an age-based cohort analysis, except that instead of taking annual increments and raising the numbers-at-length to a mortality exponent multiplier, we are back-calculating abundance-at-length by raising it to a mortality exponent multiplier and taking into account the amount of time it would take to grow and transition into the subsequent lengths using a LVB functional form. 
+
+```{r}
+linf = 80 # linf
+m = 0.2 # mortality
+k = 0.2 # brody growth
+lbins = 1:11 # total number of length bins
+l_l = seq(20, 70, 5) # length bin increments
+c_l = c(0.1,0.47,3.88,5.54,5.37,4.62,3.03,1.68,1.02,0.46,0.25) # catch at length bin l
+
+par(mfrow = c(1,3))
+plot(c_l, xlab = "Length",ylab = "Catch at l", lwd = 5, type = "l") # catch at length
+x_l = ((linf-l_l[-length(l_l)]) / (linf - l_l[-1]))^(m/(2*k)) # vector of time needed to transition between length bins
+plot(x_l, xlab = "ll - lu", ylab = "Time between ll to lu", lwd = 5, type = "l") # so as you get bigger, it takes more time to transition
+
+FLZL = 0.5 # terminal exploitation
+NL = c_l[length(lbins)] / FLZL # estimate of terminal abundance
+
+# storage container
+nl_mat = matrix(0, ncol = 1, nrow = length(lbins))
+nl_mat[1] = NL # terminal abundance
+
+# project cohort abundance back
+for(l in 2:length(lbins))  nl_mat[l] = ((nl_mat[l-1] * rev(x_l)[l-1]) + rev(c_l)[l-2+2]) * rev(x_l)[l-1]
+plot(rev(nl_mat), xlab = "Length", ylab = "Numbers at length", type = "l", lwd = 5)
+```
+
+#### Catch-Length Analysis and Length-Based Stock Synthesis
+Considering that the length-based cohort VPA method requires you to assume stationary recruitment and growth, this is a very strict assumption. Thus, we will use some other length-based methods to get around this issue. 
+
+##### Catch-Length Analysis
+For catch-length analysis, the population model is as such:
+\begin{equation}
+\boldsymbol{N_{t+1}} = \boldsymbol{PS_tN_t} +  \boldsymbol{R_{t+1}} + \boldsymbol{w_t} 
+\end{equation}
+
+where this extends it to incorporate a white noise error term $\boldsymbol{w_t}$ where $\boldsymbol{S_t}$ is the survival-at-length and is time-varying. Here, recruitment is $\boldsymbol{R_{t+1}}$ is modelled using a temporal component as well as a length component:
+
+\begin{equation}
+R_{l,t} = R_t p_l
+\end{equation}
+
+where $p_l$ essentially distributes the lengths of recruitment. $p_l$ can be represented with a gamma distribution, which reduces the number of parameters needed to be estimated. The mortality the submodel is similar to catch-at-age analysis:
+
+\begin{equation}
+C_{l,t} = \frac{F_ts_l}{F_ts_l + M_l} N_{l,t} (1-exp(-(F_ts_l + M_l)))
+\end{equation}
+
+where selectivity $s_l$ can be modeled using a variety of parameteric and non-parmetric forms. Additionally, $\boldsymbol{S} = S_{l,t}$ where $S$ is the survival at length and time. To obtain the lower triangular togrowth transition matrix $\boldsymbol{P}$, we can use some stochastic growth model, to find the proportion of individuals that survive from length class $l$ to $m$ ($P_{m,l}$). If $l_l$ and $l_u$ are two ends of the length class, then $l^*$ is the midpoint and the expect length change or growth increment over one time period is:
+
+\begin{equation}
+\overline{\Delta_l} = (L_\infty - l^*)(1-e^{-\kappa})
+\end{equation}
+
+wherein, if we assume a vonB relationship, as your sizes get older, your growth increments are going to get smaller. Thus, the expected length of a fish of mid-length $l^*$ is:
+
+\begin{equation}
+E(x) = l^* + \overline{\Delta_l}
+\end{equation}
+
+which is basically the mid-point length plus whatever the growth increment is. 
+
+```{r}
+ll = seq(1, 30, 1) # lower
+lu = seq(2, 31, 1) # upper
+lstar = (ll + lu ) / 2 # midpoitns
+linf = 30; kappa = 0.1 # vonB pars
+par(mfrow = c(1,2))
+growth_inc = (linf - lstar) * (1 - exp(-kappa)) # growth increment
+plot(lstar, growth_inc, type = "l", xlab = "Midpoint Length", ylab = "Growth Increment", lwd = 5)
+plot(lstar + growth_inc, type = "l", xlab = "Midpoint Length",  ylab = "Expected Size", lwd = 5)
+```
+
+
+Stochasticity in this growth transition matrix is then incorporated into the midpoints of the lengths using a gamma distribution:
+
+\begin{equation}
+g(x|\alpha_l,\beta) = \frac{1}{\beta^{\alpha_l}\Gamma(\alpha_l)} x^{\alpha_l - 1}e^{-x\beta}
+\end{equation}
+
+where our size is our random variable. Here, we model $\alpha_l$ as a function of size classes, as it scales our estimate of size to the appropriate units, while we model $\beta$ as length indpendent (governs the descending limb) because of model confounding and parsimony. Thus, $E(x_l) = \alpha_l\beta$ and $V(x_l) = \alpha_l\beta^2$ following the properties of a gamma distribution. If we equate the two expected value equations together, we get:
+
+\begin{equation}
+\alpha_l\beta = l^* + \overline{\Delta_l} \\
+\alpha_l = \frac{l^* + \overline{\Delta_l}}{\beta} \\
+\alpha_l = \frac{l^* + (L_\infty - l^*)(1-e^{-\kappa})}{\beta} 
+\end{equation}
+
+where $\alpha_l$ is really just a function of the vonB parameters. To finish this up, if the lengths are $m_l$ and $m_u$, then the growth transition matrix can be written by integrating the gamma distribution:
+
+\begin{equation}
+P_{m,l} = \int_{m_l}^{m_u} g(x|\alpha_l,\beta)dx
+\end{equation}
+
+which is basically integrating the cdf and tells us that if we are of size class $x$, what is the probability of moving from $m_l$ to $m_u$. The predicted catch-at-length is then:
+
+\begin{equation}
+C_{l,t} = \frac{F_{l,t}}{Z_{l,t}} N_{l,t} (1 - e^{-Z_{l,t}})
+\end{equation}
+
+which is our basic Baranaov equation - additive error or lognormal error can be easily incorporated by fitting this to some likelihood function. Thus, this catch-length model depends on: 1) estimated recruitments wherein they are distributed using $p_l$ which can be modelled with some parametric form, 2) initial population vector, 3) annual fishing mortality multiplier, 4) selectivity-at-length, 5) natural mortality-at-length, and 6) growth parameters to construct the growth transition matrix ($L_\infty,\kappa, \beta,\alpha_l$). 
+
+In this model, other auxillary data is needed to fit this, such as fishing effort $F_t = qE_te^{\epsilon_t}$ and indices of abundance from a survey. The catch-length model is a state-space model given that the abundance process equation has deviates to it. Minimization is done using a Kalman-Filter as described by the book, but can easily be extended to Laplace Approximation using recent tools. Using simulated data, the book states that the value of $\beta$ describing the shape of the growth transition matrix should probably be fixed, given difficulty in estimation procedures. Additionally, they note that the recruitment proportion at length distribution should be carefully modeled. A brief example (not a full analysis) is provided below in terms of how to estiamte $\alpha_l$ when $\beta$ is known and what the growth transition matrix looks like.
+
+```{r}
+linf = 100 # inf
+k = 0.2 # kappa
+beta = 2 # beta for growth transition 
+ll = c(18.1, 30, 45, 55, 75) # lower l
+lu = c(30, 45, 55, 75, 125) # uppper l
+lstar = (ll + lu) / 2 # midpint
+grw_inc = (linf - lstar) * (1 - exp(-k)) # growth increment
+e_x = lstar + grw_inc # get expected size
+plot(e_x, xlab = "Index", ylab = "E(size)", lwd = 5, type = "l")
+```
+
+The plots below this show a subset of $\alpha_l$ arising from some gamma distribution.
+```{r}
+linf = 100 # inf
+k = 0.2 # kappa
+beta = 2 # beta for growth transition 
+ll = c(18.1, 30, 45, 55, 75) # lower l
+lu = c(30, 45, 55, 75, 125) # uppper l
+lstar = (ll + lu) / 2 # midpint
+grw_inc = (linf - lstar) * (1 - exp(-k)) # growth increment
+e_x = lstar + grw_inc # get expected size
+alpha_l =( lstar + (linf - lstar) * (1 - exp(-k)))/ beta
+sd_x = sqrt(alpha_l * beta^2) # starandard deviation based on variance of gamma
+for(i in 1:length(alpha_l)) {
+  if(i == 1) plot(density(rgamma(1e4, alpha_l[i], beta)), xlim = c(0, 40), xlab = "Size", main = "Growth Transitions")
+  else lines(density(rgamma(1e4, alpha_l[i], beta)))
+}
+```
+
+
+##### Length-based stock synthesis
+The population dynamics here remain fundamentally age-based instead of length-based as in the previous section. Instead, a length-age transition matrix is used to determine and convert between lengths and ages. The age-length transition matrix (proportion of fish of age $a$ in length class $l$) is constructed assuming a normal distribution about the mean, and using the normal cdf method will work to calculate this. In these methods, gear-selectivity is length-based instead of age-based and is calculated fairly easily:
+
+\begin{equation}
+s_a = \sum_l s_l \psi_{l,a}
+\end{equation}
+
+Starting from the base, average abundance-at-length is:
+
+\begin{equation}
+\overline{N_{l,t}} = \sum_a \psi_{l,a} \overline{N_{a,t}}
+\end{equation}
+
+which is essentially just a weighted sum. The catch distribution of lengths in proportions is then:
+
+\begin{equation}
+\alpha_{l,t} = s_l\overline{N_{l,t}} / \sum_l \overline{N_{l,t}}
+\end{equation}
+
+and the age distribution of these catches are approximately:
+
+\begin{equation}
+\theta_{la,t} = s_a\overline{N_{a,t}} / \sum_a \overline{N_{a,t}}
+\end{equation}
+
+note that these are average age distributions because size-selectivity does not directly map to age-based selectivity. Lastly then, the catch-at-length can be calculated as such:
+\begin{equation}
+C_{l,t} = \alpha_{l,t}C_t
+\end{equation}
+
+which is just distributing the catches across the catch distribution of lengths. If this is entirely length-based, the following is equivalent in terms of age-based yield vs. length-based yield:
+
+\begin{equation}
+Y_t = \sum_a W_a N_{a,t} = \sum_l W_l N_{l,t}
+\end{equation}
+
+where we would be using a weight-length relationship to fit to yield instead of a weight-age relationship. Continuing some of the readings, the book discusses the idea of vulnerability in stock assessment models, which is modelled as such ($v_a$):
+
+\begin{equation}
+N_{a+1,t+1} = N_{a,t}[(1-v_a)e^{-M_{a,t}} + v_a e^{-Z_{a,t}}] \\
+C_{a,t} = v_a \frac{F_{a,t}}{Z_{a,t}} (1 - e^{-Z_{a,t}}) N_{a,t}
+\end{equation}
+
+where if vulnerability is 1, then it decomposes to the Baranov equation. However, we seldom have information on availability (i.e., information on where that portion of the stock is at that time in point where we are fishing) and estimate both selectivity and vulnerability is confounded and difficult. Thus, we tend to subsume them into one selectivity term (contact and vulnerability/availability). 
+
+They also discuss that back in the day, SS started out the model using pristine equilibrium age-structure to reduce parameter estimation. However, I don't think any study has really tried to look at the effects of these initial conditions - i.e., equilibrium when there is stochastic, when there is fishing prior to this, etc. I generally think it would be interesting (I don't its been done) using a age-based length-structured model, entirely length-based model and how the model performance might vary depending on the types of data provided to the assessment. In general, the length-based models are a bit more complex, given the need to distribute recruitment across a proportion of bins and the need to model the growth-transition matrix as a gamma distribution. 
 
 ## Chapter 10 (Migration Movement and Other Spatiotemporal Considerations)
 

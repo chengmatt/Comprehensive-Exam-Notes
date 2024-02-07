@@ -119,6 +119,11 @@ beverton-holt-approach
 basic-size-based-models
 stage-structured-matrix-models
 stochastic-models
+length-based-assessment-methods
+length-cohort-analysis
+catch-length-analysis-and-length-based-stock-synthesis
+catch-length-analysis
+length-based-stock-synthesis
 chapter-10-migration-movement-and-other-spatiotemporal-considerations
 chapter-11-optimal-harvesting
 broad-comprehensive-exam-questions-outlines

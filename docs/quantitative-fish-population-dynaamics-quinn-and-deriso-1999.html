@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew LH. Cheng" />
 
 
-<meta name="date" content="2024-02-05" />
+<meta name="date" content="2024-02-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -232,6 +232,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.9.2" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#basic-size-based-models"><i class="fa fa-check"></i><b>1.9.2</b> Basic Size-based Models</a></li>
 <li class="chapter" data-level="1.9.3" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#stage-structured-matrix-models"><i class="fa fa-check"></i><b>1.9.3</b> Stage Structured Matrix Models</a></li>
 <li class="chapter" data-level="1.9.4" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#stochastic-models"><i class="fa fa-check"></i><b>1.9.4</b> Stochastic Models</a></li>
+<li class="chapter" data-level="1.9.5" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#length-based-assessment-methods"><i class="fa fa-check"></i><b>1.9.5</b> Length-Based Assessment Methods</a></li>
 </ul></li>
 <li class="chapter" data-level="1.10" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#chapter-10-migration-movement-and-other-spatiotemporal-considerations"><i class="fa fa-check"></i><b>1.10</b> Chapter 10 (Migration Movement and Other Spatiotemporal Considerations)</a></li>
 <li class="chapter" data-level="1.11" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#chapter-11-optimal-harvesting"><i class="fa fa-check"></i><b>1.11</b> Chapter 11 (Optimal Harvesting)</a></li>
@@ -2618,10 +2619,220 @@ N_{x,t+1} = \sum_{x=1}^Y S_x P_{x,y} N_{x,t}
 <p><span class="math display">\[\begin{equation}
 \boldsymbol{N_{t+1}} = (\boldsymbol{PS+R})\boldsymbol{N_t}
 \end{equation}\]</span></p>
-<p>where <span class="math inline">\(P\)</span> is a lower triangular matrix of proportions of moving from size <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span>, <span class="math inline">\(S\)</span> is a diagonal matrix of survival rates, and <span class="math inline">\(R\)</span> describes the recruitment at age 1 (one row in matrix) as a function of other size-classes. These models have similar properties to the Leslie matrix models discussed previously (i.e., dominant eignvalue if &gt; 1 indicates exponential growth).</p>
 </div>
 <div id="stochastic-models" class="section level3 hasAnchor" number="1.9.4">
 <h3><span class="header-section-number">1.9.4</span> Stochastic Models<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#stochastic-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>By making some assumptions about stochastic growth, survival, and size-selectivity fishing mortality, we can write equations to propagate the probability density function of size of individuals in the population through some by recursively updating parameters. Here, we will sue a Bayesian updating approach and assume a normal prior with a normal likelihood to allow for conjugacy. Growth in size of an individual is as follows:</p>
+<p><span class="math display">\[\begin{equation}
+x_{a+1} = \alpha + \rho x_a + \epsilon \\
+\epsilon \sim N(0,V_\epsilon)
+\end{equation}\]</span></p>
+<p>where growth in size of an individual is a function of the previous age with some intercept and <span class="math inline">\(\rho\)</span> coefficient. Here, <span class="math inline">\(x\)</span> is a Box-Cox transformation of length <span class="math inline">\(x = (L^\gamma - 1)/\gamma\)</span>. Apparently, transforming the above as a log transformation turns this equation into a Gompertz growth model. Additionally, growth variability can be done by replacing the constant variance term to model variance by age (<span class="math inline">\(V_\epsilon (a) = V_\epsilon \rho^a\)</span>, variation decreases with age), and individual cohort variation can be modeled by allowing the intercept to have an index <span class="math inline">\(i\)</span>. The distribution of sizes within a given cohort <span class="math inline">\(a\)</span> follows a normal distribution:</p>
+<p><span class="math display">\[\begin{equation}
+x_a \sim N(E_x(a), V_x(a))
+\end{equation}\]</span></p>
+<p>where the expected values and variacnes of the distribution of size-at-age are given as recursive equations in page 376. Because fishing gear is typically size-selective, a length separability assumption here is modelled - separable size-specific selectivity and fully-selected fishing mortality. The probability of a fish being captured for size <span class="math inline">\(x\)</span> and year <span class="math inline">\(t\)</span> is:</p>
+<p><span class="math display">\[\begin{equation}
+P(captured|x) = 1 - e^{-F(t,x)}\\
+F(t,x) = F_t S(x)
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(F(t,x)\)</span> is the fishing mortality at time <span class="math inline">\(t\)</span> and size class <span class="math inline">\(x\)</span>. The probability of surviving is our standard equation:</p>
+<p><span class="math display">\[\begin{equation}
+P(survive|x) = e^{-F(t,x)}\\
+\end{equation}\]</span></p>
+<p>In this model, fishing takes place in one part of the year and growth takes places in other part. Additionally, the size distribution of individuals in the youngest age follows a normal distribution, size-selectivity mortality is separable, growth follows a Cohen-Fishman stochastic growth model, weight is allometric with length, and annual survival is probabilistic. Additionally size-selectivity is modeled as a polynomial in each year (time-varying). The dynamics are as follows:</p>
+<p><span class="math display">\[\begin{equation}
+f(x|a,t) = f(x|survive) \propto P(survive|x)\psi(x|a,t)
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\psi(x|a,t)\)</span> is the sioze distribution of fish of age <span class="math inline">\(a\)</span> prior to fishing and is determined by the mean and variance of <span class="math inline">\(E_x(a,t),V_x(a,t)\)</span>. To make these equations equal, it is integrated across all possible outcomes (e.g., integrating across all sizes in the denominator). Essentially, the above equation gives us the probability of size-classes given that the fish survives. The probability of the size distribution of the catch here is then the complement <span class="math inline">\(f^c(x|a,t) = 1-f(x|a,t)\)</span> (see page 377). Expected abundance is calculated recursively using expected abundance in the previous year and the annual survival probability. This method estiamtes parameters using a maximum likelihood framework, but estaimtes parameters using forms of Bayesian updating? I don’t really get how it works… Nonetheless, I belive its an integrated model wherein, 3 general likelihood components are used: 1) the size frequency of catch, 2) the size-frequency of catch given that fish are aged and are transformed to fit size-bins, and 3) the yield express in biomass units.</p>
+</div>
+<div id="length-based-assessment-methods" class="section level3 hasAnchor" number="1.9.5">
+<h3><span class="header-section-number">1.9.5</span> Length-Based Assessment Methods<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#length-based-assessment-methods" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="length-cohort-analysis" class="section level4 hasAnchor" number="1.9.5.1">
+<h4><span class="header-section-number">1.9.5.1</span> Length Cohort Analysis<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#length-cohort-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The goal of this method is to use length frequency data of catches to back-calculate and estimate abundance and fishing mortality. This assumes that catches are measured without error and that growth can be modeled as a vonB, From the backwards equations:</p>
+<p><span class="math display">\[\begin{equation}
+N_a = N_{a+1}e^M + C_a e^{M/2}
+\end{equation}\]</span></p>
+<p>which can be generalized for any arbitrary age:
+<span class="math display">\[\begin{equation}
+N_a = N_{a+\tau}e^{M\tau} + C_a e^{M\tau/2}
+\end{equation}\]</span></p>
+<p>Thinking of ages in lengths, we can think of <span class="math inline">\(a\)</span> as a lower bound <span class="math inline">\(l_l\)</span> and <span class="math inline">\(a+\tau\)</span> as an upper bound <span class="math inline">\(l_u\)</span>. If we can think of time increment <span class="math inline">\(\tau\)</span> as <span class="math inline">\(\tau_l\)</span>, we can write our time increments as:
+<span class="math display">\[\begin{equation}
+\tau_l = \frac{1}{\kappa}ln(\frac{L_\infty - l_l}{L_\infty - l_u})
+\end{equation}\]</span></p>
+<p>which this equation tells us on average, how much time it would be needed to go from <span class="math inline">\(l_l\)</span> to <span class="math inline">\(l_u\)</span>. So as you reach older sizes and towards the asymptpotic limit, the time needed to grow from <span class="math inline">\(l_l\)</span> to <span class="math inline">\(l_u\)</span> is going to be a lot more. See example below.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb44-1" aria-hidden="true" tabindex="-1"></a>kappa <span class="ot">=</span> <span class="fl">0.3</span> <span class="co"># kappa</span></span>
+<span id="cb44-2"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb44-2" aria-hidden="true" tabindex="-1"></a>linf <span class="ot">=</span> <span class="dv">103</span> <span class="co"># inf</span></span>
+<span id="cb44-3"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb44-3" aria-hidden="true" tabindex="-1"></a>ll <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">100</span>) <span class="co"># lower len</span></span>
+<span id="cb44-4"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb44-4" aria-hidden="true" tabindex="-1"></a>lu <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">2</span>,<span class="dv">101</span>) <span class="co"># upper len</span></span>
+<span id="cb44-5"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span> <span class="sc">/</span> kappa <span class="sc">*</span> <span class="fu">log</span>((linf <span class="sc">-</span> ll)<span class="sc">/</span>(linf <span class="sc">-</span> lu)), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;ll to lu&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Time from ll to lu&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>)</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<p>So replacing this equation into our backwards recursive equations, we are going to get:
+<span class="math display">\[\begin{equation}
+N_l = (N_{l+1}X_l + C_l)X_l \\
+X_l = exp(M\tau) \\
+X_l = (\frac{L_\infty - l_l}{L_\infty - l_u})^{M/2\kappa}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(N_l\)</span> is the abundance at length class <span class="math inline">\(l\)</span>. To do these back-calculations, we have to start at the last length bin <span class="math inline">\(L\)</span>, using the equations from defining the abundance of the plus group in our cohort analysis:
+<span class="math display">\[\begin{equation}
+N_L = C_L / (F_L/Z_L)
+\end{equation}\]</span></p>
+<p>and following that, we can back calculate the abundance at the start of the other length-classes:
+<span class="math display">\[\begin{equation}
+N_l = (N_LX_l + C_)X_l \\
+N_l = (N_{l+1}X_l + C_l)X_l
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(N_{l+1}X_l\)</span> essentially tells us the time it would take for <span class="math inline">\(N_l\)</span> to grow to <span class="math inline">\(N_L\)</span> with some natural mortality baked into it. Fishing mortality and resultant population averages can then be calculated as:
+<span class="math display">\[\begin{equation}
+F_l/Z_l = C_l/(N_l-N_{l+1}) \\
+Z_l\tau_l = log(N_l-N_{l+1}) \\
+F_l\tau_l = (F_l/Z_l)(Z_l\tau_l) \\
+\overline{N_l} = (N_l - N_{l+1}) /  (Z_l\tau_l)
+\end{equation}\]</span></p>
+<p>Unfortunately, for length-based cohort analysis, several assumptions need to be made in that we are isolating the catch-length data from a year-class over its life-span, but that requires us knowing the ages, which defeats the whole purpose. The alternative requires the assumption of the length composition in a given year being representative of the catch of a year-class over its lifespan, but this can only occur if growth and recruitment are constant - which is never the case. Furthermore, the LVB model is assumed to be constant in this case - deterministic with no stochasticity. Lai and Gallucci did some simulations and found that errors due to incorrect specification of <span class="math inline">\(M\)</span> and other input parameters led to large errors in abundance - and that these length cohort methods are highly reliant on steady-state conditions (constant growth, mortality, recruitment) and are not as reliable as cohort-age analyses. For a length-cohort analysis, the input parameters needed are <span class="math inline">\(L_\infty,M/\kappa,F_L/Z_L, C_L\)</span>. An example is given below to put this into practice. This is generally similar to an age-based cohort analysis, except that instead of taking annual increments and raising the numbers-at-length to a mortality exponent multiplier, we are back-calculating abundance-at-length by raising it to a mortality exponent multiplier and taking into account the amount of time it would take to grow and transition into the subsequent lengths using a LVB functional form.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-1" aria-hidden="true" tabindex="-1"></a>linf <span class="ot">=</span> <span class="dv">80</span> <span class="co"># linf</span></span>
+<span id="cb45-2"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">=</span> <span class="fl">0.2</span> <span class="co"># mortality</span></span>
+<span id="cb45-3"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-3" aria-hidden="true" tabindex="-1"></a>k <span class="ot">=</span> <span class="fl">0.2</span> <span class="co"># brody growth</span></span>
+<span id="cb45-4"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-4" aria-hidden="true" tabindex="-1"></a>lbins <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">11</span> <span class="co"># total number of length bins</span></span>
+<span id="cb45-5"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-5" aria-hidden="true" tabindex="-1"></a>l_l <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">20</span>, <span class="dv">70</span>, <span class="dv">5</span>) <span class="co"># length bin increments</span></span>
+<span id="cb45-6"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-6" aria-hidden="true" tabindex="-1"></a>c_l <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="fl">0.47</span>,<span class="fl">3.88</span>,<span class="fl">5.54</span>,<span class="fl">5.37</span>,<span class="fl">4.62</span>,<span class="fl">3.03</span>,<span class="fl">1.68</span>,<span class="fl">1.02</span>,<span class="fl">0.46</span>,<span class="fl">0.25</span>) <span class="co"># catch at length bin l</span></span>
+<span id="cb45-7"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-8"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb45-9"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(c_l, <span class="at">xlab =</span> <span class="st">&quot;Length&quot;</span>,<span class="at">ylab =</span> <span class="st">&quot;Catch at l&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>) <span class="co"># catch at length</span></span>
+<span id="cb45-10"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-10" aria-hidden="true" tabindex="-1"></a>x_l <span class="ot">=</span> ((linf<span class="sc">-</span>l_l[<span class="sc">-</span><span class="fu">length</span>(l_l)]) <span class="sc">/</span> (linf <span class="sc">-</span> l_l[<span class="sc">-</span><span class="dv">1</span>]))<span class="sc">^</span>(m<span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span>k)) <span class="co"># vector of time needed to transition between length bins</span></span>
+<span id="cb45-11"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x_l, <span class="at">xlab =</span> <span class="st">&quot;ll - lu&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Time between ll to lu&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>) <span class="co"># so as you get bigger, it takes more time to transition</span></span>
+<span id="cb45-12"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-13"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-13" aria-hidden="true" tabindex="-1"></a>FLZL <span class="ot">=</span> <span class="fl">0.5</span> <span class="co"># terminal exploitation</span></span>
+<span id="cb45-14"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-14" aria-hidden="true" tabindex="-1"></a>NL <span class="ot">=</span> c_l[<span class="fu">length</span>(lbins)] <span class="sc">/</span> FLZL <span class="co"># estimate of terminal abundance</span></span>
+<span id="cb45-15"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-16"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-16" aria-hidden="true" tabindex="-1"></a><span class="co"># storage container</span></span>
+<span id="cb45-17"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-17" aria-hidden="true" tabindex="-1"></a>nl_mat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">nrow =</span> <span class="fu">length</span>(lbins))</span>
+<span id="cb45-18"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-18" aria-hidden="true" tabindex="-1"></a>nl_mat[<span class="dv">1</span>] <span class="ot">=</span> NL <span class="co"># terminal abundance</span></span>
+<span id="cb45-19"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-20"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-20" aria-hidden="true" tabindex="-1"></a><span class="co"># project cohort abundance back</span></span>
+<span id="cb45-21"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(l <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(lbins))  nl_mat[l] <span class="ot">=</span> ((nl_mat[l<span class="dv">-1</span>] <span class="sc">*</span> <span class="fu">rev</span>(x_l)[l<span class="dv">-1</span>]) <span class="sc">+</span> <span class="fu">rev</span>(c_l)[l<span class="dv">-2</span><span class="sc">+</span><span class="dv">2</span>]) <span class="sc">*</span> <span class="fu">rev</span>(x_l)[l<span class="dv">-1</span>]</span>
+<span id="cb45-22"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb45-22" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">rev</span>(nl_mat), <span class="at">xlab =</span> <span class="st">&quot;Length&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Numbers at length&quot;</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>)</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+</div>
+<div id="catch-length-analysis-and-length-based-stock-synthesis" class="section level4 hasAnchor" number="1.9.5.2">
+<h4><span class="header-section-number">1.9.5.2</span> Catch-Length Analysis and Length-Based Stock Synthesis<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#catch-length-analysis-and-length-based-stock-synthesis" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Considering that the length-based cohort VPA method requires you to assume stationary recruitment and growth, this is a very strict assumption. Thus, we will use some other length-based methods to get around this issue.</p>
+<div id="catch-length-analysis" class="section level5 hasAnchor" number="1.9.5.2.1">
+<h5><span class="header-section-number">1.9.5.2.1</span> Catch-Length Analysis<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#catch-length-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>For catch-length analysis, the population model is as such:
+<span class="math display">\[\begin{equation}
+\boldsymbol{N_{t+1}} = \boldsymbol{PS_tN_t} +  \boldsymbol{R_{t+1}} + \boldsymbol{w_t}
+\end{equation}\]</span></p>
+<p>where this extends it to incorporate a white noise error term <span class="math inline">\(\boldsymbol{w_t}\)</span> where <span class="math inline">\(\boldsymbol{S_t}\)</span> is the survival-at-length and is time-varying. Here, recruitment is <span class="math inline">\(\boldsymbol{R_{t+1}}\)</span> is modelled using a temporal component as well as a length component:</p>
+<p><span class="math display">\[\begin{equation}
+R_{l,t} = R_t p_l
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(p_l\)</span> essentially distributes the lengths of recruitment. <span class="math inline">\(p_l\)</span> can be represented with a gamma distribution, which reduces the number of parameters needed to be estimated. The mortality the submodel is similar to catch-at-age analysis:</p>
+<p><span class="math display">\[\begin{equation}
+C_{l,t} = \frac{F_ts_l}{F_ts_l + M_l} N_{l,t} (1-exp(-(F_ts_l + M_l)))
+\end{equation}\]</span></p>
+<p>where selectivity <span class="math inline">\(s_l\)</span> can be modeled using a variety of parameteric and non-parmetric forms. Additionally, <span class="math inline">\(\boldsymbol{S} = S_{l,t}\)</span> where <span class="math inline">\(S\)</span> is the survival at length and time. To obtain the lower triangular togrowth transition matrix <span class="math inline">\(\boldsymbol{P}\)</span>, we can use some stochastic growth model, to find the proportion of individuals that survive from length class <span class="math inline">\(l\)</span> to <span class="math inline">\(m\)</span> (<span class="math inline">\(P_{m,l}\)</span>). If <span class="math inline">\(l_l\)</span> and <span class="math inline">\(l_u\)</span> are two ends of the length class, then <span class="math inline">\(l^*\)</span> is the midpoint and the expect length change or growth increment over one time period is:</p>
+<p><span class="math display">\[\begin{equation}
+\overline{\Delta_l} = (L_\infty - l^*)(1-e^{-\kappa})
+\end{equation}\]</span></p>
+<p>wherein, if we assume a vonB relationship, as your sizes get older, your growth increments are going to get smaller. Thus, the expected length of a fish of mid-length <span class="math inline">\(l^*\)</span> is:</p>
+<p><span class="math display">\[\begin{equation}
+E(x) = l^* + \overline{\Delta_l}
+\end{equation}\]</span></p>
+<p>which is basically the mid-point length plus whatever the growth increment is.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb46-1" aria-hidden="true" tabindex="-1"></a>ll <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">30</span>, <span class="dv">1</span>) <span class="co"># lower</span></span>
+<span id="cb46-2"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb46-2" aria-hidden="true" tabindex="-1"></a>lu <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">2</span>, <span class="dv">31</span>, <span class="dv">1</span>) <span class="co"># upper</span></span>
+<span id="cb46-3"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb46-3" aria-hidden="true" tabindex="-1"></a>lstar <span class="ot">=</span> (ll <span class="sc">+</span> lu ) <span class="sc">/</span> <span class="dv">2</span> <span class="co"># midpoitns</span></span>
+<span id="cb46-4"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb46-4" aria-hidden="true" tabindex="-1"></a>linf <span class="ot">=</span> <span class="dv">30</span>; kappa <span class="ot">=</span> <span class="fl">0.1</span> <span class="co"># vonB pars</span></span>
+<span id="cb46-5"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb46-6"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb46-6" aria-hidden="true" tabindex="-1"></a>growth_inc <span class="ot">=</span> (linf <span class="sc">-</span> lstar) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>kappa)) <span class="co"># growth increment</span></span>
+<span id="cb46-7"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lstar, growth_inc, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Midpoint Length&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Growth Increment&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>)</span>
+<span id="cb46-8"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lstar <span class="sc">+</span> growth_inc, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Midpoint Length&quot;</span>,  <span class="at">ylab =</span> <span class="st">&quot;Expected Size&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>)</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p>Stochasticity in this growth transition matrix is then incorporated into the midpoints of the lengths using a gamma distribution:</p>
+<p><span class="math display">\[\begin{equation}
+g(x|\alpha_l,\beta) = \frac{1}{\beta^{\alpha_l}\Gamma(\alpha_l)} x^{\alpha_l - 1}e^{-x\beta}
+\end{equation}\]</span></p>
+<p>where our size is our random variable. Here, we model <span class="math inline">\(\alpha_l\)</span> as a function of size classes, as it scales our estimate of size to the appropriate units, while we model <span class="math inline">\(\beta\)</span> as length indpendent (governs the descending limb) because of model confounding and parsimony. Thus, <span class="math inline">\(E(x_l) = \alpha_l\beta\)</span> and <span class="math inline">\(V(x_l) = \alpha_l\beta^2\)</span> following the properties of a gamma distribution. If we equate the two expected value equations together, we get:</p>
+<p><span class="math display">\[\begin{equation}
+\alpha_l\beta = l^* + \overline{\Delta_l} \\
+\alpha_l = \frac{l^* + \overline{\Delta_l}}{\beta} \\
+\alpha_l = \frac{l^* + (L_\infty - l^*)(1-e^{-\kappa})}{\beta}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\alpha_l\)</span> is really just a function of the vonB parameters. To finish this up, if the lengths are <span class="math inline">\(m_l\)</span> and <span class="math inline">\(m_u\)</span>, then the growth transition matrix can be written by integrating the gamma distribution:</p>
+<p><span class="math display">\[\begin{equation}
+P_{m,l} = \int_{m_l}^{m_u} g(x|\alpha_l,\beta)dx
+\end{equation}\]</span></p>
+<p>which is basically integrating the cdf and tells us that if we are of size class <span class="math inline">\(x\)</span>, what is the probability of moving from <span class="math inline">\(m_l\)</span> to <span class="math inline">\(m_u\)</span>. The predicted catch-at-length is then:</p>
+<p><span class="math display">\[\begin{equation}
+C_{l,t} = \frac{F_{l,t}}{Z_{l,t}} N_{l,t} (1 - e^{-Z_{l,t}})
+\end{equation}\]</span></p>
+<p>which is our basic Baranaov equation - additive error or lognormal error can be easily incorporated by fitting this to some likelihood function. Thus, this catch-length model depends on: 1) estimated recruitments wherein they are distributed using <span class="math inline">\(p_l\)</span> which can be modelled with some parametric form, 2) initial population vector, 3) annual fishing mortality multiplier, 4) selectivity-at-length, 5) natural mortality-at-length, and 6) growth parameters to construct the growth transition matrix (<span class="math inline">\(L_\infty,\kappa, \beta,\alpha_l\)</span>).</p>
+<p>In this model, other auxillary data is needed to fit this, such as fishing effort <span class="math inline">\(F_t = qE_te^{\epsilon_t}\)</span> and indices of abundance from a survey. The catch-length model is a state-space model given that the abundance process equation has deviates to it. Minimization is done using a Kalman-Filter as described by the book, but can easily be extended to Laplace Approximation using recent tools. Using simulated data, the book states that the value of <span class="math inline">\(\beta\)</span> describing the shape of the growth transition matrix should probably be fixed, given difficulty in estimation procedures. Additionally, they note that the recruitment proportion at length distribution should be carefully modeled. A brief example (not a full analysis) is provided below in terms of how to estiamte <span class="math inline">\(\alpha_l\)</span> when <span class="math inline">\(\beta\)</span> is known and what the growth transition matrix looks like.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb47-1" aria-hidden="true" tabindex="-1"></a>linf <span class="ot">=</span> <span class="dv">100</span> <span class="co"># inf</span></span>
+<span id="cb47-2"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb47-2" aria-hidden="true" tabindex="-1"></a>k <span class="ot">=</span> <span class="fl">0.2</span> <span class="co"># kappa</span></span>
+<span id="cb47-3"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb47-3" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">=</span> <span class="dv">2</span> <span class="co"># beta for growth transition </span></span>
+<span id="cb47-4"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb47-4" aria-hidden="true" tabindex="-1"></a>ll <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">18.1</span>, <span class="dv">30</span>, <span class="dv">45</span>, <span class="dv">55</span>, <span class="dv">75</span>) <span class="co"># lower l</span></span>
+<span id="cb47-5"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb47-5" aria-hidden="true" tabindex="-1"></a>lu <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">45</span>, <span class="dv">55</span>, <span class="dv">75</span>, <span class="dv">125</span>) <span class="co"># uppper l</span></span>
+<span id="cb47-6"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb47-6" aria-hidden="true" tabindex="-1"></a>lstar <span class="ot">=</span> (ll <span class="sc">+</span> lu) <span class="sc">/</span> <span class="dv">2</span> <span class="co"># midpint</span></span>
+<span id="cb47-7"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb47-7" aria-hidden="true" tabindex="-1"></a>grw_inc <span class="ot">=</span> (linf <span class="sc">-</span> lstar) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k)) <span class="co"># growth increment</span></span>
+<span id="cb47-8"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb47-8" aria-hidden="true" tabindex="-1"></a>e_x <span class="ot">=</span> lstar <span class="sc">+</span> grw_inc <span class="co"># get expected size</span></span>
+<span id="cb47-9"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(e_x, <span class="at">xlab =</span> <span class="st">&quot;Index&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;E(size)&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p>The plots below this show a subset of <span class="math inline">\(\alpha_l\)</span> arising from some gamma distribution.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-1" aria-hidden="true" tabindex="-1"></a>linf <span class="ot">=</span> <span class="dv">100</span> <span class="co"># inf</span></span>
+<span id="cb48-2"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-2" aria-hidden="true" tabindex="-1"></a>k <span class="ot">=</span> <span class="fl">0.2</span> <span class="co"># kappa</span></span>
+<span id="cb48-3"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-3" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">=</span> <span class="dv">2</span> <span class="co"># beta for growth transition </span></span>
+<span id="cb48-4"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-4" aria-hidden="true" tabindex="-1"></a>ll <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">18.1</span>, <span class="dv">30</span>, <span class="dv">45</span>, <span class="dv">55</span>, <span class="dv">75</span>) <span class="co"># lower l</span></span>
+<span id="cb48-5"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-5" aria-hidden="true" tabindex="-1"></a>lu <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">45</span>, <span class="dv">55</span>, <span class="dv">75</span>, <span class="dv">125</span>) <span class="co"># uppper l</span></span>
+<span id="cb48-6"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-6" aria-hidden="true" tabindex="-1"></a>lstar <span class="ot">=</span> (ll <span class="sc">+</span> lu) <span class="sc">/</span> <span class="dv">2</span> <span class="co"># midpint</span></span>
+<span id="cb48-7"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-7" aria-hidden="true" tabindex="-1"></a>grw_inc <span class="ot">=</span> (linf <span class="sc">-</span> lstar) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k)) <span class="co"># growth increment</span></span>
+<span id="cb48-8"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-8" aria-hidden="true" tabindex="-1"></a>e_x <span class="ot">=</span> lstar <span class="sc">+</span> grw_inc <span class="co"># get expected size</span></span>
+<span id="cb48-9"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-9" aria-hidden="true" tabindex="-1"></a>alpha_l <span class="ot">=</span>( lstar <span class="sc">+</span> (linf <span class="sc">-</span> lstar) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k)))<span class="sc">/</span> beta</span>
+<span id="cb48-10"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-10" aria-hidden="true" tabindex="-1"></a>sd_x <span class="ot">=</span> <span class="fu">sqrt</span>(alpha_l <span class="sc">*</span> beta<span class="sc">^</span><span class="dv">2</span>) <span class="co"># starandard deviation based on variance of gamma</span></span>
+<span id="cb48-11"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(alpha_l)) {</span>
+<span id="cb48-12"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">==</span> <span class="dv">1</span>) <span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rgamma</span>(<span class="fl">1e4</span>, alpha_l[i], beta)), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">40</span>), <span class="at">xlab =</span> <span class="st">&quot;Size&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Growth Transitions&quot;</span>)</span>
+<span id="cb48-13"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="fu">lines</span>(<span class="fu">density</span>(<span class="fu">rgamma</span>(<span class="fl">1e4</span>, alpha_l[i], beta)))</span>
+<span id="cb48-14"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+</div>
+<div id="length-based-stock-synthesis" class="section level5 hasAnchor" number="1.9.5.2.2">
+<h5><span class="header-section-number">1.9.5.2.2</span> Length-based stock synthesis<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#length-based-stock-synthesis" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>The population dynamics here remain fundamentally age-based instead of length-based as in the previous section. Instead, a length-age transition matrix is used to determine and convert between lengths and ages. The age-length transition matrix (proportion of fish of age <span class="math inline">\(a\)</span> in length class <span class="math inline">\(l\)</span>) is constructed assuming a normal distribution about the mean, and using the normal cdf method will work to calculate this. In these methods, gear-selectivity is length-based instead of age-based and is calculated fairly easily:</p>
+<p><span class="math display">\[\begin{equation}
+s_a = \sum_l s_l \psi_{l,a}
+\end{equation}\]</span></p>
+<p>Starting from the base, average abundance-at-length is:</p>
+<p><span class="math display">\[\begin{equation}
+\overline{N_{l,t}} = \sum_a \psi_{l,a} \overline{N_{a,t}}
+\end{equation}\]</span></p>
+<p>which is essentially just a weighted sum. The catch distribution of lengths in proportions is then:</p>
+<p><span class="math display">\[\begin{equation}
+\alpha_{l,t} = s_l\overline{N_{l,t}} / \sum_l \overline{N_{l,t}}
+\end{equation}\]</span></p>
+<p>and the age distribution of these catches are approximately:</p>
+<p><span class="math display">\[\begin{equation}
+\theta_{la,t} = s_a\overline{N_{a,t}} / \sum_a \overline{N_{a,t}}
+\end{equation}\]</span></p>
+<p>note that these are average age distributions because size-selectivity does not directly map to age-based selectivity. Lastly then, the catch-at-length can be calculated as such:
+<span class="math display">\[\begin{equation}
+C_{l,t} = \alpha_{l,t}C_t
+\end{equation}\]</span></p>
+<p>which is just distributing the catches across the catch distribution of lengths. If this is entirely length-based, the following is equivalent in terms of age-based yield vs. length-based yield:</p>
+<p><span class="math display">\[\begin{equation}
+Y_t = \sum_a W_a N_{a,t} = \sum_l W_l N_{l,t}
+\end{equation}\]</span></p>
+<p>where we would be using a weight-length relationship to fit to yield instead of a weight-age relationship. Continuing some of the readings, the book discusses the idea of vulnerability in stock assessment models, which is modelled as such (<span class="math inline">\(v_a\)</span>):</p>
+<p><span class="math display">\[\begin{equation}
+N_{a+1,t+1} = N_{a,t}[(1-v_a)e^{-M_{a,t}} + v_a e^{-Z_{a,t}}] \\
+C_{a,t} = v_a \frac{F_{a,t}}{Z_{a,t}} (1 - e^{-Z_{a,t}}) N_{a,t}
+\end{equation}\]</span></p>
+<p>where if vulnerability is 1, then it decomposes to the Baranov equation. However, we seldom have information on availability (i.e., information on where that portion of the stock is at that time in point where we are fishing) and estimate both selectivity and vulnerability is confounded and difficult. Thus, we tend to subsume them into one selectivity term (contact and vulnerability/availability).</p>
+<p>They also discuss that back in the day, SS started out the model using pristine equilibrium age-structure to reduce parameter estimation. However, I don’t think any study has really tried to look at the effects of these initial conditions - i.e., equilibrium when there is stochastic, when there is fishing prior to this, etc. I generally think it would be interesting (I don’t its been done) using a age-based length-structured model, entirely length-based model and how the model performance might vary depending on the types of data provided to the assessment. In general, the length-based models are a bit more complex, given the need to distribute recruitment across a proportion of bins and the need to model the growth-transition matrix as a gamma distribution.</p>
+</div>
+</div>
 </div>
 </div>
 <div id="chapter-10-migration-movement-and-other-spatiotemporal-considerations" class="section level2 hasAnchor" number="1.10">

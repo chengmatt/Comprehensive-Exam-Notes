@@ -125,6 +125,15 @@ catch-length-analysis-and-length-based-stock-synthesis
 catch-length-analysis
 length-based-stock-synthesis
 chapter-10-migration-movement-and-other-spatiotemporal-considerations
+population-models
+deterministic-model-non-age-structured-population
+difference-models
+diffusion-models
+basin-models
+stochastic-model-non-age-structured-populations
+age-structured-populations
+estimation-of-migration
+darrochs-method
 chapter-11-optimal-harvesting
 broad-comprehensive-exam-questions-outlines
 catch-per-unit-effort-data

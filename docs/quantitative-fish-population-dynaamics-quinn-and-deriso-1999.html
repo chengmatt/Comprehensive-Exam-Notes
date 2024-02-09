@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew LH. Cheng" />
 
 
-<meta name="date" content="2024-02-06" />
+<meta name="date" content="2024-02-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -234,7 +234,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.9.4" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#stochastic-models"><i class="fa fa-check"></i><b>1.9.4</b> Stochastic Models</a></li>
 <li class="chapter" data-level="1.9.5" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#length-based-assessment-methods"><i class="fa fa-check"></i><b>1.9.5</b> Length-Based Assessment Methods</a></li>
 </ul></li>
-<li class="chapter" data-level="1.10" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#chapter-10-migration-movement-and-other-spatiotemporal-considerations"><i class="fa fa-check"></i><b>1.10</b> Chapter 10 (Migration Movement and Other Spatiotemporal Considerations)</a></li>
+<li class="chapter" data-level="1.10" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#chapter-10-migration-movement-and-other-spatiotemporal-considerations"><i class="fa fa-check"></i><b>1.10</b> Chapter 10 (Migration Movement and Other Spatiotemporal Considerations)</a>
+<ul>
+<li class="chapter" data-level="1.10.1" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#population-models"><i class="fa fa-check"></i><b>1.10.1</b> Population Models</a></li>
+<li class="chapter" data-level="1.10.2" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#estimation-of-migration"><i class="fa fa-check"></i><b>1.10.2</b> Estimation of Migration</a></li>
+</ul></li>
 <li class="chapter" data-level="1.11" data-path="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#chapter-11-optimal-harvesting"><i class="fa fa-check"></i><b>1.11</b> Chapter 11 (Optimal Harvesting)</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="broad-comprehensive-exam-questions-outlines.html"><a href="broad-comprehensive-exam-questions-outlines.html"><i class="fa fa-check"></i><b>2</b> Broad Comprehensive Exam Questions + Outlines</a>
@@ -2672,7 +2676,6 @@ N_a = N_{a+\tau}e^{M\tau} + C_a e^{M\tau/2}
 <p>So replacing this equation into our backwards recursive equations, we are going to get:
 <span class="math display">\[\begin{equation}
 N_l = (N_{l+1}X_l + C_l)X_l \\
-X_l = exp(M\tau) \\
 X_l = (\frac{L_\infty - l_l}{L_\infty - l_u})^{M/2\kappa}
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(N_l\)</span> is the abundance at length class <span class="math inline">\(l\)</span>. To do these back-calculations, we have to start at the last length bin <span class="math inline">\(L\)</span>, using the equations from defining the abundance of the plus group in our cohort analysis:
@@ -2681,8 +2684,8 @@ N_L = C_L / (F_L/Z_L)
 \end{equation}\]</span></p>
 <p>and following that, we can back calculate the abundance at the start of the other length-classes:
 <span class="math display">\[\begin{equation}
-N_l = (N_LX_l + C_)X_l \\
-N_l = (N_{l+1}X_l + C_l)X_l
+N_l = (N_LX_l + C_L)X_l \\
+N_l = (N_{L}X_l + C_l)X_l
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(N_{l+1}X_l\)</span> essentially tells us the time it would take for <span class="math inline">\(N_l\)</span> to grow to <span class="math inline">\(N_L\)</span> with some natural mortality baked into it. Fishing mortality and resultant population averages can then be calculated as:
 <span class="math display">\[\begin{equation}
@@ -2741,7 +2744,7 @@ C_{l,t} = \frac{F_ts_l}{F_ts_l + M_l} N_{l,t} (1-exp(-(F_ts_l + M_l)))
 <p><span class="math display">\[\begin{equation}
 E(x) = l^* + \overline{\Delta_l}
 \end{equation}\]</span></p>
-<p>which is basically the mid-point length plus whatever the growth increment is.</p>
+<p>which is basically the mid-point length plus whatever the growth increment is. The latter part of this is where our stochasticity for an individual is midlength gets incorporated (similar to an error term in regression).</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb46-1" aria-hidden="true" tabindex="-1"></a>ll <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">30</span>, <span class="dv">1</span>) <span class="co"># lower</span></span>
 <span id="cb46-2"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb46-2" aria-hidden="true" tabindex="-1"></a>lu <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">2</span>, <span class="dv">31</span>, <span class="dv">1</span>) <span class="co"># upper</span></span>
 <span id="cb46-3"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb46-3" aria-hidden="true" tabindex="-1"></a>lstar <span class="ot">=</span> (ll <span class="sc">+</span> lu ) <span class="sc">/</span> <span class="dv">2</span> <span class="co"># midpoitns</span></span>
@@ -2755,7 +2758,7 @@ E(x) = l^* + \overline{\Delta_l}
 <p><span class="math display">\[\begin{equation}
 g(x|\alpha_l,\beta) = \frac{1}{\beta^{\alpha_l}\Gamma(\alpha_l)} x^{\alpha_l - 1}e^{-x\beta}
 \end{equation}\]</span></p>
-<p>where our size is our random variable. Here, we model <span class="math inline">\(\alpha_l\)</span> as a function of size classes, as it scales our estimate of size to the appropriate units, while we model <span class="math inline">\(\beta\)</span> as length indpendent (governs the descending limb) because of model confounding and parsimony. Thus, <span class="math inline">\(E(x_l) = \alpha_l\beta\)</span> and <span class="math inline">\(V(x_l) = \alpha_l\beta^2\)</span> following the properties of a gamma distribution. If we equate the two expected value equations together, we get:</p>
+<p>where our size is our random variable. Note that here, the random variable is size and not the growth increments. Similar models can be used (i.e., normal likelihood) as well as other growth models. Here, we model <span class="math inline">\(\alpha_l\)</span> as a function of size classes, as it scales our estimate of size to the appropriate units, while we model <span class="math inline">\(\beta\)</span> as length indpendent (governs the descending limb) because of model confounding and parsimony. Thus, <span class="math inline">\(E(x_l) = \alpha_l\beta\)</span> and <span class="math inline">\(V(x_l) = \alpha_l\beta^2\)</span> following the properties of a gamma distribution. If we equate the two expected value equations together, we get:</p>
 <p><span class="math display">\[\begin{equation}
 \alpha_l\beta = l^* + \overline{\Delta_l} \\
 \alpha_l = \frac{l^* + \overline{\Delta_l}}{\beta} \\
@@ -2781,7 +2784,7 @@ C_{l,t} = \frac{F_{l,t}}{Z_{l,t}} N_{l,t} (1 - e^{-Z_{l,t}})
 <span id="cb47-8"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb47-8" aria-hidden="true" tabindex="-1"></a>e_x <span class="ot">=</span> lstar <span class="sc">+</span> grw_inc <span class="co"># get expected size</span></span>
 <span id="cb47-9"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(e_x, <span class="at">xlab =</span> <span class="st">&quot;Index&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;E(size)&quot;</span>, <span class="at">lwd =</span> <span class="dv">5</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span></code></pre></div>
 <p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
-<p>The plots below this show a subset of <span class="math inline">\(\alpha_l\)</span> arising from some gamma distribution.</p>
+<p>The plots below this show a subset of <span class="math inline">\(\alpha_l\)</span> arising from some gamma distribution. Note that the expectation of the gamma in terms of sizes are equal to <span class="math inline">\(E(x) = l^* + \overline{\Delta_l}\)</span></p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-1" aria-hidden="true" tabindex="-1"></a>linf <span class="ot">=</span> <span class="dv">100</span> <span class="co"># inf</span></span>
 <span id="cb48-2"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-2" aria-hidden="true" tabindex="-1"></a>k <span class="ot">=</span> <span class="fl">0.2</span> <span class="co"># kappa</span></span>
 <span id="cb48-3"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-3" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">=</span> <span class="dv">2</span> <span class="co"># beta for growth transition </span></span>
@@ -2793,8 +2796,8 @@ C_{l,t} = \frac{F_{l,t}}{Z_{l,t}} N_{l,t} (1 - e^{-Z_{l,t}})
 <span id="cb48-9"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-9" aria-hidden="true" tabindex="-1"></a>alpha_l <span class="ot">=</span>( lstar <span class="sc">+</span> (linf <span class="sc">-</span> lstar) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k)))<span class="sc">/</span> beta</span>
 <span id="cb48-10"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-10" aria-hidden="true" tabindex="-1"></a>sd_x <span class="ot">=</span> <span class="fu">sqrt</span>(alpha_l <span class="sc">*</span> beta<span class="sc">^</span><span class="dv">2</span>) <span class="co"># starandard deviation based on variance of gamma</span></span>
 <span id="cb48-11"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(alpha_l)) {</span>
-<span id="cb48-12"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">==</span> <span class="dv">1</span>) <span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rgamma</span>(<span class="fl">1e4</span>, alpha_l[i], beta)), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">40</span>), <span class="at">xlab =</span> <span class="st">&quot;Size&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Growth Transitions&quot;</span>)</span>
-<span id="cb48-13"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="fu">lines</span>(<span class="fu">density</span>(<span class="fu">rgamma</span>(<span class="fl">1e4</span>, alpha_l[i], beta)))</span>
+<span id="cb48-12"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">==</span> <span class="dv">1</span>) <span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rgamma</span>(<span class="fl">1e4</span>, alpha_l[i], <span class="dv">1</span><span class="sc">/</span>beta)), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">140</span>), <span class="at">xlab =</span> <span class="st">&quot;Size&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Growth Transitions&quot;</span>)</span>
+<span id="cb48-13"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="fu">lines</span>(<span class="fu">density</span>(<span class="fu">rgamma</span>(<span class="fl">1e4</span>, alpha_l[i], <span class="dv">1</span><span class="sc">/</span>beta))) <span class="co"># rgamma uses a weird parameterization of the scale</span></span>
 <span id="cb48-14"><a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#cb48-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><img src="01-Quinn-and-Deriso-1999_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
 </div>
@@ -2837,6 +2840,113 @@ C_{a,t} = v_a \frac{F_{a,t}}{Z_{a,t}} (1 - e^{-Z_{a,t}}) N_{a,t}
 </div>
 <div id="chapter-10-migration-movement-and-other-spatiotemporal-considerations" class="section level2 hasAnchor" number="1.10">
 <h2><span class="header-section-number">1.10</span> Chapter 10 (Migration Movement and Other Spatiotemporal Considerations)<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#chapter-10-migration-movement-and-other-spatiotemporal-considerations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="population-models" class="section level3 hasAnchor" number="1.10.1">
+<h3><span class="header-section-number">1.10.1</span> Population Models<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#population-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Migration can be based either on annual or instantaneous rates, which depends on if we are modeling movement as a continuous or discrete process. The book describes movement as an instantaneous process, where the notation is moving from region <span class="math inline">\(i\)</span> to region <span class="math inline">\(j\)</span> (<span class="math inline">\(\psi_{i \rightarrow j}\)</span>). Thus, the instantaneous exit rate is:</p>
+<p><span class="math display">\[\begin{equation}
+\psi_i^* = \sum_{i\neq j} \psi_{i \rightarrow j}
+\end{equation}\]</span></p>
+<p>where the above is the sum of all movements away from <span class="math inline">\(i\)</span>. Similarly, the annual rate of movement (not instantaneous) is also denoted as the equation above:</p>
+<p><span class="math display">\[\begin{equation}
+\theta_i^* = \sum_{i\neq j} \theta_{i \rightarrow j}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\theta_i^*\)</span> is the annual movement rate away from region <span class="math inline">\(i\)</span>. The proportion of individuals in a given year staying in region <span class="math inline">\(i\)</span> would then be:
+<span class="math display">\[\begin{equation}
+\theta_{i \rightarrow i} = 1 - \theta_i^* = 1 - \sum_{i\neq j} \theta_{i \rightarrow j}
+\end{equation}\]</span></p>
+<div id="deterministic-model-non-age-structured-population" class="section level4 hasAnchor" number="1.10.1.1">
+<h4><span class="header-section-number">1.10.1.1</span> Deterministic Model, Non-Age-Structured Population<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#deterministic-model-non-age-structured-population" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>In this model, time is continuous and so instantaneous rates are used <span class="math inline">\(\psi\)</span>. Here, subscript <span class="math inline">\(i\)</span> will denote the region and we have region specific parameters (<span class="math inline">\(r_i\)</span> - growth rates, <span class="math inline">\(K_i\)</span> - carrying capacity, and <span class="math inline">\(N_i\)</span> - numbers). The model below is basically a logistic growth model, but incorporating movement dynamics:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{dN_i}{dt} = r_iN_i(1 - \frac{N_i}{K_i}) - \sum_{i\neq j}^R \psi_{i \rightarrow j} N_i + \sum_{i\neq j}^R \psi_{j \rightarrow i} N_j
+\end{equation}\]</span></p>
+<p>where the first term is the rate of increase for region <span class="math inline">\(i\)</span>, the second term denotes the number of individuals leaving from region <span class="math inline">\(i\)</span>, and the third term denotes the number of individuals entering region <span class="math inline">\(i\)</span> from region <span class="math inline">\(j\)</span>. Like other models, this can be written in a difference equation form and these types of models are called compartmental models, where the modelling of a process is account for as separate components.</p>
+<p>This can also be written as a function of exit rates <span class="math inline">\(\psi_i^*\)</span>:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{dN_i}{dt} = r_iN_i(1 - \frac{N_i}{K_i}) - \sum_{i\neq j}^R \psi_{i \rightarrow j} N_i + \sum_{i\neq j}^R \psi_{j \rightarrow i} N_j \\
+\frac{dN_i}{dt} = r_iN_i- \frac{r_iN_i^2}{K_i}) - \psi_i^* N_i + \sum_{i\neq j}^R \psi_{j \rightarrow i} N_j \\
+\frac{dN_i}{dt} = (r_i - \psi_i^*)N_i - \frac{r_iN_i^2}{K_i} + \sum_{i\neq j}^R \psi_{j \rightarrow i} N_j
+\end{equation}\]</span></p>
+<p>An important assumption here is that movement rates follow a Markovian process. That is to say, movement is only a function of the region the individual is in and does not account for previous states, which could be unrealistic if site fidelity or natal homing is a potential mechanism (e.g., Pacific Cod).</p>
+<p>A generalization of this model by allowing for exponential dynamics is by allowing no carrying capacity <span class="math inline">\(K_i \rightarrow \infty\)</span>, resulting in:
+<span class="math display">\[\begin{equation}
+\frac{dN_i}{dt} = (r_i - \psi_i^*)N_i + \sum_{i\neq j}^R \psi_{j \rightarrow i} N_j \\
+\frac{dN_i}{dt} = \kappa_iN_i + \sum_{i\neq j}^R \psi_{j \rightarrow i} N_j \\
+\end{equation}\]</span></p>
+<p>this model can be written in a nice matrix form as: <span class="math inline">\(\boldsymbol{dN/dt} = \boldsymbol{\Psi N}\)</span> where the first row of the first vector here would be the change in abundance of region <span class="math inline">\(i\)</span> (<span class="math inline">\(dN_i/dt\)</span>), the rows of matrix <span class="math inline">\(\boldsymbol{\Psi}\)</span> for the first row would tell you the number of fish that grew as well as are leaving region <span class="math inline">\(i\)</span> and the remaining elements in that first row would allow you to do a dot product to sum up all the individuals in other regions <span class="math inline">\(j\)</span> moving into region <span class="math inline">\(i\)</span> (see page 401 for a nice compact description). This differential equation results in the following solution:</p>
+<p><span class="math display">\[\begin{equation}
+\boldsymbol{dN/dt} = \boldsymbol{\Psi N} \\
+\boldsymbol{dN/N} = \boldsymbol{\Psi dt} \\
+\boldsymbol{log(N) - log(N_0)} = \boldsymbol{\Psi t} \\
+\boldsymbol{N} = \boldsymbol{e^{\Psi t}N_0} \\
+\boldsymbol{N} = \boldsymbol{RN_{t-1}}
+\end{equation}\]</span></p>
+<p>which is just our common solution for exponential growth and the exponential term is a Taylor series.</p>
+</div>
+<div id="difference-models" class="section level4 hasAnchor" number="1.10.1.2">
+<h4><span class="header-section-number">1.10.1.2</span> Difference models<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#difference-models" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Difference models for these dynamics are much more tractable and easier to understand. If we assume that the order of dynamics is: 1) harvest, 2) natural mortality, 3) movement, then this model is written as:</p>
+<p><span class="math display">\[\begin{equation}
+N_{i,t+1} \sum_{j=1}^R N_{j,t} (1 - \mu_{j,t})l_j \theta_{j \rightarrow i} + R_{i,t}
+\end{equation}\]</span></p>
+<p>where this is in units of annual movement. Here, we have $ N_{j,t} (1 - _{j,t})$, which represents the number of individuals surviving exploitation, multiplied by <span class="math inline">\(l_j\)</span> the natural survival after exploitation, and then multiplied by the number of individuals that move from <span class="math inline">\(j \rightarrow i\)</span> (<span class="math inline">\(\theta_{j \rightarrow i}\)</span>; incorporates both emigration and immigration dynamics), lastly adding in recruitment into the region <span class="math inline">\(i\)</span>. Because movement dynamics are annual, the rows of the matrix should sum to 1.</p>
+</div>
+<div id="diffusion-models" class="section level4 hasAnchor" number="1.10.1.3">
+<h4><span class="header-section-number">1.10.1.3</span> Diffusion models<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#diffusion-models" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Instead of a difference model, we can model movement using partial differential equations along three dimensions in continuous space. These three dimensions are <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, and time, where <span class="math inline">\(x,y\)</span> are different positions for which the individual is in (does not need to be coordinates). In the form of a partial differential equation, this is:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{\partial N(x, y, t)}{\partial t} = -M N + D \left( \frac{\partial^2 N(x, y, t)}{\partial x^2} + \frac{\partial^2 N(x, y, t)}{\partial y^2} \right)
+\end{equation}\]</span></p>
+<p>where the first term <span class="math inline">\(\frac{\partial N(x, y, t)}{\partial t}\)</span> is a partial derivative with respect to time (i.e., how does abundance change at a given point), the second term is just our decay from natural mortality <span class="math inline">\(-M N\)</span>, and the third term is our diffusion of individuals in two dimensional space. For <span class="math inline">\(\frac{\partial^2 N(x, y, t)}{\partial x^2}\)</span>, it measures the curvature of abundance along the <span class="math inline">\(x\)</span> axis, while <span class="math inline">\(\frac{\partial^2 N(x, y, t)}{\partial y^2}\)</span> measures that along the <span class="math inline">\(y\)</span> axis. This is then added and multiplied by our diffusion coefficient <span class="math inline">\(D\)</span> (how fast <span class="math inline">\(N\)</span> moves through <span class="math inline">\(x,y\)</span> space) to get an estimate of the total change in spatial contribution by <span class="math inline">\(N\)</span> over time (i.e., how does the concentration of <span class="math inline">\(N\)</span> vary across space). So if the partial second derivatives are large in that third term, it indicates that individuals are more concentrated along a given axis and will. However, this model does not distinguish between specific directions and exhibits isotropic movements. Hilborn wrote this into a difference equation, but this is not numerically stable (see eq 10.14) because the terms on the RHS of the PDE are approximated by being dependent on previous states of the system.</p>
+</div>
+<div id="basin-models" class="section level4 hasAnchor" number="1.10.1.4">
+<h4><span class="header-section-number">1.10.1.4</span> Basin models<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#basin-models" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>MacCall developed a model that uses the theory that some areas are more suitable in terms of habitat than others, so fish movement are related to habitat suitability. A population at low levels will move towards suitable habitat and as the population increases, these habitats become less suitable, and the population will expand into less suitable habitats. The dynamics here are a logistic model:
+<span class="math display">\[\begin{equation}
+\frac{\partial N}{\partial t}\frac{1}{N} = r - bN - F
+\end{equation}\]</span></p>
+<p>where per-capita growth is <span class="math inline">\(r - bN\)</span> and is determined by habitat suitability (intrinsic growth) and carrying capacity. The movement process is then a diffusion process where migration is proportional to the gradient of the realized habitat suitability:</p>
+<p><span class="math display">\[\begin{equation}
+\frac{\partial N}{\partial t} = \kappa \frac{\partial^2 N}{\partial x^2} - V^{-1} \frac{\partial (r-bN)}{\partial x}\frac{\partial N}{\partial x} \\
+\frac{\partial N}{\partial t} = (r-b)N - FN + \kappa \frac{\partial^2 N}{\partial x^2} - V^{-1} \frac{\partial (r-bN)}{\partial x}\frac{\partial N}{\partial x}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\kappa\)</span> is the diffusion coefficient, and <span class="math inline">\(V\)</span> is constant population flow (viscosity) where your population into area <span class="math inline">\(x\)</span>. This forms what we know as our diffusion-advection models (first and second terms of derivatives). The advection piece follows a gradient of habitat suitability and abundance (first derivative), where if the gradients are large, it would drive directional movement due to sharp gradients in habitat suitability etc (outside or into a specific region), whereas if the gradients are small (e.g., smaller change in habitat suitability or abundance over changes in <span class="math inline">\(x\)</span>) your diffusive process would dominate more. The diffusion term is as above, where it measures the curvature/concentration of individuals in area <span class="math inline">\(x\)</span>. If you have very concentrated individuals/high curvature, then individuals are going to be spread away from high density to low density. Conversely, when individuals are less concentrated, they will spread from low to high density.</p>
+</div>
+<div id="stochastic-model-non-age-structured-populations" class="section level4 hasAnchor" number="1.10.1.5">
+<h4><span class="header-section-number">1.10.1.5</span> Stochastic Model, Non-Age Structured Populations<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#stochastic-model-non-age-structured-populations" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We will discuss the form of Deriso’s stochastic model instead of Grant here, as more in-depth detail is given. Here, we incorporated elements of natural mortality, fishing mortality, effort, and recruitment as a continuous diffusion process. Here, movement occurs at the start of the time interval and natural and fishing mortality occur simultaneously. This is in contrast to Hilborn’s method where it follows as harvest, natural mortality, and movement. Movement follows as:
+<span class="math display">\[\begin{equation}
+P^*_{j,t} = \sum_{i = 1}^R P_{i,t} \theta_{i \rightarrow j}
+\end{equation}\]</span></p>
+<p>which gives us the probability of being in region <span class="math inline">\(i\)</span> (<span class="math inline">\(P_{i,t}\)</span>) multiplied by the probability of moving from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span> (<span class="math inline">\(\theta_{i \rightarrow j}\)</span>) and <span class="math inline">\(P^*_{j,t}\)</span> is the probability of staying in region <span class="math inline">\(j\)</span>. This is basically the sum of all probabilities moving from region <span class="math inline">\(i \rightarrow j\)</span>. The probability of capture in region <span class="math inline">\(j\)</span> after movement is <span class="math inline">\(f_{j,t} = \mu_{j,t} P^*_{j,t}\)</span> and the probability of staying in region <span class="math inline">\(j\)</span> is then <span class="math inline">\(P_{j,t+1} = S_{j,t}P^*_{j,t}\)</span>, which is the probability of being in <span class="math inline">\(j\)</span> after movement and the probability of surviving in <span class="math inline">\(j\)</span>. In this model, movement probabilities are approximated with a continuous diffusion model, where the population is divided into equal-sized quadrants and fish are uniformly distributed. There is then a movement box for which are dimension ed at <span class="math inline">\(x,y\)</span> and individuals move about this quadrant based on angles, velocity, diffusion.</p>
+</div>
+<div id="age-structured-populations" class="section level4 hasAnchor" number="1.10.1.6">
+<h4><span class="header-section-number">1.10.1.6</span> Age-structured Populations<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#age-structured-populations" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>A simple extension without having to index areas is the Leslie matrix, wherein a single population is considered and the renewal process incorporates both recruitment and immigration, while subtractions incorporate deaths and emigration. The other more common approach is to stratify your age-structured population into different regions. In a hypothetical population with two regions, the number of age-1s is as follows:
+<span class="math display">\[\begin{equation}
+N_{1,t+1,i} = S_{0,i} \sum_a f_{a,i}N_{a,t,i}
+\end{equation}\]</span>
+which basically says that our contribution to region <span class="math inline">\(i\)</span> is a function of survival of eggs <span class="math inline">\(S_0\)</span> and the fecundity-at-age times numbers-at-age in region <span class="math inline">\(i\)</span>. The numbers-at-age for other age-classes then becomes a function of: 1) survival and 2) movement into and out of region <span class="math inline">\(i\)</span>:</p>
+<p><span class="math display">\[\begin{equation}
+N_{a+1,t+1,i} = S_{a,i} (N_{a,t,i} - N_{a,t,i}\theta_{a,i \rightarrow j} + N_{a,t,j}\theta_{a,j \rightarrow i}) = \\
+S_{a,i} (N_{a,t,i}(1 - \theta_{a,i \rightarrow j}) + N_{a,t,j}\theta_{a,j \rightarrow i}) = \\
+S_{a,i} (N_{a,t,i}\theta_{a,i \rightarrow i} + N_{a,t,j}\theta_{a,j \rightarrow i})
+\end{equation}\]</span></p>
+<p>which is just the number of individuals staying and the number of individuals from <span class="math inline">\(j\)</span> moving into <span class="math inline">\(i\)</span>. Combining across the areas to get total abundance, you just sum up area-specific abundances. If survival and fecundity are constant over regions, then this just reduces into a single-region Leslie matrix model. This can also be written into a Leslie matrix model format, where your numbers is a column vector indexed initially by region <span class="math inline">\(i\)</span> and region <span class="math inline">\(j\)</span> is stacked on the bottom. The projection matrix in a two-area model would be dimensioned as 2x2, although there is a nested matrix of movement and survival for a given region <span class="math inline">\(i,j\)</span> describing the dynamics of survival and fecundity within that (see page 409). The difference equations for multiple regions in this case is just:</p>
+<p><span class="math display">\[\begin{equation}
+N_{a+1,t+1,i} = S_{a,i} (N_{a,t,i}\theta_{a,i \rightarrow i} + \sum_{i \neq j} N_{a,t,j}\theta_{a,j \rightarrow i})
+\end{equation}\]</span></p>
+<p>Note that the movement matrices sum to 1, which can reduce additional parameters that need to be estimated (sum to 1 constraint).</p>
+</div>
+</div>
+<div id="estimation-of-migration" class="section level3 hasAnchor" number="1.10.2">
+<h3><span class="header-section-number">1.10.2</span> Estimation of Migration<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#estimation-of-migration" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Mark-recapture data can be used to estimate movement rates. However, some major problems are tag loss, no information on reporting rates, and failing to meet assumptions of mark-recapture.</p>
+<div id="darrochs-method" class="section level4 hasAnchor" number="1.10.2.1">
+<h4><span class="header-section-number">1.10.2.1</span> Darroch’s Method<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#darrochs-method" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>This is an extension of a Petersen mark-recapture method.</p>
+</div>
+</div>
 </div>
 <div id="chapter-11-optimal-harvesting" class="section level2 hasAnchor" number="1.11">
 <h2><span class="header-section-number">1.11</span> Chapter 11 (Optimal Harvesting)<a href="quantitative-fish-population-dynaamics-quinn-and-deriso-1999.html#chapter-11-optimal-harvesting" class="anchor-section" aria-label="Anchor link to header"></a></h2>

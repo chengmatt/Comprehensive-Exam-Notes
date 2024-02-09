@@ -2853,7 +2853,6 @@ plot(1 / kappa * log((linf - ll)/(linf - lu)), type = "l", xlab = "ll to lu", yl
 So replacing this equation into our backwards recursive equations, we are going to get:
 \begin{equation}
 N_l = (N_{l+1}X_l + C_l)X_l \\
-X_l = exp(M\tau) \\
 X_l = (\frac{L_\infty - l_l}{L_\infty - l_u})^{M/2\kappa}
 \end{equation}
 
@@ -2864,8 +2863,8 @@ N_L = C_L / (F_L/Z_L)
 
 and following that, we can back calculate the abundance at the start of the other length-classes:
 \begin{equation}
-N_l = (N_LX_l + C_)X_l \\
-N_l = (N_{l+1}X_l + C_l)X_l
+N_l = (N_LX_l + C_L)X_l \\
+N_l = (N_{L}X_l + C_l)X_l
 \end{equation}
 
 where $N_{l+1}X_l$ essentially tells us the time it would take for $N_l$ to grow to $N_L$ with some natural mortality baked into it. Fishing mortality and resultant population averages can then be calculated as:
@@ -2936,7 +2935,7 @@ wherein, if we assume a vonB relationship, as your sizes get older, your growth 
 E(x) = l^* + \overline{\Delta_l}
 \end{equation}
 
-which is basically the mid-point length plus whatever the growth increment is. 
+which is basically the mid-point length plus whatever the growth increment is. The latter part of this is where our stochasticity for an individual is midlength gets incorporated (similar to an error term in regression). 
 
 ```{r}
 ll = seq(1, 30, 1) # lower
@@ -2956,7 +2955,7 @@ Stochasticity in this growth transition matrix is then incorporated into the mid
 g(x|\alpha_l,\beta) = \frac{1}{\beta^{\alpha_l}\Gamma(\alpha_l)} x^{\alpha_l - 1}e^{-x\beta}
 \end{equation}
 
-where our size is our random variable. Here, we model $\alpha_l$ as a function of size classes, as it scales our estimate of size to the appropriate units, while we model $\beta$ as length indpendent (governs the descending limb) because of model confounding and parsimony. Thus, $E(x_l) = \alpha_l\beta$ and $V(x_l) = \alpha_l\beta^2$ following the properties of a gamma distribution. If we equate the two expected value equations together, we get:
+where our size is our random variable. Note that here, the random variable is size and not the growth increments. Similar models can be used (i.e., normal likelihood) as well as other growth models. Here, we model $\alpha_l$ as a function of size classes, as it scales our estimate of size to the appropriate units, while we model $\beta$ as length indpendent (governs the descending limb) because of model confounding and parsimony. Thus, $E(x_l) = \alpha_l\beta$ and $V(x_l) = \alpha_l\beta^2$ following the properties of a gamma distribution. If we equate the two expected value equations together, we get:
 
 \begin{equation}
 \alpha_l\beta = l^* + \overline{\Delta_l} \\
@@ -2992,7 +2991,7 @@ e_x = lstar + grw_inc # get expected size
 plot(e_x, xlab = "Index", ylab = "E(size)", lwd = 5, type = "l")
 ```
 
-The plots below this show a subset of $\alpha_l$ arising from some gamma distribution.
+The plots below this show a subset of $\alpha_l$ arising from some gamma distribution. Note that the expectation of the gamma in terms of sizes are equal to $E(x) =  l^* + \overline{\Delta_l}$
 ```{r}
 linf = 100 # inf
 k = 0.2 # kappa
@@ -3005,8 +3004,8 @@ e_x = lstar + grw_inc # get expected size
 alpha_l =( lstar + (linf - lstar) * (1 - exp(-k)))/ beta
 sd_x = sqrt(alpha_l * beta^2) # starandard deviation based on variance of gamma
 for(i in 1:length(alpha_l)) {
-  if(i == 1) plot(density(rgamma(1e4, alpha_l[i], beta)), xlim = c(0, 40), xlab = "Size", main = "Growth Transitions")
-  else lines(density(rgamma(1e4, alpha_l[i], beta)))
+  if(i == 1) plot(density(rgamma(1e4, alpha_l[i], 1/beta)), xlim = c(0, 140), xlab = "Size", main = "Growth Transitions")
+  else lines(density(rgamma(1e4, alpha_l[i], 1/beta))) # rgamma uses a weird parameterization of the scale
 }
 ```
 
@@ -3059,5 +3058,129 @@ where if vulnerability is 1, then it decomposes to the Baranov equation. However
 They also discuss that back in the day, SS started out the model using pristine equilibrium age-structure to reduce parameter estimation. However, I don't think any study has really tried to look at the effects of these initial conditions - i.e., equilibrium when there is stochastic, when there is fishing prior to this, etc. I generally think it would be interesting (I don't its been done) using a age-based length-structured model, entirely length-based model and how the model performance might vary depending on the types of data provided to the assessment. In general, the length-based models are a bit more complex, given the need to distribute recruitment across a proportion of bins and the need to model the growth-transition matrix as a gamma distribution. 
 
 ## Chapter 10 (Migration Movement and Other Spatiotemporal Considerations)
+### Population Models
+Migration can be based either on annual or instantaneous rates, which depends on if we are modeling movement as a continuous or discrete process. The book describes movement as an instantaneous process, where the notation is moving from region $i$ to region $j$ ($\psi_{i \rightarrow j}$). Thus, the instantaneous exit rate is:
+
+\begin{equation}
+\psi_i^* = \sum_{i\neq j} \psi_{i \rightarrow j}
+\end{equation}
+
+where the above is the sum of all movements away from $i$. Similarly, the annual rate of movement (not instantaneous) is also denoted as the equation above:
+
+\begin{equation}
+\theta_i^* = \sum_{i\neq j} \theta_{i \rightarrow j}
+\end{equation}
+
+where $\theta_i^*$ is the annual movement rate away from region $i$. The proportion of individuals in a given year staying in region $i$ would then be:
+\begin{equation}
+\theta_{i \rightarrow i} = 1 - \theta_i^* = 1 - \sum_{i\neq j} \theta_{i \rightarrow j}
+\end{equation}
+
+#### Deterministic Model, Non-Age-Structured Population
+In this model, time is continuous and so instantaneous rates are used $\psi$. Here, subscript $i$ will denote the region and we have region specific parameters ($r_i$ - growth rates, $K_i$ - carrying capacity, and $N_i$ - numbers). The model below is basically a logistic growth model, but incorporating movement dynamics:
+
+\begin{equation}
+\frac{dN_i}{dt} = r_iN_i(1 - \frac{N_i}{K_i}) - \sum_{i\neq j}^R \psi_{i \rightarrow j} N_i + \sum_{i\neq j}^R \psi_{j \rightarrow i} N_j
+\end{equation}
+
+where the first term is the rate of increase for region $i$, the second term denotes the number of individuals leaving from region $i$, and the third term denotes the number of individuals entering region $i$ from region $j$. Like other models, this can be written in a difference equation form and these types of models are called compartmental models, where the modelling of a process is account for as separate components. 
+
+This can also be written as a function of exit rates $\psi_i^*$:
+
+\begin{equation}
+\frac{dN_i}{dt} = r_iN_i(1 - \frac{N_i}{K_i}) - \sum_{i\neq j}^R \psi_{i \rightarrow j} N_i + \sum_{i\neq j}^R \psi_{j \rightarrow i} N_j \\
+\frac{dN_i}{dt} = r_iN_i- \frac{r_iN_i^2}{K_i}) - \psi_i^* N_i + \sum_{i\neq j}^R \psi_{j \rightarrow i} N_j \\
+\frac{dN_i}{dt} = (r_i - \psi_i^*)N_i - \frac{r_iN_i^2}{K_i} + \sum_{i\neq j}^R \psi_{j \rightarrow i} N_j 
+\end{equation}
+
+An important assumption here is that movement rates follow a Markovian process. That is to say, movement is only a function of the region the individual is in and does not account for previous states, which could be unrealistic if site fidelity or natal homing is a potential mechanism (e.g., Pacific Cod). 
+
+A generalization of this model by allowing for exponential dynamics is by allowing no carrying capacity $K_i \rightarrow \infty$, resulting in:
+\begin{equation}
+\frac{dN_i}{dt} = (r_i - \psi_i^*)N_i + \sum_{i\neq j}^R \psi_{j \rightarrow i} N_j \\
+\frac{dN_i}{dt} = \kappa_iN_i + \sum_{i\neq j}^R \psi_{j \rightarrow i} N_j \\
+\end{equation}
+
+this model can be written in a nice matrix form as: $\boldsymbol{dN/dt} = \boldsymbol{\Psi N}$ where the first row of the first vector here would be the change in abundance of region $i$ ($dN_i/dt$), the rows of matrix $\boldsymbol{\Psi}$ for the first row would tell you the number of fish that grew as well as are leaving region $i$ and the remaining elements in that first row would allow you to do a dot product to sum up all the individuals in other regions $j$ moving into region $i$ (see page 401 for a nice compact description). This differential equation results in the following solution:
+
+\begin{equation}
+\boldsymbol{dN/dt} = \boldsymbol{\Psi N} \\
+\boldsymbol{dN/N} = \boldsymbol{\Psi dt} \\
+\boldsymbol{log(N) - log(N_0)} = \boldsymbol{\Psi t} \\
+\boldsymbol{N} = \boldsymbol{e^{\Psi t}N_0} \\
+\boldsymbol{N} = \boldsymbol{RN_{t-1}} 
+\end{equation}
+
+which is just our common solution for exponential growth and the exponential term is a Taylor series. 
+
+#### Difference models
+Difference models for these dynamics are much more tractable and easier to understand. If we assume that the order of dynamics is: 1) harvest, 2) natural mortality, 3) movement, then this model is written as:
+
+\begin{equation}
+N_{i,t+1} \sum_{j=1}^R N_{j,t} (1 - \mu_{j,t})l_j \theta_{j \rightarrow i} + R_{i,t}
+\end{equation}
+
+where this is in units of annual movement. Here, we have $ N_{j,t} (1 - \mu_{j,t})$, which represents the number of individuals surviving exploitation, multiplied by $l_j$ the natural survival after exploitation, and then multiplied by the number of individuals that move from $j \rightarrow i$ ($\theta_{j \rightarrow i}$; incorporates both emigration and immigration dynamics), lastly adding in recruitment into the region $i$. Because movement dynamics are annual, the rows of the matrix should sum to 1. 
+
+#### Diffusion models
+Instead of a difference model, we can model movement using partial differential equations along three dimensions in continuous space. These three dimensions are $x$, $y$, and time, where $x,y$ are different positions for which the individual is in (does not need to be coordinates). In the form of a partial differential equation, this is:
+
+\begin{equation}
+\frac{\partial N(x, y, t)}{\partial t} = -M N + D \left( \frac{\partial^2 N(x, y, t)}{\partial x^2} + \frac{\partial^2 N(x, y, t)}{\partial y^2} \right)
+\end{equation}
+
+where the first term $\frac{\partial N(x, y, t)}{\partial t}$ is a partial derivative with respect to time (i.e., how does abundance change at a given point), the second term is just our decay from natural mortality $-M N$, and the third term is our diffusion of individuals in two dimensional space. For $\frac{\partial^2 N(x, y, t)}{\partial x^2}$, it measures the curvature of abundance along the $x$ axis, while $\frac{\partial^2 N(x, y, t)}{\partial y^2}$ measures that along the $y$ axis. This is then added and multiplied by our diffusion coefficient $D$ (how fast $N$ moves through $x,y$ space) to get an estimate of the total change in spatial contribution by $N$ over time (i.e., how does the concentration of $N$ vary across space). So if the partial second derivatives are large in that third term, it indicates that individuals are more concentrated along a given axis and will. However, this model does not distinguish between specific directions and exhibits isotropic movements. Hilborn wrote this into a difference equation, but this is not numerically stable (see eq 10.14) because the terms on the RHS of the PDE are approximated by being dependent on previous states of the system. 
+
+
+#### Basin models
+MacCall developed a model that uses the theory that some areas are more suitable in terms of habitat than others, so fish movement are related to habitat suitability. A population at low levels will move towards suitable habitat and as the population increases, these habitats become less suitable, and the population will expand into less suitable habitats. The dynamics here are a logistic model:
+\begin{equation}
+\frac{\partial N}{\partial t}\frac{1}{N} = r - bN - F 
+\end{equation}
+
+where per-capita growth is $r - bN$ and is determined by habitat suitability (intrinsic growth) and carrying capacity. The movement process is then a diffusion process where migration is proportional to the gradient of the realized habitat suitability:
+
+
+\begin{equation}
+\frac{\partial N}{\partial t} = \kappa \frac{\partial^2 N}{\partial x^2} - V^{-1} \frac{\partial (r-bN)}{\partial x}\frac{\partial N}{\partial x} \\
+\frac{\partial N}{\partial t} = (r-b)N - FN + \kappa \frac{\partial^2 N}{\partial x^2} - V^{-1} \frac{\partial (r-bN)}{\partial x}\frac{\partial N}{\partial x}
+\end{equation}
+
+where $\kappa$ is the diffusion coefficient, and $V$ is constant population flow (viscosity) where your population into area $x$. This forms what we know as our diffusion-advection models (first and second terms of derivatives). The advection piece follows a gradient of habitat suitability and abundance (first derivative), where if the gradients are large, it would drive directional movement due to sharp gradients in habitat suitability etc (outside or into a specific region), whereas if the gradients are small (e.g., smaller change in habitat suitability or abundance over changes in $x$) your diffusive process would dominate more. The diffusion term is as above, where it measures the curvature/concentration of individuals in area $x$. If you have very concentrated individuals/high curvature, then individuals are going to be spread away from high density to low density. Conversely, when individuals are less concentrated, they will spread from low to high density.
+
+#### Stochastic Model, Non-Age Structured Populations
+We will discuss the form of Deriso's stochastic model instead of Grant here, as more in-depth detail is given. Here, we incorporated elements of natural mortality, fishing mortality, effort, and recruitment as a continuous diffusion process. Here, movement occurs at the start of the time interval and natural and fishing mortality occur simultaneously. This is in contrast to Hilborn's method where it follows as harvest, natural mortality, and movement. Movement follows as:
+\begin{equation}
+P^*_{j,t} = \sum_{i = 1}^R P_{i,t} \theta_{i \rightarrow j}
+\end{equation}
+
+which gives us the probability of being in region $i$ ($P_{i,t}$) multiplied by the probability of moving from $i$ to $j$ ($\theta_{i \rightarrow j}$) and $P^*_{j,t}$ is the probability of staying in region $j$. This is basically the sum of all probabilities moving from region $i \rightarrow j$. The probability of capture in region $j$ after movement is $f_{j,t} = \mu_{j,t} P^*_{j,t}$ and the probability of staying in region $j$ is then $P_{j,t+1} = S_{j,t}P^*_{j,t}$, which is the probability of being in $j$ after movement and the probability of surviving in $j$. In this model, movement probabilities are approximated with a continuous diffusion model, where the population is divided into equal-sized quadrants and fish are uniformly distributed. There is then a movement box for which are dimension ed at $x,y$ and individuals move about this quadrant based on angles, velocity, diffusion. 
+
+#### Age-structured Populations
+A simple extension without having to index areas is the Leslie matrix, wherein a single population is considered and the renewal process incorporates both recruitment and immigration, while subtractions incorporate deaths and emigration. The other more common approach is to stratify your age-structured population into different regions. In a hypothetical population with two regions, the number of age-1s is as follows:
+\begin{equation}
+N_{1,t+1,i} = S_{0,i} \sum_a f_{a,i}N_{a,t,i}
+\end{equation}
+which basically says that our contribution to region $i$ is a function of survival of eggs $S_0$ and the fecundity-at-age times numbers-at-age in region $i$. The numbers-at-age for other age-classes then becomes a function of: 1) survival and 2) movement into and out of region $i$:
+
+\begin{equation}
+N_{a+1,t+1,i} = S_{a,i} (N_{a,t,i} - N_{a,t,i}\theta_{a,i \rightarrow j} + N_{a,t,j}\theta_{a,j \rightarrow i}) = \\
+S_{a,i} (N_{a,t,i}(1 - \theta_{a,i \rightarrow j}) + N_{a,t,j}\theta_{a,j \rightarrow i}) = \\
+S_{a,i} (N_{a,t,i}\theta_{a,i \rightarrow i} + N_{a,t,j}\theta_{a,j \rightarrow i})
+\end{equation}
+
+which is just the number of individuals staying and the number of individuals from $j$ moving into $i$. Combining across the areas to get total abundance, you just sum up area-specific abundances. If survival and fecundity are constant over regions, then this just reduces into a single-region Leslie matrix model. This can also be written into a Leslie matrix model format, where your numbers is a column vector indexed initially by region $i$ and region $j$ is stacked on the bottom. The projection matrix in a two-area model would be dimensioned as 2x2, although there is a nested matrix of movement and survival for a given region $i,j$ describing the dynamics of survival and fecundity within that (see page 409). The difference equations for multiple regions in this case is just:
+
+\begin{equation}
+N_{a+1,t+1,i} = S_{a,i} (N_{a,t,i}\theta_{a,i \rightarrow i} + \sum_{i \neq j} N_{a,t,j}\theta_{a,j \rightarrow i})
+\end{equation}
+
+Note that the movement matrices sum to 1, which can reduce additional parameters that need to be estimated (sum to 1 constraint). 
+
+### Estimation of Migration
+Mark-recapture data can be used to estimate movement rates. However, some major problems are tag loss, no information on reporting rates, and failing to meet assumptions of mark-recapture. 
+
+#### Darroch's Method
+This is an extension of a Petersen mark-recapture method.
 
 ## Chapter 11 (Optimal Harvesting)

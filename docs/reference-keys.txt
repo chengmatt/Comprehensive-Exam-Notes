@@ -134,6 +134,13 @@ stochastic-model-non-age-structured-populations
 age-structured-populations
 estimation-of-migration
 darrochs-method
+hilborns-method-and-extensions
+differential-equation-approaches
+migratory-cohort-and-catch-age-analyses
+migratory-cohort-analysis
+migratory-catch-age-analysis
+geographic-apportionment
+migratory-per-recruit-analyses
 chapter-11-optimal-harvesting
 broad-comprehensive-exam-questions-outlines
 catch-per-unit-effort-data

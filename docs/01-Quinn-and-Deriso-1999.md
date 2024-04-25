@@ -2065,7 +2065,7 @@ eigen(M)$values # dominant eignvalue = 1.07 - indicates popn increasing
 ## [1]  1.0717764+0.0000000i -0.5358882+0.6330312i -0.5358882-0.6330312i
 ```
 
-The population dynamics can then be analyzed by finding the eignvalues $\lamba_a$ using the projection matrix and the corresponding eignvectors (column and row) (size a $k_a$, and size a $h_a$):
+The population dynamics can then be analyzed by finding the eignvalues $\lambda_a$ using the projection matrix and the corresponding eignvectors (column and row) (size a $k_a$, and size a $h_a$):
 
 \begin{equation}
 \boldsymbol{M}\boldsymbol{k} = \lambda \boldsymbol{k} \\
@@ -2510,7 +2510,7 @@ p_{a,t} = \frac{s_a \mu_t N_{r,t-a+r}e^{-Z(a-r)}}{\sum_a s_a \mu_t N_{r,t-a+r}e^
 which gives us some idea of how changes in the population occur in a relative sense. This further reduces the number of parameters to one $Z$ term, $A+T-1$ recruitment terms, and selectivity parameters. Writing the denominator from above as a constant, we can rearrange to get relative abundance:
 
 \begin{equation}
-p_{a,t} = \frac{s_a \mu_t N_{r,t-a+r}e^{-Z(a-r)}}{C} } \\
+p_{a,t} = \frac{s_a \mu_t N_{r,t-a+r}e^{-Z(a-r)}{C} } \\
 p_{a,t}C = s_a \mu_t N_{r,t-a+r}e^{-Z(a-r)}\\
 \frac{p_{a,t}Ce^{Z(a-r)}}{s_a} = N_{r,t-a+r}
 \end{equation}
